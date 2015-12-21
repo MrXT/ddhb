@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="datacenter" basedir="." default="start_tomcat">
+
+	<!-- 读取配置文件 --> 
+	<property file="build.properties" />
+	
+	<!--关闭tomcat，再启动tomcat-->  
+    <target name="stop_tomcat">  
+        <echo>停止tomcat</echo>  
+        <exec executable="cmd" dir="${tomcat.dir}/bin" failonerror="false"   
+                    output="${log.file}" append="true" >  
+            <!-- <arg value="/c" /> -->     
+            <env key="CATALINA_HOME" path="${tomcat.dir}"/>  
+            <arg value="/c shutdown.bat" />     
+        </exec>  
+    </target>  
+  
+    <target name="start_tomcat" depends="stop_tomcat">
+        <echo>启动tomcat</echo>  
+        <exec executable="cmd" dir="${tomcat.dir}/bin"  failonerror="false"   
+                    output="${log.file}" append="true" >  
+             <!-- <arg value="/c" /> -->    
+             <env key="CATALINA_HOME" path="${tomcat.dir}"/>  
+             <arg value="/c startup.bat" />     
+        </exec>  
+    </target>
+</project>

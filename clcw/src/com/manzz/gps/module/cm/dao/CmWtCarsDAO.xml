@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manzz.gps.module.cm.dao.CmWtCarsDAO" >
+
+  <resultMap id="CmWtCarsResultMap" type="com.manzz.gps.domain.CmWtCars" >
+    <id column="Car_Id" property="carId" jdbcType="NVARCHAR" />
+    <result column="LicensePlate" property="licenseplate" jdbcType="NVARCHAR" />
+    <result column="LicensePlateColor" property="licenseplatecolor" jdbcType="NVARCHAR" />
+    <result column="Models" property="models" jdbcType="NVARCHAR" />
+    <result column="Passengers" property="passengers" jdbcType="INTEGER" />
+    <result column="LicenseNumber" property="licensenumber" jdbcType="NVARCHAR" />
+    <result column="TransportPermits" property="transportpermits" jdbcType="NVARCHAR" />
+    <result column="CreateDate" property="createdate" jdbcType="DATE" />
+    <result column="OwnerName" property="ownername" jdbcType="NVARCHAR" />
+    <result column="TypeLV" property="typelv" jdbcType="NVARCHAR" />
+    <result column="TechLV" property="techlv" jdbcType="NVARCHAR" />
+    <result column="ScopeBusiness" property="scopebusiness" jdbcType="NVARCHAR" />
+    <result column="BeCertificationDate" property="becertificationdate" jdbcType="DATE" />
+    <result column="EnCertificationDate" property="encertificationdate" jdbcType="DATE" />
+    <result column="BeTechDate" property="betechdate" jdbcType="DATE" />
+    <result column="EnTechDate" property="entechdate" jdbcType="DATE" />
+    <result column="Freeze" property="freeze" jdbcType="CHAR" />
+  </resultMap>
+
+  <sql id="CmWtCars_Column_List" >
+    Car_Id, LicensePlate, LicensePlateColor, Models, Passengers, LicenseNumber, TransportPermits, 
+     CreateDate, OwnerName, TypeLV, TechLV, ScopeBusiness, BeCertificationDate, 
+    EnCertificationDate, BeTechDate, EnTechDate, Freeze
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="CmWtCarsResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="CmWtCars_Column_List" />
+    from WT_Cars
+    where Car_Id = #{carId,jdbcType=NVARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from WT_Cars
+    where Car_Id = #{carId,jdbcType=NVARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.manzz.gps.domain.CmWtCars" >
+    insert into WT_Cars (Car_Id, LicensePlate,  
+      Models, Passengers, LicenseNumber, 
+      TransportPermits,  CreateDate, 
+      OwnerName, TypeLV, TechLV, 
+      ScopeBusiness, BeCertificationDate, EnCertificationDate, 
+      BeTechDate, EnTechDate, Freeze
+      )
+    values (#{carId,jdbcType=NVARCHAR}, #{licenseplate,jdbcType=NVARCHAR}, 
+      #{models,jdbcType=NVARCHAR}, #{passengers,jdbcType=INTEGER}, #{licensenumber,jdbcType=NVARCHAR}, 
+      #{transportpermits,jdbcType=NVARCHAR},  #{createdate,jdbcType=DATE}, 
+      #{ownername,jdbcType=NVARCHAR}, #{typelv,jdbcType=NVARCHAR}, #{techlv,jdbcType=NVARCHAR}, 
+      #{scopebusiness,jdbcType=NVARCHAR}, #{becertificationdate,jdbcType=DATE}, #{encertificationdate,jdbcType=DATE}, 
+      #{betechdate,jdbcType=DATE}, #{entechdate,jdbcType=DATE}, #{freeze,jdbcType=CHAR}
+      )
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.manzz.gps.domain.CmWtCars" >
+    update WT_Cars
+    <set >
+      <if test="licenseplate != null" >
+        LICENSEPLATE = #{licenseplate,jdbcType=NVARCHAR},
+      </if>
+      <if test="licenseplatecolor != null" >
+        LICENSEPLATECOLOR = #{licenseplatecolor,jdbcType=NVARCHAR},
+      </if>
+      <if test="models != null" >
+        MODELS = #{models,jdbcType=NVARCHAR},
+      </if>
+      <if test="passengers != null" >
+        PASSENGERS = #{passengers,jdbcType=INTEGER},
+      </if>
+      <if test="licensenumber != null" >
+        LICENSENUMBER = #{licensenumber,jdbcType=NVARCHAR},
+      </if>
+      <if test="transportpermits != null" >
+        TRANSPORTPERMITS = #{transportpermits,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE = #{createdate,jdbcType=DATE},
+      </if>
+      <if test="ownername != null" >
+        OWNERNAME = #{ownername,jdbcType=NVARCHAR},
+      </if>
+      <if test="typelv != null" >
+        TYPELV = #{typelv,jdbcType=NVARCHAR},
+      </if>
+      <if test="techlv != null" >
+        TECHLV = #{techlv,jdbcType=NVARCHAR},
+      </if>
+      <if test="scopebusiness != null" >
+        SCOPEBUSINESS = #{scopebusiness,jdbcType=NVARCHAR},
+      </if>
+      <if test="becertificationdate != null" >
+        BECERTIFICATIONDATE = #{becertificationdate,jdbcType=DATE},
+      </if>
+      <if test="encertificationdate != null" >
+        ENCERTIFICATIONDATE = #{encertificationdate,jdbcType=DATE},
+      </if>
+      <if test="betechdate != null" >
+        BETECHDATE = #{betechdate,jdbcType=DATE},
+      </if>
+      <if test="entechdate != null" >
+        ENTECHDATE = #{entechdate,jdbcType=DATE},
+      </if>
+      <if test="freeze != null" >
+        FREEZE = #{freeze,jdbcType=CHAR},
+      </if>
+    </set>
+    where Car_Id = #{carId,jdbcType=NVARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.manzz.gps.domain.CmWtCars" >
+    update WT_Cars
+    set LICENSEPLATE = #{licenseplate,jdbcType=NVARCHAR},
+      MODELS = #{models,jdbcType=NVARCHAR},
+      PASSENGERS = #{passengers,jdbcType=INTEGER},
+      LICENSENUMBER = #{licensenumber,jdbcType=NVARCHAR},
+      TRANSPORTPERMITS = #{transportpermits,jdbcType=NVARCHAR},
+      CREATEDATE = #{createdate,jdbcType=DATE},
+      OWNERNAME = #{ownername,jdbcType=NVARCHAR},
+      TYPELV = #{typelv,jdbcType=NVARCHAR},
+      TECHLV = #{techlv,jdbcType=NVARCHAR},
+      SCOPEBUSINESS = #{scopebusiness,jdbcType=NVARCHAR},
+      BECERTIFICATIONDATE = #{becertificationdate,jdbcType=DATE},
+      ENCERTIFICATIONDATE = #{encertificationdate,jdbcType=DATE},
+      BETECHDATE = #{betechdate,jdbcType=DATE},
+      ENTECHDATE = #{entechdate,jdbcType=DATE},
+      FREEZE = #{freeze,jdbcType=CHAR}
+    where Car_Id = #{carId,jdbcType=NVARCHAR}
+  </update>
+
+  <sql id="Where_Condition" >
+    <where >
+      <if test="licenseplate != null and licenseplate != ''" >
+        LICENSEPLATE = #{licenseplate,jdbcType=NVARCHAR}
+      </if>
+      <if test="licenseplatecolor != null and licenseplatecolor != ''" >
+        AND LICENSEPLATECOLOR = #{licenseplatecolor,jdbcType=NVARCHAR}
+      </if>
+      <if test="models != null and models != ''" >
+        AND MODELS = #{models,jdbcType=NVARCHAR}
+      </if>
+      <if test="passengers != null" >
+        AND PASSENGERS = #{passengers,jdbcType=INTEGER}
+      </if>
+      <if test="licensenumber != null and licensenumber != ''" >
+        AND LICENSENUMBER = #{licensenumber,jdbcType=NVARCHAR}
+      </if>
+      <if test="transportpermits != null and transportpermits != ''" >
+        AND TRANSPORTPERMITS = #{transportpermits,jdbcType=NVARCHAR}
+      </if>
+      <if test="createdate != null" >
+        AND CREATEDATE = #{createdate,jdbcType=DATE}
+      </if>
+      <if test="ownername != null and ownername != ''" >
+        AND OWNERNAME = #{ownername,jdbcType=NVARCHAR}
+      </if>
+      <if test="typelv != null and typelv != ''" >
+        AND TYPELV = #{typelv,jdbcType=NVARCHAR}
+      </if>
+      <if test="techlv != null and techlv != ''" >
+        AND TECHLV = #{techlv,jdbcType=NVARCHAR}
+      </if>
+      <if test="scopebusiness != null and scopebusiness != ''" >
+        AND SCOPEBUSINESS = #{scopebusiness,jdbcType=NVARCHAR}
+      </if>
+      <if test="becertificationdate != null" >
+        AND BECERTIFICATIONDATE = #{becertificationdate,jdbcType=DATE}
+      </if>
+      <if test="encertificationdate != null" >
+        AND ENCERTIFICATIONDATE = #{encertificationdate,jdbcType=DATE}
+      </if>
+      <if test="betechdate != null" >
+        AND BETECHDATE = #{betechdate,jdbcType=DATE}
+      </if>
+      <if test="entechdate != null" >
+        AND ENTECHDATE = #{entechdate,jdbcType=DATE}
+      </if>
+      <if test="freeze != null and freeze != ''" >
+        AND FREEZE = #{freeze,jdbcType=CHAR}
+      </if>
+    </where>
+  </sql>
+
+  <sql id="Where_Fuzzy_Condition" >
+    <where >
+      <if test="licenseplate != null and licenseplate != ''" >
+        LicensePlate = #{licenseplate,jdbcType=NVARCHAR}
+      </if>
+      <if test="licenseplatecolor != null and licenseplatecolor != ''" >
+        AND LicensePlateColor = #{licenseplatecolor,jdbcType=NVARCHAR}
+      </if>
+      <if test="models != null and models != ''" >
+        AND Models = #{models,jdbcType=NVARCHAR}
+      </if>
+      <if test="passengers != null" >
+        AND Passengers = #{passengers,jdbcType=INTEGER}
+      </if>
+      <if test="licensenumber != null and licensenumber != ''" >
+        AND LicenseNumber = #{licensenumber,jdbcType=NVARCHAR}
+      </if>
+      <if test="transportpermits != null and transportpermits != ''" >
+        AND TransportPermits = #{transportpermits,jdbcType=NVARCHAR}
+      </if>
+      <if test="createdate != null" >
+        AND CreateDate = #{createdate,jdbcType=DATE}
+      </if>
+      <if test="ownername != null and ownername != ''" >
+        AND OwnerName = #{ownername,jdbcType=NVARCHAR}
+      </if>
+      <if test="typelv != null and typelv != ''" >
+        AND TypeLV = #{typelv,jdbcType=NVARCHAR}
+      </if>
+      <if test="techlv != null and techlv != ''" >
+        AND TechLV = #{techlv,jdbcType=NVARCHAR}
+      </if>
+      <if test="scopebusiness != null and scopebusiness != ''" >
+        AND ScopeBusiness = #{scopebusiness,jdbcType=NVARCHAR}
+      </if>
+      <if test="becertificationdate != null" >
+        AND BeCertificationDate = #{becertificationdate,jdbcType=DATE}
+      </if>
+      <if test="encertificationdate != null" >
+        AND EnCertificationDate = #{encertificationdate,jdbcType=DATE}
+      </if>
+      <if test="betechdate != null" >
+        AND BeTechDate = #{betechdate,jdbcType=DATE}
+      </if>
+      <if test="entechdate != null" >
+        AND EnTechDate = #{entechdate,jdbcType=DATE}
+      </if>
+      <if test="freeze != null and freeze != ''" >
+        AND Freeze = #{freeze,jdbcType=CHAR}
+      </if>
+    </where>
+  </sql>
+
+  <select id="queryCount" parameterType="com.manzz.gps.domain.CmWtCars" resultType="java.lang.Integer" >
+    select count(0) from WT_Cars
+    <if test="isFuzzyQuery == false" >
+      <include refid="Where_Condition" />
+    </if>
+    <if test="isFuzzyQuery == true" >
+      <include refid="Where_Fuzzy_Condition" />
+    </if>
+  </select>
+
+  <select id="queryPagedList" parameterType="com.manzz.gps.domain.CmWtCars" resultMap="CmWtCarsResultMap" >
+    select 
+    <include refid="CmWtCars_Column_List" />
+    from WT_Cars
+    <if test="isFuzzyQuery == false" >
+      <include refid="Where_Condition" />
+    </if>
+    <if test="isFuzzyQuery == true" >
+      <include refid="Where_Fuzzy_Condition" />
+    </if>
+    <if test="sort != null" >
+      ORDER BY ${sort} ${order}
+    </if>
+    <if test="sort == null" >
+      ORDER BY OPER_TIME DESC
+    </if>
+  </select>
+  <select id="queryCarGpsVoByCondition"  resultType="com.manzz.gps.module.cm.web.vo.CarGpsVo" >
+    select 
+    c.Car_Id carId, c.LicensePlate licenseplate, c.LicensePlateColor licenseplatecolor,
+    g.longitude longitude,g.latitude latitude,g.gpsdatetime gpsdatetime,g.recvdatetime recvdatetime
+    from WT_Cars c
+    left join WT_VGPSLOCATION g on g.vid = c.Car_id
+    where c.Car_Id in 
+    <foreach collection="list" item="item" open="(" close=")" separator=",">
+    	#{item.carId,jdbcType=VARCHAR}
+    </foreach>
+    </select>
+</mapper>

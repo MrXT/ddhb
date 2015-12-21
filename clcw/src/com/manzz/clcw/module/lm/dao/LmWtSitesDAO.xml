@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manzz.clcw.module.lm.dao.LmWtSitesDAO" >
+
+  <resultMap id="LmWtSitesResultMap" type="com.manzz.clcw.domain.LmWtSites" >
+    <id column="SITE_ID" property="siteId" jdbcType="VARCHAR" />
+    <result column="REGION_CODE" property="regionCode" jdbcType="INTEGER" />
+    <result column="LINE_ID" property="lineId" jdbcType="VARCHAR" />
+    <result column="LINENAME" property="linename" jdbcType="VARCHAR" />
+    <result column="LINECODE" property="linecode" jdbcType="VARCHAR" />
+    <result column="SITENAME" property="sitename" jdbcType="VARCHAR" />
+    <result column="SITENUMBER" property="sitenumber" jdbcType="INTEGER" />
+    <result column="Price" property="price" jdbcType="DECIMAL" />
+    <result column="IsFirstSite" property="isfirstsite" jdbcType="DECIMAL" />
+    <result column="IsLastSite" property="islastsite" jdbcType="DECIMAL" />
+    <result column="IsShuttled" property="isshuttled" jdbcType="DECIMAL" />
+    <result column="ShuttlePrice" property="shuttleprice" jdbcType="DECIMAL" />
+    <result column="OPER_ID" property="operId" jdbcType="VARCHAR" />
+    <result column="OPER_TIME" property="operTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="LmWtSites_Column_List" >
+    SITE_ID, REGION_CODE, LINE_ID, LINENAME, LINECODE, SITENAME, SITENUMBER, Price, IsFirstSite, 
+    IsLastSite, IsShuttled, ShuttlePrice, OPER_ID, OPER_TIME
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="LmWtSitesResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="LmWtSites_Column_List" />
+    from wt_site
+    where SITE_ID = #{siteId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from wt_site
+    where SITE_ID = #{siteId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.manzz.clcw.domain.LmWtSites" >
+    insert into wt_site (SITE_ID, REGION_CODE, LINE_ID, LINENAME, 
+      LINECODE, SITENAME, SITENUMBER, 
+      Price, IsFirstSite, IsLastSite, 
+      IsShuttled, ShuttlePrice, OPER_ID, 
+      OPER_TIME)
+    values (uuid(), #{regionCode,jdbcType=INTEGER}, #{lineId,jdbcType=VARCHAR}, #{linename,jdbcType=VARCHAR}, 
+      #{linecode,jdbcType=VARCHAR}, #{sitename,jdbcType=VARCHAR}, #{sitenumber,jdbcType=INTEGER}, 
+      #{price,jdbcType=DECIMAL}, #{isfirstsite,jdbcType=DECIMAL}, #{islastsite,jdbcType=DECIMAL}, 
+      #{isshuttled,jdbcType=DECIMAL}, #{shuttleprice,jdbcType=DECIMAL}, #{operId,jdbcType=VARCHAR}, 
+      now())
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.manzz.clcw.domain.LmWtSites" >
+    update wt_site
+    <set >
+      <if test="regionCode != null" >
+        REGION_CODE = #{regionCode,jdbcType=INTEGER},
+      </if>
+      <if test="lineId != null" >
+        LINE_ID = #{lineId,jdbcType=VARCHAR},
+      </if>
+      <if test="linename != null" >
+        LINENAME = #{linename,jdbcType=VARCHAR},
+      </if>
+      <if test="linecode != null" >
+        LINECODE = #{linecode,jdbcType=VARCHAR},
+      </if>
+      <if test="sitename != null" >
+        SITENAME = #{sitename,jdbcType=VARCHAR},
+      </if>
+      <if test="sitenumber != null" >
+        SITENUMBER = #{sitenumber,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        PRICE = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="isfirstsite != null" >
+        ISFIRSTSITE = #{isfirstsite,jdbcType=DECIMAL},
+      </if>
+      <if test="islastsite != null" >
+        ISLASTSITE = #{islastsite,jdbcType=DECIMAL},
+      </if>
+      <if test="isshuttled != null" >
+        ISSHUTTLED = #{isshuttled,jdbcType=DECIMAL},
+      </if>
+      <if test="shuttleprice != null" >
+        SHUTTLEPRICE = #{shuttleprice,jdbcType=DECIMAL},
+      </if>
+      <if test="operId != null" >
+        OPER_ID = #{operId,jdbcType=VARCHAR},
+      </if>
+      <if test="operTime != null" >
+        OPER_TIME = now(),
+      </if>
+    </set>
+    where SITE_ID = #{siteId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.manzz.clcw.domain.LmWtSites" >
+    update wt_site
+    set REGION_CODE = #{regionCode,jdbcType=INTEGER},
+      LINE_ID = #{lineId,jdbcType=VARCHAR},
+      LINENAME = #{linename,jdbcType=VARCHAR},
+      LINECODE = #{linecode,jdbcType=VARCHAR},
+      SITENAME = #{sitename,jdbcType=VARCHAR},
+      SITENUMBER = #{sitenumber,jdbcType=INTEGER},
+      PRICE = #{price,jdbcType=DECIMAL},
+      ISFIRSTSITE = #{isfirstsite,jdbcType=DECIMAL},
+      ISLASTSITE = #{islastsite,jdbcType=DECIMAL},
+      ISSHUTTLED = #{isshuttled,jdbcType=DECIMAL},
+      SHUTTLEPRICE = #{shuttleprice,jdbcType=DECIMAL},
+      OPER_ID = #{operId,jdbcType=VARCHAR},
+      OPER_TIME = now()
+    where SITE_ID = #{siteId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateSiteInValid" parameterType="com.manzz.clcw.domain.LmWtSites" >
+    update wt_site
+    set 
+      LINE_ID = ${SITEINVALID}
+    where LINE_ID = #{lineId,jdbcType=VARCHAR}
+  </update>
+
+  <sql id="Where_Condition" >
+    <where >
+      <if test="regionCode != null" >
+        REGION_CODE = #{regionCode,jdbcType=INTEGER}
+      </if>
+      <if test="lineId != null and lineId != ''" >
+        AND LINE_ID = #{lineId,jdbcType=VARCHAR}
+      </if>
+      <if test="linename != null and linename != ''" >
+        AND LINENAME = #{linename,jdbcType=VARCHAR}
+      </if>
+      <if test="linecode != null and linecode != ''" >
+        AND LINECODE = #{linecode,jdbcType=VARCHAR}
+      </if>
+      <if test="sitename != null and sitename != ''" >
+        AND SITENAME = #{sitename,jdbcType=VARCHAR}
+      </if>
+      <if test="sitenumber != null" >
+        AND SITENUMBER = #{sitenumber,jdbcType=INTEGER}
+      </if>
+      <if test="price != null" >
+        AND PRICE = #{price,jdbcType=DECIMAL}
+      </if>
+      <if test="isfirstsite != null" >
+        AND ISFIRSTSITE = #{isfirstsite,jdbcType=DECIMAL}
+      </if>
+      <if test="islastsite != null" >
+        AND ISLASTSITE = #{islastsite,jdbcType=DECIMAL}
+      </if>
+      <if test="isshuttled != null" >
+        AND ISSHUTTLED = #{isshuttled,jdbcType=DECIMAL}
+      </if>
+      <if test="shuttleprice != null" >
+        AND SHUTTLEPRICE = #{shuttleprice,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </sql>
+
+  <sql id="Where_Fuzzy_Condition" >
+    <where >
+      <if test="regionCode != null" >
+        REGION_CODE = #{regionCode,jdbcType=INTEGER}
+      </if>
+      <if test="lineId != null and lineId != ''" >
+        AND LINE_ID = #{lineId,jdbcType=VARCHAR}
+      </if>
+      <if test="linename != null and linename != ''" >
+        AND LINENAME = #{linename,jdbcType=VARCHAR}
+      </if>
+      <if test="linecode != null and linecode != ''" >
+        AND LINECODE = #{linecode,jdbcType=VARCHAR}
+      </if>
+      <if test="sitename != null and sitename != ''" >
+        AND SITENAME = #{sitename,jdbcType=VARCHAR}
+      </if>
+      <if test="sitenumber != null" >
+        AND SITENUMBER = #{sitenumber,jdbcType=INTEGER}
+      </if>
+      <if test="price != null" >
+        AND Price = #{price,jdbcType=DECIMAL}
+      </if>
+      <if test="isfirstsite != null" >
+        AND IsFirstSite = #{isfirstsite,jdbcType=DECIMAL}
+      </if>
+      <if test="islastsite != null" >
+        AND IsLastSite = #{islastsite,jdbcType=DECIMAL}
+      </if>
+      <if test="isshuttled != null" >
+        AND IsShuttled = #{isshuttled,jdbcType=DECIMAL}
+      </if>
+      <if test="shuttleprice != null" >
+        AND ShuttlePrice = #{shuttleprice,jdbcType=DECIMAL}
+      </if>
+    </where>
+  </sql>
+
+  <select id="queryCount" parameterType="com.manzz.clcw.domain.LmWtSites" resultType="java.lang.Integer" >
+    select count(0) from wt_site
+    <if test="isFuzzyQuery == false" >
+      <include refid="Where_Condition" />
+    </if>
+    <if test="isFuzzyQuery == true" >
+      <include refid="Where_Fuzzy_Condition" />
+    </if>
+  </select>
+
+  <select id="queryPagedList" parameterType="com.manzz.clcw.domain.LmWtSites" resultMap="LmWtSitesResultMap" >
+    select 
+    <include refid="LmWtSites_Column_List" />
+    from wt_site
+    <if test="isFuzzyQuery == false" >
+      <include refid="Where_Condition" />
+    </if>
+    <if test="isFuzzyQuery == true" >
+      <include refid="Where_Fuzzy_Condition" />
+    </if>
+    <if test="sort != null" >
+      ORDER BY ${sort} ${order}
+    </if>
+    <if test="sort == null" >
+      ORDER BY OPER_TIME DESC
+    </if>
+  </select>
+</mapper>

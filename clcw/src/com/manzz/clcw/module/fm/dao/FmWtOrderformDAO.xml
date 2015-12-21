@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manzz.clcw.module.fm.dao.FmWtOrderformDAO" >
+
+  <resultMap id="FmWtOrderformResultMap" type="com.manzz.clcw.domain.FmWtOrderform" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="FREQUENCY_ID" property="frequencyId" jdbcType="VARCHAR" />
+    <result column="CUSTOMERSID" property="customersid" jdbcType="VARCHAR" />
+    <result column="ORDERDATETIME" property="orderdatetime" jdbcType="TIMESTAMP" />
+    <result column="PAYDATETIME" property="paydatetime" jdbcType="TIMESTAMP" />
+    <result column="PAYSTATUS" property="paystatus" jdbcType="INTEGER" />
+    <result column="PAYWAY" property="payway" jdbcType="VARCHAR" />
+    <result column="PAYACCOUNT" property="payaccount" jdbcType="VARCHAR" />
+    <result column="TicketPrice" property="ticketprice" jdbcType="DECIMAL" />
+    <result column="Amount" property="amount" jdbcType="DECIMAL" />
+    <result column="ShulltePrice" property="shullteprice" jdbcType="DECIMAL" />
+    <result column="TicketNo" property="ticketno" jdbcType="INTEGER" />
+    <result column="IsReview" property="isreview" jdbcType="INTEGER" />
+    <result column="OPER_ID" property="operId" jdbcType="VARCHAR" />
+    <result column="OPER_TIME" property="operTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="FmWtOrderform_Column_List" >
+    ID, FREQUENCY_ID, CUSTOMERSID, ORDERDATETIME, PAYDATETIME, PAYSTATUS, PAYWAY, PAYACCOUNT, 
+    TicketPrice, Amount, TRADECODE, ShulltePrice, TicketNo, IsReview, OPER_ID, OPER_TIME
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="FmWtOrderformResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="FmWtOrderform_Column_List" />
+    from wt_orderform
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from wt_orderform
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.manzz.clcw.domain.FmWtOrderform" >
+    insert into wt_orderform (ID, FREQUENCY_ID, CUSTOMERSID, 
+      ORDERDATETIME, PAYDATETIME, PAYSTATUS, 
+      PAYWAY, PAYACCOUNT, TicketPrice, 
+      Amount, TRADECODE, ShulltePrice, 
+      TicketNo, IsReview, OPER_ID, 
+      OPER_TIME)
+    values (#{id,jdbcType=VARCHAR}, #{frequencyId,jdbcType=VARCHAR}, #{customersid,jdbcType=VARCHAR}, 
+      #{orderdatetime,jdbcType=TIMESTAMP}, #{paydatetime,jdbcType=TIMESTAMP}, #{paystatus,jdbcType=INTEGER}, 
+      #{payway,jdbcType=VARCHAR}, #{payaccount,jdbcType=VARCHAR}, #{ticketprice,jdbcType=DECIMAL}, 
+      #{amount,jdbcType=DECIMAL}, #{tradecode,jdbcType=VARCHAR}, #{shullteprice,jdbcType=DECIMAL}, 
+      #{ticketno,jdbcType=INTEGER}, #{isreview,jdbcType=INTEGER}, #{operId,jdbcType=VARCHAR}, 
+      now())
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.manzz.clcw.domain.FmWtOrderform" >
+    update wt_orderform
+    <set >
+      <if test="frequencyId != null" >
+        FREQUENCY_ID = #{frequencyId,jdbcType=VARCHAR},
+      </if>
+      <if test="customersid != null" >
+        CUSTOMERSID = #{customersid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderdatetime != null" >
+        ORDERDATETIME = #{orderdatetime,jdbcType=DATE},
+      </if>
+      <if test="paydatetime != null" >
+        PAYDATETIME = #{paydatetime,jdbcType=DATE},
+      </if>
+      <if test="paystatus != null" >
+        PAYSTATUS = #{paystatus,jdbcType=INTEGER},
+      </if>
+      <if test="payway != null" >
+        PAYWAY = #{payway,jdbcType=VARCHAR},
+      </if>
+      <if test="payaccount != null" >
+        PAYACCOUNT = #{payaccount,jdbcType=VARCHAR},
+      </if>
+      <if test="ticketprice != null" >
+        TICKETPRICE = #{ticketprice,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="tradecode != null" >
+        TRADECODE = #{tradecode,jdbcType=VARCHAR},
+      </if>
+      <if test="shullteprice != null" >
+        SHULLTEPRICE = #{shullteprice,jdbcType=DECIMAL},
+      </if>
+      <if test="ticketno != null" >
+        TICKETNO = #{ticketno,jdbcType=INTEGER},
+      </if>
+      <if test="isreview != null" >
+        ISREVIEW = #{isreview,jdbcType=INTEGER},
+      </if>
+      <if test="operId != null" >
+        OPER_ID = #{operId,jdbcType=VARCHAR},
+      </if>
+      <if test="operTime != null" >
+        OPER_TIME = now(),
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.manzz.clcw.domain.FmWtOrderform" >
+    update wt_orderform
+    set FREQUENCY_ID = #{frequencyId,jdbcType=VARCHAR},
+      CUSTOMERSID = #{customersid,jdbcType=VARCHAR},
+      ORDERDATETIME = #{orderdatetime,jdbcType=DATE},
+      PAYDATETIME = #{paydatetime,jdbcType=DATE},
+      PAYSTATUS = #{paystatus,jdbcType=INTEGER},
+      PAYWAY = #{payway,jdbcType=VARCHAR},
+      PAYACCOUNT = #{payaccount,jdbcType=VARCHAR},
+      TICKETPRICE = #{ticketprice,jdbcType=DECIMAL},
+      AMOUNT = #{amount,jdbcType=DECIMAL},
+      TRADECODE = #{tradecode,jdbcType=VARCHAR},
+      SHULLTEPRICE = #{shullteprice,jdbcType=DECIMAL},
+      TICKETNO = #{ticketno,jdbcType=INTEGER},
+      ISREVIEW = #{isreview,jdbcType=INTEGER},
+      OPER_ID = #{operId,jdbcType=VARCHAR},
+      OPER_TIME = now()
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <sql id="Where_Condition" >
+    <where >
+      <if test="frequencyId != null and frequencyId != ''" >
+        FREQUENCY_ID = #{frequencyId,jdbcType=VARCHAR}
+      </if>
+      <if test="customersid != null and customersid != ''" >
+        AND CUSTOMERSID = #{customersid,jdbcType=VARCHAR}
+      </if>
+      <if test="orderdatetime != null" >
+        AND ORDERDATETIME = #{orderdatetime,jdbcType=DATE}
+      </if>
+      <if test="paydatetime != null" >
+        AND PAYDATETIME = #{paydatetime,jdbcType=DATE}
+      </if>
+      <if test="paystatus != null" >
+        AND PAYSTATUS = #{paystatus,jdbcType=INTEGER}
+      </if>
+      <if test="payway != null and payway != ''" >
+        AND PAYWAY = #{payway,jdbcType=VARCHAR}
+      </if>
+      <if test="payaccount != null and payaccount != ''" >
+        AND PAYACCOUNT = #{payaccount,jdbcType=VARCHAR}
+      </if>
+      <if test="ticketprice != null" >
+        AND TICKETPRICE = #{ticketprice,jdbcType=DECIMAL}
+      </if>
+      <if test="amount != null" >
+        AND AMOUNT = #{amount,jdbcType=DECIMAL}
+      </if>
+      <if test="tradecode != null and tradecode != ''" >
+        AND TRADECODE = #{tradecode,jdbcType=VARCHAR}
+      </if>
+      <if test="shullteprice != null" >
+        AND SHULLTEPRICE = #{shullteprice,jdbcType=DECIMAL}
+      </if>
+      <if test="ticketno != null" >
+        AND TICKETNO = #{ticketno,jdbcType=INTEGER}
+      </if>
+      <if test="isreview != null" >
+        AND ISREVIEW = #{isreview,jdbcType=INTEGER}
+      </if>
+    </where>
+  </sql>
+
+  <sql id="Where_Fuzzy_Condition" >
+    <where >
+      <if test="frequencyId != null and frequencyId != ''" >
+        FREQUENCY_ID = #{frequencyId,jdbcType=VARCHAR}
+      </if>
+      <if test="customersid != null and customersid != ''" >
+        AND CUSTOMERSID = #{customersid,jdbcType=VARCHAR}
+      </if>
+      <if test="orderdatetime != null" >
+        AND ORDERDATETIME = #{orderdatetime,jdbcType=DATE}
+      </if>
+      <if test="paydatetime != null" >
+        AND PAYDATETIME = #{paydatetime,jdbcType=DATE}
+      </if>
+      <if test="paystatus != null" >
+        AND PAYSTATUS = #{paystatus,jdbcType=INTEGER}
+      </if>
+      <if test="payway != null and payway != ''" >
+        AND PAYWAY = #{payway,jdbcType=VARCHAR}
+      </if>
+      <if test="payaccount != null and payaccount != ''" >
+        AND PAYACCOUNT = #{payaccount,jdbcType=VARCHAR}
+      </if>
+      <if test="ticketprice != null" >
+        AND TicketPrice = #{ticketprice,jdbcType=DECIMAL}
+      </if>
+      <if test="amount != null" >
+        AND Amount = #{amount,jdbcType=DECIMAL}
+      </if>
+      <if test="tradecode != null and tradecode != ''" >
+        AND TRADECODE = #{tradecode,jdbcType=VARCHAR}
+      </if>
+      <if test="shullteprice != null" >
+        AND ShulltePrice = #{shullteprice,jdbcType=DECIMAL}
+      </if>
+      <if test="ticketno != null" >
+        AND TicketNo = #{ticketno,jdbcType=INTEGER}
+      </if>
+      <if test="isreview != null" >
+        AND IsReview = #{isreview,jdbcType=INTEGER}
+      </if>
+    </where>
+  </sql>
+
+  <select id="queryCount" parameterType="com.manzz.clcw.domain.FmWtOrderform" resultType="java.lang.Integer" >
+    select count(0) from wt_orderform
+    <if test="isFuzzyQuery == false" >
+      <include refid="Where_Condition" />
+    </if>
+    <if test="isFuzzyQuery == true" >
+      <include refid="Where_Fuzzy_Condition" />
+    </if>
+  </select>
+
+  <select id="queryPagedList" parameterType="com.manzz.clcw.domain.FmWtOrderform" resultMap="FmWtOrderformResultMap" >
+    select 
+    <include refid="FmWtOrderform_Column_List" />
+    from wt_orderform
+    <if test="isFuzzyQuery == false" >
+      <include refid="Where_Condition" />
+    </if>
+    <if test="isFuzzyQuery == true" >
+      <include refid="Where_Fuzzy_Condition" />
+    </if>
+    <if test="sort != null" >
+      ORDER BY ${sort} ${order}
+    </if>
+    <if test="sort == null" >
+      ORDER BY OPER_TIME DESC
+    </if>
+  </select>
+  
+  <select id="queryOrderformVOList" resultType="com.manzz.clcw.module.fm.web.vo.OrderformVO">
+  		select 
+			o.ID as orderID,o.FREQUENCY_ID as frequencyId,o.PAYSTATUS as paystatus,
+			case o.PAYSTATUS when -1 then '未付款' when 1 then '已支付' when 2 then '已退票' when 3 then '已过期' end as paystatusName,
+			o.TicketPrice as ticketprice,o.TicketNo as ticketno,o.Amount as amount,
+			f.DEPARTUREDATE as departuredate,f.DEPARTURETIME as departuretime,
+			f.SITENAME as sitename,SUBSTRING_INDEX(f.SITENAME, ',', 1) as startPoint,SUBSTRING_INDEX(f.SITENAME, ',', -1) as endPoint,
+			c.SITE_LIST as siteList,c.CLASSLINE_NAME as classlineName,
+			line.DEPARTURE as departure,line.DESTINATION as destination,r.Region_RegionName as departureName,r2.Region_RegionName as destinationName
+		from wt_orderform o 
+		LEFT JOIN wt_frequency f ON o.FREQUENCY_ID = f.FREQUENCY_ID
+		LEFT JOIN wt_classline c on f.CLASSLINE_ID = c.CLASSLINE_ID
+		LEFT JOIN wt_lines line on c.LINE_ID = line.LINE_ID
+		LEFT JOIN gt_region r on line.DEPARTURE = r.Region_Code
+		LEFT JOIN gt_region r2 on line.DESTINATION = r2.Region_Code
+		<where>
+			<if test=" customerID != null and customerID != '' " >
+				o.CUSTOMERSID = #{customerID}
+			</if>
+			<if test=" orderID != null and orderID != '' " >
+				o.ID = #{orderID}
+			</if>
+		</where>
+  </select>
+  
+  <!-- 根据班次查询所有的已用票量总计 -->
+  <select id="querySumTicketNoByFrequencyId" resultType="java.lang.Integer" >
+	  select IFNULL(sum(o.ticketno),0) from wt_orderform o where o.frequency_id= #{frequencyId}
+  </select>
+</mapper>

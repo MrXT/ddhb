@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manzz.clcw.module.bd.dao.BdWtCarsDAO" >
+
+  <resultMap id="BdWtCarsResultMap" type="com.manzz.clcw.domain.BdWtCars" >
+    <id column="CAR_ID" property="carId" jdbcType="VARCHAR" />
+    <result column="LICENSEPLATE" property="licenseplate" jdbcType="VARCHAR" />
+    <result column="LICENSEPLATECOLOR" property="licenseplatecolor" jdbcType="VARCHAR" />
+    <result column="technicalgrade" property="technicalgrade" jdbcType="VARCHAR" />
+    <result column="MODELS" property="models" jdbcType="VARCHAR" />
+    <result column="PASSENGERS" property="passengers" jdbcType="INTEGER" />
+    <result column="LICENSENUMBER" property="licensenumber" jdbcType="VARCHAR" />
+    <result column="TRANSPORTPERMITS" property="transportpermits" jdbcType="VARCHAR" />
+    <result column="COMPANY" property="company" jdbcType="VARCHAR" />
+    <result column="CREATEDATE" property="createdate" jdbcType="DATE" />
+    <result column="FREEZE" property="freeze" jdbcType="CHAR" />
+    <result column="OPER_ID" property="operId" jdbcType="VARCHAR" />
+    <result column="OPER_TIME" property="operTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="BdWtCars_Column_List" >
+    CAR_ID, LICENSEPLATE, LICENSEPLATECOLOR, MODELS, PASSENGERS, LICENSENUMBER, TRANSPORTPERMITS, 
+    COMPANY, CREATEDATE, FREEZE, OPER_ID, OPER_TIME,technicalgrade
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BdWtCarsResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="BdWtCars_Column_List" />
+    from wt_cars
+    where CAR_ID = #{carId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from wt_cars
+    where CAR_ID = #{carId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert"  parameterType="com.manzz.clcw.domain.BdWtCars" >
+  	<selectKey keyProperty="carId" order="BEFORE" resultType="String">
+  		select UUID();
+  	</selectKey>
+    insert into wt_cars (CAR_ID, LICENSEPLATE, LICENSEPLATECOLOR, 
+      MODELS, PASSENGERS, LICENSENUMBER, technicalgrade,
+      TRANSPORTPERMITS, COMPANY, CREATEDATE, 
+      FREEZE, OPER_ID, OPER_TIME)
+    values (#{carId,jdbcType=VARCHAR}, #{licenseplate,jdbcType=VARCHAR}, #{licenseplatecolor,jdbcType=VARCHAR}, 
+      #{models,jdbcType=VARCHAR}, #{passengers,jdbcType=INTEGER}, #{licensenumber,jdbcType=VARCHAR}, #{technicalgrade,jdbcType=VARCHAR},
+      #{transportpermits,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, now(), 
+      #{freeze,jdbcType=CHAR}, #{operId,jdbcType=VARCHAR}, now())
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.manzz.clcw.domain.BdWtCars" >
+    update wt_cars
+    <set >
+      <if test="licenseplate != null" >
+        LICENSEPLATE = #{licenseplate,jdbcType=VARCHAR},
+      </if>
+      <if test="licenseplatecolor != null" >
+        LICENSEPLATECOLOR = #{licenseplatecolor,jdbcType=VARCHAR},
+      </if>
+      <if test="models != null" >
+        MODELS = #{models,jdbcType=VARCHAR},
+      </if>
+      <if test="passengers != null" >
+        PASSENGERS = #{passengers,jdbcType=INTEGER},
+      </if>
+      <if test="licensenumber != null" >
+        LICENSENUMBER = #{licensenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="technicalgrade != null" >
+        technicalgrade = #{technicalgrade,jdbcType=VARCHAR},
+      </if>
+      <if test="transportpermits != null" >
+        TRANSPORTPERMITS = #{transportpermits,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null" >
+        COMPANY = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="createdate != null" >
+        CREATEDATE = #{createdate,jdbcType=DATE},
+      </if>
+      <if test="freeze != null" >
+        FREEZE = #{freeze,jdbcType=CHAR},
+      </if>
+      <if test="operId != null" >
+        OPER_ID = #{operId,jdbcType=VARCHAR},
+      </if>
+      <if test="operTime != null" >
+        OPER_TIME = now(),
+      </if>
+    </set>
+    where CAR_ID = #{carId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.manzz.clcw.domain.BdWtCars" >
+    update wt_cars
+    set LICENSEPLATE = #{licenseplate,jdbcType=VARCHAR},
+      LICENSEPLATECOLOR = #{licenseplatecolor,jdbcType=VARCHAR},
+      MODELS = #{models,jdbcType=VARCHAR},
+      PASSENGERS = #{passengers,jdbcType=INTEGER},
+      technicalgrade = #{technicalgrade,jdbcType=VARCHAR},
+      LICENSENUMBER = #{licensenumber,jdbcType=VARCHAR},
+      TRANSPORTPERMITS = #{transportpermits,jdbcType=VARCHAR},
+      COMPANY = #{company,jdbcType=VARCHAR},
+      CREATEDATE = #{createdate,jdbcType=DATE},
+      FREEZE = #{freeze,jdbcType=CHAR},
+      OPER_ID = #{operId,jdbcType=VARCHAR},
+      OPER_TIME = now()
+    where CAR_ID = #{carId,jdbcType=VARCHAR}
+  </update>
+
+  <sql id="Where_Condition" >
+    <where >
+      <if test="licenseplate != null and licenseplate != ''" >
+        LICENSEPLATE = #{licenseplate,jdbcType=VARCHAR}
+      </if>
+      <if test="licenseplatecolor != null and licenseplatecolor != ''" >
+        AND LICENSEPLATECOLOR = #{licenseplatecolor,jdbcType=VARCHAR}
+      </if>
+      <if test="technicalgrade != null and technicalgrade != ''" >
+        AND technicalgrade = #{technicalgrade,jdbcType=VARCHAR}
+      </if>
+      <if test="models != null and models != ''" >
+        AND MODELS = #{models,jdbcType=VARCHAR}
+      </if>
+      <if test="passengers != null" >
+        AND PASSENGERS = #{passengers,jdbcType=INTEGER}
+      </if>
+      <if test="licensenumber != null and licensenumber != ''" >
+        AND LICENSENUMBER = #{licensenumber,jdbcType=VARCHAR}
+      </if>
+      <if test="transportpermits != null and transportpermits != ''" >
+        AND TRANSPORTPERMITS = #{transportpermits,jdbcType=VARCHAR}
+      </if>
+      <if test="company != null and company != ''" >
+        AND COMPANY = #{company,jdbcType=VARCHAR}
+      </if>
+      <if test="createdate != null" >
+        AND CREATEDATE = #{createdate,jdbcType=DATE}
+      </if>
+      <if test="freeze != null and freeze != ''" >
+        AND FREEZE = #{freeze,jdbcType=CHAR}
+      </if>
+    </where>
+  </sql>
+
+  <sql id="Where_Fuzzy_Condition" >
+    <where >
+      <if test="licenseplate != null and licenseplate != ''" >
+        LICENSEPLATE = #{licenseplate,jdbcType=VARCHAR}
+      </if>
+      <if test="licenseplatecolor != null and licenseplatecolor != ''" >
+        AND LICENSEPLATECOLOR = #{licenseplatecolor,jdbcType=VARCHAR}
+      </if>
+      <if test="technicalgrade != null and technicalgrade != ''" >
+        AND technicalgrade = #{technicalgrade,jdbcType=VARCHAR}
+      </if>
+      <if test="models != null and models != ''" >
+        AND MODELS = #{models,jdbcType=VARCHAR}
+      </if>
+      <if test="passengers != null" >
+        AND PASSENGERS = #{passengers,jdbcType=INTEGER}
+      </if>
+      <if test="licensenumber != null and licensenumber != ''" >
+        AND LICENSENUMBER = #{licensenumber,jdbcType=VARCHAR}
+      </if>
+      <if test="transportpermits != null and transportpermits != ''" >
+        AND TRANSPORTPERMITS = #{transportpermits,jdbcType=VARCHAR}
+      </if>
+      <if test="company != null and company != ''" >
+        AND COMPANY = #{company,jdbcType=VARCHAR}
+      </if>
+      <if test="createdate != null" >
+        AND CREATEDATE = #{createdate,jdbcType=DATE}
+      </if>
+      <if test="freeze != null and freeze != ''" >
+        AND FREEZE = #{freeze,jdbcType=CHAR}
+      </if>
+    </where>
+  </sql>
+
+  <select id="queryCount" parameterType="com.manzz.clcw.domain.BdWtCars" resultType="java.lang.Integer" >
+    select count(0) from wt_cars
+    <if test="isFuzzyQuery == false" >
+      <include refid="Where_Condition" />
+    </if>
+    <if test="isFuzzyQuery == true" >
+      <include refid="Where_Fuzzy_Condition" />
+    </if>
+  </select>
+
+  <select id="queryPagedList" parameterType="com.manzz.clcw.domain.BdWtCars" resultMap="BdWtCarsResultMap" >
+    select 
+    <include refid="BdWtCars_Column_List" />
+    from wt_cars
+    <if test="isFuzzyQuery == false" >
+      <include refid="Where_Condition" />
+    </if>
+    <if test="isFuzzyQuery == true" >
+      <include refid="Where_Fuzzy_Condition" />
+    </if>
+    <if test="sort != null" >
+      ORDER BY ${sort} ${order}
+    </if>
+    <if test="sort == null" >
+      ORDER BY OPER_TIME DESC
+    </if>
+  </select>
+  <!-- 查询带安检记录的车俩 -->
+  <select id="queryByCarsVoByCondition" parameterType="com.manzz.clcw.domain.BdWtCars" resultType="com.manzz.clcw.module.bd.web.vo.BdWtCarsVo" >
+    SELECT
+	c.CAR_ID carId,
+	c.LICENSEPLATE licenseplate,
+	c.technicalgrade technicalgrade,
+	c.LICENSEPLATECOLOR licenseplatecolor,
+	c.MODELS models,
+	c.PASSENGERS passengers,
+	c.LICENSENUMBER licensenumber,
+	c.TRANSPORTPERMITS transportpermits,
+	c.COMPANY company,
+	c.CREATEDATE createdate,
+	c.FREEZE freeze,
+	c.OPER_ID operId,
+	c.OPER_TIME operTime,
+	sr.ID securityrecordId,
+	IFNULL(sr.checkstatus, 0) checkstatus,
+	case  when sr.checkstatus = 0 then '待安检' when sr.checkstatus = -1 then '未通过' when sr.checkstatus IS NULL then '待安检' when sr.checkstatus = 1 then '已通过' END checkstatusName,
+	inspector,sr.checkdatetime checkdatetime
+	FROM
+		wt_cars c
+	LEFT JOIN wt_securityrecord sr ON sr.licenseplate = c.licenseplate and sr.CHECKDATETIME = (select MAX(sr1.CHECKDATETIME) from wt_securityrecord sr1 where sr1.licenseplate = sr.licenseplate)
+	WHERE
+	c.freeze = ${NOFREEZE}
+    <if test="company != null and company != ''" >
+        AND c.COMPANY = #{company,jdbcType=VARCHAR}
+     </if>
+    <if test="licenseplate != null and licenseplate != ''" >
+        AND c.licenseplate = #{licenseplate,jdbcType=VARCHAR}
+     </if>
+    <if test="checkstatus != null" >
+        AND sr.checkstatus = #{checkstatus}
+     </if>
+     Order by c.Oper_Time desc
+  </select>
+</mapper>

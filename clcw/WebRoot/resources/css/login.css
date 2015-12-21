@@ -1,0 +1,22 @@
+﻿#loginframe{width:100%;height:392px;background:url(../images/login1.png) center top no-repeat;padding-top:109px;overflow:hidden;}
+.login{width:738px;height:283px;margin:0 auto;}
+.login li{width:738px;}
+.login li.toplog{height:20px;background:url(../images/login.png) 0 0 no-repeat;}
+.login li.bottomlog{height:20px;background:url(../images/login.png) 0 -263px no-repeat;}
+.login li.cntlog{width:668px;height:auto;min-height:233px;_height:233px;background:url(../images/loginframebg.png) left top repeat-y;padding:14px 20px 0 50px;vertical-align:top;}
+.login li.cntlog .logbox{width:396px;height:auto;float:left;}
+.login li.cntlog .logbox dt{width:396px;height:35px;line-height:35px;text-align:left;font-size:24px;color:#4C4C4C;margin-bottom:26px;}
+.login li.cntlog .logbox dd{width:396px;height:auto;line-height:34px;text-align:left;margin:6px 0;font-size:14px;color:#1A1A1A;}
+.login li.cntlog .logbox dd .loginbox{float:right;width:254px;height:26px;line-height:26px;margin:0 60px 0 0;padding:4px 6px;background:url(../images/loginidx.png) -244px 0 no-repeat;border:0;*margin:-34px 60px 0 0;}
+.login li.cntlog .logbox .logbtn{width:88px;height:37px;line-height:37px;background:url(../images/loginidx.png) -115px 0 no-repeat;cursor:pointer;display:inline;float:left;margin:19px 50px 0 70px;color:#FFF;font-size:14px;padding-right:34px;text-align:center;}
+.login li.cntlog .logbox .forget{width:auto;height:20px;line-height:20px;font-size:12px;color:#666;margin-top:28px;display:inline;float:left;}
+.login li.cntlog .logbox span.errorwrds{clear:both;float:left;width:300px;height:20px;line-height:20px;text-align:left;font-size:12px;color:#f14700;display:inline;margin-top:5px;margin-left:70px;}
+.login li.cntlog .createbox{width:272px;height:auto;float:left;}
+.login li.cntlog .createbox dl{width:220px;height:auto;line-height:20px;text-align:left;margin:0 auto;padding:0;overflow:hidden;}
+.login li.cntlog .createbox dl dt{width:220px;height:20px;line-height:15px;text-align:left;font-size:14px;color:#333;padding-bottom:8px;border-bottom:1px solid #ddd;}
+.login li.cntlog .createbox dl dd{width:220px;height:auto;padding:5px 0 0 0;margin:0;}
+.login li.cntlog .createbox dl dd p{margin:5px 0;padding:0;font-size:12px;color:#666;height:25px;}
+.login li.cntlog .createbox .createaccout{width:102px;height:36px;line-height:36px;cursor:pointer;display:inline-block;background:url(../images/loginidx.png) 0 0 no-repeat;color:#666;font-size:14px;text-align:center;margin:4px 0 0 26px;}
+#checkpawd{background: url("../images/code_input_bg.gif") no-repeat;border:0 none;float:right;height:26px;line-height:26px;margin:0 60px 0 0;padding:4px 6px;}
+#sp_userpwd{border:0 none;display:inline-block;font-size:12px;height:26px;line-height:26px;margin:1px 60px 0 15px;padding:4px 6px;position:absolute;width:auto;margin-left:14px;margin-top:0\9\0;*margin-top:-6px;}    
+#sp_useremail{border:0 none;display:inline-block;position:absolute;font-size:12px;height:26px;line-height:26px;margin:0 60px 0 0;padding:4px 6px;width:auto;margin-left:14px;margin-top:0\9\0;*margin-top:-6px;}

@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manzz.clcw.module.fm.dao.FmWtFrequencyDAO" >
+
+  <resultMap id="FmWtFrequencyResultMap" type="com.manzz.clcw.domain.FmWtFrequency" >
+    <id column="FREQUENCY_ID" property="frequencyId" jdbcType="VARCHAR" />
+    <result column="CLASSLINE_ID" property="classlineId" jdbcType="VARCHAR" />
+    <result column="CARS_ID" property="carsId" jdbcType="VARCHAR" />
+    <result column="DRIVER_ID" property="driverId" jdbcType="VARCHAR" />
+    <result column="CARS_DRIVERS" property="carSDrivers" jdbcType="VARCHAR" />
+    <result column="TICKETCOUNT" property="ticketcount" jdbcType="INTEGER" />
+    <result column="TICKETFACEVALUE" property="ticketfacevalue" jdbcType="INTEGER" />
+    <result column="DEPARTUREDATE" property="departuredate" jdbcType="DATE" />
+    <result column="DEPARTURETIME" property="departuretime" jdbcType="TIME" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="RELEASEDATETIME" property="releasedatetime" jdbcType="DATE" />
+    <result column="SITENAME" property="sitename" jdbcType="VARCHAR" />
+    <result column="OPER_ID" property="operId" jdbcType="VARCHAR" />
+    <result column="OPER_TIME" property="operTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="FmWtFrequencyVoResultMap" type="com.manzz.clcw.module.fm.web.vo.FmWtFrequencyVo" >
+    <id column="frequencyId" property="frequencyId" jdbcType="VARCHAR" />
+    <result column="classlineId" property="classlineId" jdbcType="VARCHAR" />
+    <result column="carsId" property="carsId" jdbcType="VARCHAR" />
+    <result column="driverId" property="driverId" jdbcType="VARCHAR" />
+    <result column="carSDrivers" property="carSDrivers" jdbcType="VARCHAR" />
+    <result column="departurename" property="departurename" jdbcType="VARCHAR" />
+    <result column="destinationname" property="destinationname" jdbcType="VARCHAR" />
+    <result column="classlineName" property="classlineName" jdbcType="VARCHAR" />
+    <result column="siteList" property="siteList" jdbcType="VARCHAR" />
+    <result column="ticketcount" property="ticketcount" jdbcType="INTEGER" />
+    <result column="ticketfacevalue" property="ticketfacevalue" jdbcType="INTEGER" />
+    <result column="departuredate" property="departuredate" jdbcType="DATE" />
+    <result column="departuretime" property="departuretime" jdbcType="TIME" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="releasedatetime" property="releasedatetime" jdbcType="DATE" />
+    <result column="sitename" property="sitename" jdbcType="VARCHAR" />
+    <result column="operId" property="operId" jdbcType="VARCHAR" />
+    <result column="operTime" property="operTime" jdbcType="TIMESTAMP" />
+    <result column="ticketnumber" property="ticketnumber" jdbcType="INTEGER" />
+    <result column="refundtictetnumber" property="refundtictetnumber" jdbcType="INTEGER" />
+    <result column="timestampnumber" property="timestampnumber" jdbcType="INTEGER" />
+    <association property="charteredVo" javaType="com.manzz.clcw.module.fm.web.vo.FmWtCharteredVo">  
+    	<id column="ID" property="charteredId" jdbcType="INTEGER" />
+	    <result column="FREQUENCY_ID" property="frequencyId" jdbcType="VARCHAR" />
+	    <result column="DEPARTURE" property="departure" jdbcType="VARCHAR" />
+	    <result column="DESTINATION" property="destination" jdbcType="VARCHAR" />
+	    <result column="WAYLINE" property="wayline" jdbcType="VARCHAR" />
+	    <result column="DEPARTUREDATETIME" property="departuredatetime" jdbcType="DATE" />
+	    <result column="DESTINATIONDATETIME" property="destinationdatetime" jdbcType="DATE" />
+	    <result column="LICENSEPLATE" property="licenseplate" jdbcType="VARCHAR" />
+	    <result column="LICENSEPLATESTR" property="licenseplatestr" jdbcType="VARCHAR" />
+	    <result column="DRIVERNAME" property="drivername" jdbcType="VARCHAR" />
+	    <result column="CHARTEREDCOMPANY" property="charteredcompany" jdbcType="VARCHAR" />
+	    <result column="COMPANYLEADER" property="companyleader" jdbcType="VARCHAR" />
+	    <result column="LEADERIDNUMBER" property="leaderidnumber" jdbcType="VARCHAR" />
+	    <result column="LEADERPHONE" property="leaderphone" jdbcType="VARCHAR" />
+	    <result column="PASSENGER" property="passenger" jdbcType="INTEGER" />
+	    <result column="ORDERPASSENGER" property="orderpassenger" jdbcType="INTEGER" />
+	    <result column="CHECKSTATUS" property="checkstatus" jdbcType="INTEGER" />
+	    <result column="CHECKDATETIME" property="checkdatetime" jdbcType="DATE" />
+	    <result column="CHARTEREDPRICE" property="charteredprice" jdbcType="DECIMAL" />
+	    <result column="RELEASEDATETIME" property="releasedatetime" jdbcType="DATE" />
+	    <result column="INSPECTOR" property="inspector" jdbcType="VARCHAR" />
+	    <result column="COMPANY" property="company" jdbcType="VARCHAR" />
+    </association>
+  </resultMap>
+
+  <sql id="FmWtFrequency_Column_List" >
+    FREQUENCY_ID, CLASSLINE_ID, CARS_ID, DRIVER_ID,CARS_DRIVERS, TICKETCOUNT, TICKETFACEVALUE, DEPARTUREDATE, 
+    DEPARTURETIME, STATUS, RELEASEDATETIME, SITENAME, OPER_ID, OPER_TIME
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="FmWtFrequencyResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="FmWtFrequency_Column_List" />
+    from wt_frequency
+    where FREQUENCY_ID = #{frequencyId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from wt_frequency
+    where FREQUENCY_ID = #{frequencyId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.manzz.clcw.domain.FmWtFrequency" >
+    insert into wt_frequency (FREQUENCY_ID, CLASSLINE_ID, CARS_ID, DRIVER_ID, CARS_DRIVERS,
+      TICKETCOUNT, TICKETFACEVALUE, DEPARTUREDATE, 
+      DEPARTURETIME, STATUS, RELEASEDATETIME, 
+      SITENAME, OPER_ID, OPER_TIME)
+    values (uuid(), #{classlineId,jdbcType=VARCHAR}, #{carsId,jdbcType=VARCHAR}, #{driverId,jdbcType=VARCHAR}, #{carSDrivers,jdbcType=VARCHAR}, 
+      #{ticketcount,jdbcType=INTEGER}, #{ticketfacevalue,jdbcType=INTEGER}, #{departuredate,jdbcType=DATE}, 
+      #{departuretime,jdbcType=TIME}, #{status,jdbcType=INTEGER},now(), 
+      #{sitename,jdbcType=VARCHAR}, #{operId,jdbcType=VARCHAR}, now())
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.manzz.clcw.domain.FmWtFrequency" >
+    update wt_frequency
+    <set >
+      <if test="classlineId != null" >
+        CLASSLINE_ID = #{classlineId,jdbcType=VARCHAR},
+      </if>
+      <if test="carsId != null" >
+        CARS_ID = #{carsId,jdbcType=VARCHAR},
+      </if>
+      <if test="driverId != null" >
+        DRIVER_ID = #{driverId,jdbcType=VARCHAR},
+      </if>
+      <if test="carSDrivers != null" >
+        CARS_DRIVERS = #{carSDrivers,jdbcType=VARCHAR},
+      </if>
+      <if test="ticketcount != null" >
+        TICKETCOUNT = #{ticketcount,jdbcType=INTEGER},
+      </if>
+      <if test="ticketfacevalue != null" >
+        TICKETFACEVALUE = #{ticketfacevalue,jdbcType=INTEGER},
+      </if>
+      <if test="departuredate != null" >
+        DEPARTUREDATE = #{departuredate,jdbcType=DATE},
+      </if>
+      <if test="departuretime != null" >
+        DEPARTURETIME = #{departuretime,jdbcType=TIME},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="releasedatetime != null" >
+        RELEASEDATETIME = #{releasedatetime,jdbcType=DATE},
+      </if>
+      <if test="sitename != null" >
+        SITENAME = #{sitename,jdbcType=VARCHAR},
+      </if>
+      <if test="operId != null" >
+        OPER_ID = #{operId,jdbcType=VARCHAR},
+      </if>
+      <if test="operTime != null" >
+        OPER_TIME = now(),
+      </if>
+    </set>
+    where FREQUENCY_ID = #{frequencyId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.manzz.clcw.domain.FmWtFrequency" >
+    update wt_frequency
+    set CLASSLINE_ID = #{classlineId,jdbcType=VARCHAR},
+      CARS_ID = #{carsId,jdbcType=VARCHAR},
+      DRIVER_ID = #{driverId,jdbcType=VARCHAR},
+      CARS_DRIVERS = #{carSDrivers,jdbcType=VARCHAR},
+      TICKETCOUNT = #{ticketcount,jdbcType=INTEGER},
+      TICKETFACEVALUE = #{ticketfacevalue,jdbcType=INTEGER},
+      DEPARTUREDATE = #{departuredate,jdbcType=DATE},
+      DEPARTURETIME = #{departuretime,jdbcType=TIME},
+      STATUS = #{status,jdbcType=INTEGER},
+      RELEASEDATETIME = #{releasedatetime,jdbcType=DATE},
+      SITENAME = #{sitename,jdbcType=VARCHAR},
+      OPER_ID = #{operId,jdbcType=VARCHAR},
+      OPER_TIME = now()
+    where FREQUENCY_ID = #{frequencyId,jdbcType=VARCHAR}
+  </update>
+
+  <sql id="Where_Condition" >
+    <where >
+      <if test="classlineId != null and classlineId != ''" >
+        CLASSLINE_ID = #{classlineId,jdbcType=VARCHAR}
+      </if>
+      <if test="carsId != null and carsId != ''" >
+        AND CARS_ID = #{carsId,jdbcType=VARCHAR}
+      </if>
+      <if test="driverId != null and driverId != ''" >
+        AND DRIVER_ID = #{driverId,jdbcType=VARCHAR}
+      </if>
+      <if test="carSDrivers != null" >
+        AND CARS_DRIVERS = #{carSDrivers,jdbcType=VARCHAR}
+      </if>
+      <if test="ticketcount != null" >
+        AND TICKETCOUNT = #{ticketcount,jdbcType=INTEGER}
+      </if>
+      <if test="ticketfacevalue != null" >
+        AND TICKETFACEVALUE = #{ticketfacevalue,jdbcType=INTEGER}
+      </if>
+      <if test="departuredate != null" >
+        AND DEPARTUREDATE = #{departuredate,jdbcType=DATE}
+      </if>
+      <if test="departuretime != null" >
+        AND DEPARTURETIME = #{departuretime,jdbcType=TIME}
+      </if>
+      <if test="status != null" >
+        AND STATUS = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="releasedatetime != null" >
+        AND RELEASEDATETIME = #{releasedatetime,jdbcType=DATE}
+      </if>
+      <if test="sitename != null and sitename != ''" >
+        AND SITENAME = #{sitename,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+
+  <sql id="Where_Fuzzy_Condition" >
+    <where >
+      <if test="classlineId != null and classlineId != ''" >
+        CLASSLINE_ID = #{classlineId,jdbcType=VARCHAR}
+      </if>
+      <if test="carsId != null and carsId != ''" >
+        AND CARS_ID = #{carsId,jdbcType=VARCHAR}
+      </if>
+      <if test="driverId != null and driverId != ''" >
+        AND DRIVER_ID = #{driverId,jdbcType=VARCHAR}
+      </if>
+      <if test="carSDrivers != null" >
+        AND CARS_DRIVERS = #{carSDrivers,jdbcType=VARCHAR}
+      </if>
+      <if test="ticketcount != null" >
+        AND TICKETCOUNT = #{ticketcount,jdbcType=INTEGER}
+      </if>
+      <if test="ticketfacevalue != null" >
+        AND TICKETFACEVALUE = #{ticketfacevalue,jdbcType=INTEGER}
+      </if>
+      <if test="departuredate != null" >
+        AND DEPARTUREDATE = #{departuredate,jdbcType=DATE}
+      </if>
+      <if test="departuretime != null" >
+        AND DEPARTURETIME = #{departuretime,jdbcType=TIME}
+      </if>
+      <if test="status != null" >
+        AND STATUS = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="releasedatetime != null" >
+        AND RELEASEDATETIME = #{releasedatetime,jdbcType=DATE}
+      </if>
+      <if test="sitename != null and sitename != ''" >
+        AND SITENAME = #{sitename,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+
+  <select id="queryCount" parameterType="com.manzz.clcw.domain.FmWtFrequency" resultType="java.lang.Integer" >
+    select count(0) from wt_frequency
+    <if test="isFuzzyQuery == false" >
+      <include refid="Where_Condition" />
+    </if>
+    <if test="isFuzzyQuery == true" >
+      <include refid="Where_Fuzzy_Condition" />
+    </if>
+  </select>
+
+  <select id="queryPagedList" parameterType="com.manzz.clcw.domain.FmWtFrequency" resultMap="FmWtFrequencyResultMap" >
+    select 
+    <include refid="FmWtFrequency_Column_List" />
+    from wt_frequency
+    <if test="isFuzzyQuery == false" >
+      <include refid="Where_Condition" />
+    </if>
+    <if test="isFuzzyQuery == true" >
+      <include refid="Where_Fuzzy_Condition" />
+    </if>
+    <if test="sort != null" >
+      ORDER BY ${sort} ${order}
+    </if>
+    <if test="sort == null" >
+      ORDER BY OPER_TIME DESC
+    </if>
+  </select>
+  <select id="queryFrequencyVoByCondition" resultMap="FmWtFrequencyVoResultMap" >
+    select 
+    f.FREQUENCY_ID frequencyId, f.CLASSLINE_ID classlineId, f.CARS_DRIVERS carSDrivers, f.TICKETCOUNT ticketcount, f.TICKETFACEVALUE ticketfacevalue
+    ,f.DEPARTUREDATE departuredate, f.DEPARTURETIME departuretime, f.STATUS status, f.RELEASEDATETIME releasedatetime, f.SITENAME sitename,cl.CLASSLINE_NAME classlineName,cl.site_list siteList
+    ,(select r.Region_RegionName from gt_region r WHERE r.Region_Code = l.departure) departurename 
+		,(select r.Region_RegionName from gt_region r WHERE r.Region_Code = l.destination) destinationname
+		,(select count(0) from wt_tickets t, wt_orderform of where of.ID = t.ORDERID and of.paystatus =${PAYSUCCESS} and of.FREQUENCY_ID = f.FREQUENCY_ID) ticketnumber
+		,<!-- (select count(0) from wt_refundtictet tr, wt_tickets t ,wt_orderform of  where t.ID = tr.TICKETSID and of.ID = t.ORDERID and of.FREQUENCY_ID = f.FREQUENCY_ID) --> 0 refundtictetnumber
+		,ROUND((UNIX_TIMESTAMP(CONCAT(DATE_FORMAT(departuredate,'%Y-%m-%d'),' ',TIME_FORMAT(departuretime,'%T')))-UNIX_TIMESTAMP(DATE_FORMAT(NOW(),"%Y-%m-%d %T")))/60) timestampnumber
+		,c.ID,c.FREQUENCY_ID,c.DEPARTURE,c.DESTINATION,c.WAYLINE,c.DEPARTUREDATETIME,c.DESTINATIONDATETIME,c.LICENSEPLATE, 
+    c.LICENSEPLATESTR,c.DRIVERNAME,c.CHARTEREDCOMPANY,c.COMPANYLEADER,c.LEADERIDNUMBER,c.LEADERPHONE, 
+    c.PASSENGER,c.ORDERPASSENGER,c.CHECKSTATUS,c.CHECKDATETIME,c.CHARTEREDPRICE,c.RELEASEDATETIME, 
+    c.INSPECTOR,c.COMPANY
+    from wt_frequency f
+    left join wt_chartered c on c.FREQUENCY_ID = f.FREQUENCY_ID
+    left join wt_classline cl on cl.classline_id = f.classline_id
+    left join wt_lines l on l.line_id = cl.line_id 
+	where 1=1
+	<if test="isFrequence">
+		AND TIMESTAMP(CONCAT(DATE_FORMAT(departuredate,'%Y-%m-%d'),' ',TIME_FORMAT(departuretime,'%T'))) > now()
+		<if test="departure != null" >
+	      and l.departure = #{departure}
+	    </if>
+	    <if test="destination != null" >
+	      and l.destination = #{destination}
+	    </if>
+	</if>
+	<if test="!isFrequence">
+		<if test="startDate !=null and endDate !=null">
+			AND f.DEPARTUREDATE BETWEEN #{startDate,jdbcType=DATE} AND #{endDate,jdbcType=DATE}
+		</if>
+		<if test="startTime !=null and endTime !=null">
+			AND time_to_sec(f.departuretime) BETWEEN time_to_sec(#{startTime}) AND time_to_sec(#{endTime})
+		</if>
+		<if test="driverId !=null and driverId !=''">
+			AND f.CARS_DRIVERS like concat('%',#{driverId,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="licenseplate !=null and licenseplate !=''">
+			AND f.CARS_DRIVERS like concat('%',#{licenseplate,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="classlineId !=null and classlineId !=''">
+			AND f.classline_id = #{classlineId,jdbcType=VARCHAR}
+		</if>
+		<if test="lineId !=null and lineId !=''">
+			AND cl.line_id = #{lineId,jdbcType=VARCHAR}
+		</if>
+	</if>
+	<if test="companyId != null and companyId != ''" >
+	      and l.COMPANY = #{companyId,jdbcType=VARCHAR}
+	 </if>
+	<if test="frequencyId != null and frequencyId != ''" >
+	      and f.FREQUENCY_ID = #{frequencyId,jdbcType=VARCHAR}
+	 </if>
+    order by f.DEPARTUREDATE desc,f.DEPARTURETIME desc
+	
+  </select>
+  
+  
+  
+  	<!-- 查询班次 -->
+	<select id="queryFrequencyList" parameterType="com.manzz.clcw.module.fm.web.vo.FrequencyVO"
+		resultType="com.manzz.clcw.module.fm.web.vo.FrequencyVO">
+		SELECT
+			re.Region_RegionName as departure,re2.Region_RegionName as destination,
+			temp.FREQUENCY_ID as frequencyId,temp.CLASSLINE_ID as classlineId,temp.status,
+			temp.TICKETCOUNT as ticketcount,temp.TICKETFACEVALUE as ticketfacevalue,
+			temp.DEPARTUREDATE as departuredate,temp.DEPARTURETIME as departuretime,
+			temp.CLASSLINE_NAME as classlineName,temp.SITE_LIST as sites,temp.SITENAME as siteNames,
+			temp.DEPARTURE as departureCode,temp.DESTINATION as destinationCode
+		FROM
+		(
+			SELECT
+				fre.FREQUENCY_ID,fre.CLASSLINE_ID,fre.CARS_ID,fre.DRIVER_ID,fre.TICKETCOUNT,fre.TICKETFACEVALUE,
+				fre.DEPARTUREDATE,fre.DEPARTURETIME,fre. STATUS,fre.SITENAME,  
+				cl.LINE_ID,cl.CLASSLINE_NAME,cl.SITE_LIST,
+				line.DEPARTURE,line.DESTINATION
+			FROM
+				wt_frequency fre,
+				wt_classline cl,
+				wt_lines line
+			WHERE
+				fre.CLASSLINE_ID = cl.CLASSLINE_ID
+				AND cl.line_id = line.line_id
+				and fre. STATUS = 1
+			) AS temp
+		LEFT JOIN gt_region re ON temp.departure = re.Region_Code
+		LEFT JOIN gt_region re2 ON temp.DESTINATION = re2.Region_Code
+		WHERE
+			temp.DEPARTUREDATE = #{departuredate}
+			and CONCAT(temp.DEPARTUREDATE,' ',temp.DEPARTURETIME) > date_add(CURRENT_TIMESTAMP(),INTERVAL 10 MINUTE)
+			<if test="waitingRoomFlag == false">
+				and temp.DEPARTURE= #{departureCode}
+				and temp.DESTINATION= #{destinationCode}
+			</if>
+			ORDER BY temp.DEPARTURETIME asc
+			<if test="waitingRoomFlag == true">
+				LIMIT 5
+			</if>
+	</select>
+
+	<!-- 根据出发地或目的地的 编码    得到所有站点 编码名称键值对 -->
+	<select id="querySiteNumberAndNameByRegionCode" resultType="java.util.HashMap">
+	    select
+			site.sitenumber,
+			site.sitename
+		from
+			wt_site site
+		where
+			site.region_code = #{regionCode};
+  	</select>
+  	
+  	<select id="querySiteNamesBySiteNumber" resultType="java.lang.String" >
+	    select GROUP_CONCAT(SITENAME) as siteName from wt_site where SITENUMBER in (${siteNumber})  order by field(SITENUMBER,${siteNumber})
+  	</select>
+  	
+</mapper>

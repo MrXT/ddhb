@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manzz.clcw.module.lm.dao.LmWtLinesDAO" >
+
+  <resultMap id="LmWtLinesResultMap" type="com.manzz.clcw.domain.LmWtLines" >
+    <id column="LINE_ID" property="lineId" jdbcType="VARCHAR" />
+    <result column="DEPARTURE" property="departure" jdbcType="INTEGER" />
+    <result column="DESTINATION" property="destination" jdbcType="INTEGER" />
+    <result column="TICKETPRICE" property="ticketprice" jdbcType="INTEGER" />
+    <result column="COMPANY" property="company" jdbcType="VARCHAR" />
+    <result column="OPER_ID" property="operId" jdbcType="VARCHAR" />
+    <result column="OPER_TIME" property="operTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="LmWtLines_Column_List" >
+    LINE_ID, DEPARTURE, DESTINATION, TICKETPRICE, COMPANY, OPER_ID, OPER_TIME
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="LmWtLinesResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="LmWtLines_Column_List" />
+    from wt_lines
+    where LINE_ID = #{lineId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from wt_lines
+    where LINE_ID = #{lineId,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteSiteByLineId" parameterType="java.lang.String" >
+  		delete from wt_site
+    	where LINE_ID = #{lineId,jdbcType=VARCHAR}
+  </delete>
+	<delete id="deleteClasslineByLineId" parameterType="java.lang.String" >
+  		delete from wt_classline
+    	where LINE_ID = #{lineId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.manzz.clcw.domain.LmWtLines" >
+    insert into wt_lines (LINE_ID, DEPARTURE, DESTINATION, TICKETPRICE, 
+      COMPANY, OPER_ID, OPER_TIME)
+    values (uuid(), #{departure,jdbcType=INTEGER}, #{destination,jdbcType=INTEGER}, #{ticketprice,jdbcType=INTEGER}, 
+      #{company,jdbcType=VARCHAR}, #{operId,jdbcType=VARCHAR}, now())
+  </insert>
+  <insert id="insertSitesByLine" >
+    insert into wt_site (SITE_ID, REGION_CODE, LINE_ID, LINENAME, 
+      LINECODE, SITENAME, SITENUMBER, 
+      Price, IsFirstSite, IsLastSite, 
+      IsShuttled, ShuttlePrice, OPER_ID, 
+      OPER_TIME)
+      values
+    <foreach collection="list" item="item"  separator=",">
+	    (UUID(), #{item.regionCode,jdbcType=INTEGER}, #{item.lineId,jdbcType=VARCHAR}, #{item.linename,jdbcType=VARCHAR}, 
+	      #{item.linecode,jdbcType=VARCHAR}, #{item.sitename,jdbcType=VARCHAR}, #{item.sitenumber,jdbcType=INTEGER}, 
+	      #{item.price,jdbcType=DECIMAL}, #{item.isfirstsite,jdbcType=DECIMAL}, #{item.islastsite,jdbcType=DECIMAL}, 
+	      #{item.isshuttled,jdbcType=DECIMAL}, #{item.shuttleprice,jdbcType=DECIMAL}, #{item.operId,jdbcType=VARCHAR}, 
+	      now())
+	     </foreach>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.manzz.clcw.domain.LmWtLines" >
+    update wt_lines
+    <set >
+      <if test="departure != null" >
+        DEPARTURE = #{departure,jdbcType=INTEGER},
+      </if>
+      <if test="destination != null" >
+        DESTINATION = #{destination,jdbcType=INTEGER},
+      </if>
+      <if test="ticketprice != null" >
+        TICKETPRICE = #{ticketprice,jdbcType=INTEGER},
+      </if>
+      <if test="company != null" >
+        COMPANY = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="operId != null" >
+        OPER_ID = #{operId,jdbcType=VARCHAR},
+      </if>
+      <if test="operTime != null" >
+        OPER_TIME = now(),
+      </if>
+    </set>
+    where LINE_ID = #{lineId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.manzz.clcw.domain.LmWtLines" >
+    update wt_lines
+    set DEPARTURE = #{departure,jdbcType=INTEGER},
+      DESTINATION = #{destination,jdbcType=INTEGER},
+      TICKETPRICE = #{ticketprice,jdbcType=INTEGER},
+      COMPANY = #{company,jdbcType=VARCHAR},
+      OPER_ID = #{operId,jdbcType=VARCHAR},
+      OPER_TIME = now()
+    where LINE_ID = #{lineId,jdbcType=VARCHAR}
+  </update>
+
+  <sql id="Where_Condition" >
+    <where >
+      <if test="departure != null" >
+        DEPARTURE = #{departure,jdbcType=INTEGER}
+      </if>
+      <if test="destination != null" >
+        AND DESTINATION = #{destination,jdbcType=INTEGER}
+      </if>
+      <!-- <if test="ticketprice != null" >
+        AND TICKETPRICE = #{ticketprice,jdbcType=INTEGER}
+      </if> -->
+      <if test="company != null and company != ''" >
+        AND COMPANY = #{company,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+
+  <sql id="Where_Fuzzy_Condition" >
+    <where >
+      <if test="departure != null" >
+        DEPARTURE = #{departure,jdbcType=INTEGER}
+      </if>
+      <if test="destination != null" >
+        AND DESTINATION = #{destination,jdbcType=INTEGER}
+      </if>
+      <if test="ticketprice != null" >
+        AND TICKETPRICE = #{ticketprice,jdbcType=INTEGER}
+      </if>
+      <if test="company != null and company != ''" >
+        AND COMPANY = #{company,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+
+  <select id="queryCount" parameterType="com.manzz.clcw.domain.LmWtLines" resultType="java.lang.Integer" >
+    select count(0) from wt_lines
+    <if test="isFuzzyQuery == false" >
+      <include refid="Where_Condition" />
+    </if>
+    <if test="isFuzzyQuery == true" >
+      <include refid="Where_Fuzzy_Condition" />
+    </if>
+  </select>
+
+  <select id="queryPagedList" parameterType="com.manzz.clcw.domain.LmWtLines" resultMap="LmWtLinesResultMap" >
+    select 
+    <include refid="LmWtLines_Column_List" />
+    from wt_lines
+    <if test="isFuzzyQuery == false" >
+      <include refid="Where_Condition" />
+    </if>
+    <if test="isFuzzyQuery == true" >
+      <include refid="Where_Fuzzy_Condition" />
+    </if>
+    <if test="sort != null" >
+      ORDER BY ${sort} ${order}
+    </if>
+    <if test="sort == null" >
+      ORDER BY OPER_TIME DESC
+    </if>
+  </select>
+  <!-- 根据条件获取带班次与班线的线路信息 -->
+  <select id="queryLinesVoByCondition"  resultType="com.manzz.clcw.module.lm.web.vo.LmWtLinesVo" >
+    SELECT
+	l.LINE_ID lineId,
+	l.DEPARTURE departure,
+	(select r.Region_RegionName from gt_region r where r.Region_Code = l.DEPARTURE) departurename,
+	l.DESTINATION destination,
+	(select r.Region_RegionName from gt_region r where r.Region_Code = l.destination) destinationname,
+	l.TICKETPRICE ticketprice,
+	COUNT(cl.CLASSLINE_ID) classlinetotal,
+	(select count(0) from wt_frequency f,wt_classline cl1 where f.CLASSLINE_ID = cl1.CLASSLINE_ID and cl1.LINE_ID = l.LINE_ID) frequencytotal,
+	(select count(0) from wt_site s where s.line_id = l.line_id) sitetotal,
+	l.COMPANY company
+FROM
+	wt_lines l
+	left join wt_classline cl on cl.LINE_ID = l.LINE_ID
+	where l.company = #{company,jdbcType=VARCHAR}
+	GROUP BY l.LINE_ID
+	ORDER BY l.OPER_TIME
+  </select>
+  <!-- 根据取当前最大的siteNumber -->
+  <select id="queryMaxSiteNumber" resultType="java.lang.Integer">
+    select IFNULL(max(sitenumber),0) from wt_site
+  </select>
+  <!-- 根据条件获取线路信息带中文地址名 -->
+  <select id="queryLinesVoByCompany"  resultType="com.manzz.clcw.module.lm.web.vo.LmWtLinesVo" >
+    SELECT
+	l.LINE_ID lineId,
+	l.DEPARTURE departure,
+	(select r.Region_RegionName from gt_region r where r.Region_Code = l.DEPARTURE) departurename,
+	l.DESTINATION destination,
+	(select r.Region_RegionName from gt_region r where r.Region_Code = l.destination) destinationname
+FROM
+	wt_lines l
+	where l.company = #{company,jdbcType=VARCHAR}
+  </select>
+</mapper>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manzz.clcw.module.sm.dao.SmFunctionDAO" >
+
+  <resultMap id="SmFunctionResultMap" type="com.manzz.clcw.domain.SmFunction" >
+    <id column="FUNCTION_ID" property="functionId" jdbcType="VARCHAR" />
+    <result column="PARENT_ID" property="parentId" jdbcType="VARCHAR" />
+    <result column="DISPLAY_NAME" property="displayName" jdbcType="VARCHAR" />
+    <result column="CONTROLLER" property="controller" jdbcType="VARCHAR" />
+    <result column="ACTION" property="action" jdbcType="VARCHAR" />
+    <result column="ORDERS" property="orders" jdbcType="INTEGER" />
+    <result column="OPER_ID" property="operId" jdbcType="VARCHAR" />
+    <result column="OPER_TIME" property="operTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="SmFunction_Column_List" >
+    f.FUNCTION_ID, f.PARENT_ID, f.DISPLAY_NAME, f.CONTROLLER, f.ACTION, f.ORDERS, f.OPER_ID, f.OPER_TIME
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="SmFunctionResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="SmFunction_Column_List" />
+    from function f
+    where f.FUNCTION_ID = #{functionId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from function
+    where FUNCTION_ID = #{functionId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.manzz.clcw.domain.SmFunction" >
+    insert into function (FUNCTION_ID, PARENT_ID, DISPLAY_NAME, CONTROLLER, 
+      ACTION, ORDERS, OPER_ID, 
+      OPER_TIME)
+    values (uuid(), #{parentId,jdbcType=VARCHAR}, #{displayName,jdbcType=VARCHAR}, #{controller,jdbcType=VARCHAR}, 
+      #{action,jdbcType=VARCHAR}, #{orders,jdbcType=INTEGER}, #{operId,jdbcType=VARCHAR}, 
+      now())
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.manzz.clcw.domain.SmFunction" >
+    update function
+    <set >
+      <if test="parentId != null" >
+        PARENT_ID = #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="displayName != null" >
+        DISPLAY_NAME = #{displayName,jdbcType=VARCHAR},
+      </if>
+      <if test="controller != null" >
+        CONTROLLER = #{controller,jdbcType=VARCHAR},
+      </if>
+      <if test="action != null" >
+        ACTION = #{action,jdbcType=VARCHAR},
+      </if>
+      <if test="orders != null" >
+        ORDERS = #{orders,jdbcType=INTEGER},
+      </if>
+      <if test="operId != null" >
+        OPER_ID = #{operId,jdbcType=VARCHAR},
+      </if>
+      <if test="operTime != null" >
+        OPER_TIME = now(),
+      </if>
+    </set>
+    where FUNCTION_ID = #{functionId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.manzz.clcw.domain.SmFunction" >
+    update function
+    set PARENT_ID = #{parentId,jdbcType=VARCHAR},
+      DISPLAY_NAME = #{displayName,jdbcType=VARCHAR},
+      CONTROLLER = #{controller,jdbcType=VARCHAR},
+      ACTION = #{action,jdbcType=VARCHAR},
+      ORDERS = #{orders,jdbcType=INTEGER},
+      OPER_ID = #{operId,jdbcType=VARCHAR},
+      OPER_TIME = now()
+    where FUNCTION_ID = #{functionId,jdbcType=VARCHAR}
+  </update>
+
+  <sql id="Where_Condition" >
+    <where >
+      <if test="parentId != null and parentId != ''" >
+       f.PARENT_ID = #{parentId,jdbcType=VARCHAR}
+      </if>
+      <if test="displayName != null and displayName != ''" >
+        AND f.DISPLAY_NAME = #{displayName,jdbcType=VARCHAR}
+      </if>
+      <if test="controller != null and controller != ''" >
+        AND f.CONTROLLER = #{controller,jdbcType=VARCHAR}
+      </if>
+      <if test="action != null and action != ''" >
+        AND f.ACTION = #{action,jdbcType=VARCHAR}
+      </if>
+      <if test="orders != null" >
+        AND f.ORDERS = #{orders,jdbcType=INTEGER}
+      </if>
+    </where>
+  </sql>
+
+  <sql id="Where_Fuzzy_Condition" >
+    <where >
+      <if test="parentId != null and parentId != ''" >
+        f.PARENT_ID = #{parentId,jdbcType=VARCHAR}
+      </if>
+      <if test="displayName != null and displayName != ''" >
+        AND f.DISPLAY_NAME = #{displayName,jdbcType=VARCHAR}
+      </if>
+      <if test="controller != null and controller != ''" >
+        AND f.CONTROLLER = #{controller,jdbcType=VARCHAR}
+      </if>
+      <if test="action != null and action != ''" >
+        AND f.ACTION = #{action,jdbcType=VARCHAR}
+      </if>
+      <if test="orders != null" >
+        AND f.ORDERS = #{orders,jdbcType=INTEGER}
+      </if>
+    </where>
+  </sql>
+
+  <select id="queryCount" parameterType="com.manzz.clcw.domain.SmFunction" resultType="java.lang.Integer" >
+    select count(0) from function f
+    <if test="isFuzzyQuery == false" >
+      <include refid="Where_Condition" />
+    </if>
+    <if test="isFuzzyQuery == true" >
+      <include refid="Where_Fuzzy_Condition" />
+    </if>
+  </select>
+
+  <select id="queryPagedList" parameterType="com.manzz.clcw.domain.SmFunction" resultMap="SmFunctionResultMap" >
+    select 
+    <include refid="SmFunction_Column_List" />
+    from function f
+    <if test="isFuzzyQuery == false" >
+      <include refid="Where_Condition" />
+    </if>
+    <if test="isFuzzyQuery == true" >
+      <include refid="Where_Fuzzy_Condition" />
+    </if>
+    <if test="sort != null" >
+      ORDER BY ${sort} ${order}
+    </if>
+    <if test="sort == null" >
+      ORDER BY f.OPER_TIME DESC
+    </if>
+  </select>
+  <!-- 根据资源属性查询用户资源 -->
+  <select id="queryUserResByType" resultMap="SmFunctionResultMap">
+	SELECT DISTINCT 
+    	<include refid="SmFunction_Column_List" />
+	FROM user u
+	LEFT JOIN user_to_role ur ON ur.user_id = u.user_id
+	LEFT JOIN role ro ON ro.role_id = ur.role_id
+	LEFT JOIN role_to_function rf ON ro.role_id = rf.role_id
+	LEFT JOIN function f ON f.function_id = rf.function_id
+	WHERE u.user_id = #{userId,jdbcType=DECIMAL}
+    ORDER BY f.orders
+  </select>
+</mapper>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manzz.clcw.module.bd.dao.BdGtRegionDAO" >
+
+  <resultMap id="BdGtRegionResultMap" type="com.manzz.clcw.domain.BdGtRegion" >
+    <result column="Region_Code" property="regionCode" jdbcType="INTEGER" />
+    <result column="Region_FirstLetter" property="regionFirstletter" jdbcType="VARCHAR" />
+    <result column="Region_RegionName" property="regionRegionname" jdbcType="VARCHAR" />
+    <result column="Region_PinYin" property="regionPinyin" jdbcType="VARCHAR" />
+    <result column="Ext_Region_Code" property="extRegionCode" jdbcType="VARCHAR" />
+    <result column="OPER_TIME" property="operTime" jdbcType="TIMESTAMP" />
+    <result column="OPER_ID" property="operId" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="BdGtRegion_Column_List" >
+    Region_Code, Region_FirstLetter, Region_RegionName, Region_PinYin, Ext_Region_Code, 
+    OPER_TIME, OPER_ID
+  </sql>
+
+  <insert id="insert" parameterType="com.manzz.clcw.domain.BdGtRegion" keyProperty="regionCode" useGeneratedKeys="true">
+    insert into gt_region ( Region_FirstLetter, Region_RegionName, 
+      Region_PinYin, Ext_Region_Code, OPER_TIME, OPER_ID
+      )
+    values ( #{regionFirstletter,jdbcType=VARCHAR}, #{regionRegionname,jdbcType=VARCHAR}, 
+      #{regionPinyin,jdbcType=VARCHAR}, #{extRegionCode,jdbcType=VARCHAR}, now(), #{operId,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <sql id="Where_Condition" >
+    <where >
+      <if test="regionCode != null" >
+        REGION_CODE = #{regionCode,jdbcType=INTEGER}
+      </if>
+      <if test="regionFirstletter != null and regionFirstletter != ''" >
+        AND REGION_FIRSTLETTER = #{regionFirstletter,jdbcType=VARCHAR}
+      </if>
+      <if test="regionRegionname != null and regionRegionname != ''" >
+        AND REGION_REGIONNAME = #{regionRegionname,jdbcType=VARCHAR}
+      </if>
+      <if test="regionPinyin != null and regionPinyin != ''" >
+        AND REGION_PINYIN = #{regionPinyin,jdbcType=VARCHAR}
+      </if>
+      <if test="extRegionCode != null and extRegionCode != ''" >
+        AND EXT_REGION_CODE = #{extRegionCode,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+
+  <sql id="Where_Fuzzy_Condition" >
+    <where >
+      <if test="regionCode != null" >
+        Region_Code = #{regionCode,jdbcType=INTEGER}
+      </if>
+      <if test="regionFirstletter != null and regionFirstletter != ''" >
+        AND Region_FirstLetter = #{regionFirstletter,jdbcType=VARCHAR}
+      </if>
+      <if test="regionRegionname != null and regionRegionname != ''" >
+        AND Region_RegionName = #{regionRegionname,jdbcType=VARCHAR}
+      </if>
+      <if test="regionPinyin != null and regionPinyin != ''" >
+        AND Region_PinYin = #{regionPinyin,jdbcType=VARCHAR}
+      </if>
+      <if test="extRegionCode != null and extRegionCode != ''" >
+        AND Ext_Region_Code = #{extRegionCode,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+
+  <select id="queryCount" parameterType="com.manzz.clcw.domain.BdGtRegion" resultType="java.lang.Integer" >
+    select count(0) from gt_region
+    <if test="isFuzzyQuery == false" >
+      <include refid="Where_Condition" />
+    </if>
+    <if test="isFuzzyQuery == true" >
+      <include refid="Where_Fuzzy_Condition" />
+    </if>
+  </select>
+
+  <select id="queryPagedList" parameterType="com.manzz.clcw.domain.BdGtRegion" resultMap="BdGtRegionResultMap" >
+    select 
+    <include refid="BdGtRegion_Column_List" />
+    from gt_region
+    <if test="isFuzzyQuery == false" >
+      <include refid="Where_Condition" />
+    </if>
+    <if test="isFuzzyQuery == true" >
+      <include refid="Where_Fuzzy_Condition" />
+    </if>
+    <if test="sort != null" >
+      ORDER BY ${sort} ${order}
+    </if>
+    <if test="sort == null" >
+      ORDER BY OPER_TIME DESC
+    </if>
+  </select>
+  <select id="queryByRegionName" parameterType="com.manzz.clcw.domain.BdGtRegion" resultMap="BdGtRegionResultMap" >
+    select 
+    <include refid="BdGtRegion_Column_List" />
+    from gt_region
+    where 1=1
+    <if test="departurename != null and departurename != ''" >
+    	and Region_RegionName = #{departurename,jdbcType=VARCHAR}
+    </if>
+    <if test="destinationname != null and destinationname != ''" >
+    	or Region_RegionName = #{destinationname,jdbcType=VARCHAR}
+    </if>
+  </select>
+</mapper>

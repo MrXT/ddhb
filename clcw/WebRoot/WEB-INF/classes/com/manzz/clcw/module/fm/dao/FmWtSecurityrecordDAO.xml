@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manzz.clcw.module.fm.dao.FmWtSecurityrecordDAO" >
+
+  <resultMap id="FmWtSecurityrecordResultMap" type="com.manzz.clcw.domain.FmWtSecurityrecord" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CHARTEREDID" property="charteredid" jdbcType="VARCHAR" />
+    <result column="LICENSEPLATE" property="licenseplate" jdbcType="VARCHAR" />
+    <result column="CHECKSTATUS" property="checkstatus" jdbcType="INTEGER" />
+    <result column="INSPECTOR" property="inspector" jdbcType="VARCHAR" />
+    <result column="CHECKDATETIME" property="checkdatetime" jdbcType="TIMESTAMP" />
+    <result column="COMPANY" property="company" jdbcType="VARCHAR" />
+    <result column="OPER_ID" property="operId" jdbcType="VARCHAR" />
+    <result column="OPER_TIME" property="operTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="FmWtSecurityrecord_Column_List" >
+    ID, CHARTEREDID, LICENSEPLATE, CHECKSTATUS, INSPECTOR, CHECKDATETIME, COMPANY, OPER_ID, 
+    OPER_TIME
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="FmWtSecurityrecordResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="FmWtSecurityrecord_Column_List" />
+    from wt_securityrecord
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from wt_securityrecord
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.manzz.clcw.domain.FmWtSecurityrecord" >
+    insert into wt_securityrecord (ID, CHARTEREDID, LICENSEPLATE, 
+      CHECKSTATUS, INSPECTOR, CHECKDATETIME, 
+      COMPANY, OPER_ID, OPER_TIME)
+    values (uuid(), #{charteredid,jdbcType=VARCHAR}, #{licenseplate,jdbcType=VARCHAR}, 
+      #{checkstatus,jdbcType=INTEGER}, #{inspector,jdbcType=VARCHAR}, #{checkdatetime,jdbcType=TIMESTAMP}, 
+      #{company,jdbcType=VARCHAR}, #{operId,jdbcType=VARCHAR}, now())
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.manzz.clcw.domain.FmWtSecurityrecord" >
+    update wt_securityrecord
+    <set >
+      <if test="charteredid != null" >
+        CHARTEREDID = #{charteredid,jdbcType=VARCHAR},
+      </if>
+      <if test="licenseplate != null" >
+        LICENSEPLATE = #{licenseplate,jdbcType=VARCHAR},
+      </if>
+      <if test="checkstatus != null" >
+        CHECKSTATUS = #{checkstatus,jdbcType=INTEGER},
+      </if>
+      <if test="inspector != null" >
+        INSPECTOR = #{inspector,jdbcType=VARCHAR},
+      </if>
+      <if test="checkdatetime != null" >
+        CHECKDATETIME = #{checkdatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="company != null" >
+        COMPANY = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="operId != null" >
+        OPER_ID = #{operId,jdbcType=VARCHAR},
+      </if>
+      <if test="operTime != null" >
+        OPER_TIME = now(),
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.manzz.clcw.domain.FmWtSecurityrecord" >
+    update wt_securityrecord
+    set CHARTEREDID = #{charteredid,jdbcType=VARCHAR},
+      LICENSEPLATE = #{licenseplate,jdbcType=VARCHAR},
+      CHECKSTATUS = #{checkstatus,jdbcType=INTEGER},
+      INSPECTOR = #{inspector,jdbcType=VARCHAR},
+      CHECKDATETIME = #{checkdatetime,jdbcType=TIMESTAMP},
+      COMPANY = #{company,jdbcType=VARCHAR},
+      OPER_ID = #{operId,jdbcType=VARCHAR},
+      OPER_TIME = now()
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateCheckStatusByLicenseplate" parameterType="java.util.Map" >
+    update wt_securityrecord
+    set CHECKSTATUS = #{checkStatus}
+    where LICENSEPLATE in
+    <foreach collection="array" item="item" open="(" close=")" separator=",">
+    	#{item}
+    </foreach>
+  </update>
+
+  <sql id="Where_Condition" >
+    <where >
+      <if test="charteredid != null" >
+        CHARTEREDID = #{charteredid,jdbcType=VARCHAR}
+      </if>
+      <if test="licenseplate != null and licenseplate != ''" >
+        AND LICENSEPLATE = #{licenseplate,jdbcType=VARCHAR}
+      </if>
+      <if test="checkstatus != null" >
+        AND CHECKSTATUS = #{checkstatus,jdbcType=INTEGER}
+      </if>
+      <if test="inspector != null and inspector != ''" >
+        AND INSPECTOR = #{inspector,jdbcType=VARCHAR}
+      </if>
+      <if test="checkdatetime != null" >
+        AND CHECKDATETIME = #{checkdatetime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="company != null and company != ''" >
+        AND COMPANY = #{company,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+
+  <sql id="Where_Fuzzy_Condition" >
+    <where >
+      <if test="charteredid != null" >
+        CHARTEREDID = #{charteredid,jdbcType=VARCHAR}
+      </if>
+      <if test="licenseplate != null and licenseplate != ''" >
+        AND LICENSEPLATE = #{licenseplate,jdbcType=VARCHAR}
+      </if>
+      <if test="checkstatus != null" >
+        AND CHECKSTATUS = #{checkstatus,jdbcType=INTEGER}
+      </if>
+      <if test="inspector != null and inspector != ''" >
+        AND INSPECTOR = #{inspector,jdbcType=VARCHAR}
+      </if>
+      <if test="checkdatetime != null" >
+        AND CHECKDATETIME = #{checkdatetime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="company != null and company != ''" >
+        AND COMPANY = #{company,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </sql>
+
+  <select id="queryCount" parameterType="com.manzz.clcw.domain.FmWtSecurityrecord" resultType="java.lang.Integer" >
+    select count(0) from wt_securityrecord
+    <if test="isFuzzyQuery == false" >
+      <include refid="Where_Condition" />
+    </if>
+    <if test="isFuzzyQuery == true" >
+      <include refid="Where_Fuzzy_Condition" />
+    </if>
+  </select>
+
+  <select id="queryPagedList" parameterType="com.manzz.clcw.domain.FmWtSecurityrecord" resultMap="FmWtSecurityrecordResultMap" >
+    select 
+    <include refid="FmWtSecurityrecord_Column_List" />
+    from wt_securityrecord
+    <if test="isFuzzyQuery == false" >
+      <include refid="Where_Condition" />
+    </if>
+    <if test="isFuzzyQuery == true" >
+      <include refid="Where_Fuzzy_Condition" />
+    </if>
+    <if test="sort != null" >
+      ORDER BY ${sort} ${order}
+    </if>
+    <if test="sort == null" >
+      ORDER BY OPER_TIME DESC
+    </if>
+  </select>
+</mapper>
