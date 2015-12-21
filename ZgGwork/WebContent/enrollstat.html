@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		  <title>驾驶员培训行管平台</title>
+		  <meta charset="utf-8">
+		  <meta name="viewport" content="width=device-width, 
+		                                     initial-scale=1.0, 
+		                                     maximum-scale=1.0, 
+		                                     user-scalable=no">
+		  <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css">  
+		  <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+		  <script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+		  <script language="javascript" type="text/javascript" src="libs/My97DatePicker/WdatePicker.js"></script>
+          <link rel="stylesheet" href="css/index.css" type="text/css" />
+	</head>
+	<body>
+		<table style="width:100%;height:4rem;">
+	    	<tr class="row" style="height:100%;background:#2BB464;">
+	    		<td class="col-xs-1 btn-primary" style="height:100%;text-align:center;background:#2BB464;" onclick="reback()"><img style="width:1rem;height:1.4rem;" src='img/ic_reback.png'/></td>
+	    		<td class="col-xs-11" style="height:100%;text-align:left;"><strong style="color:#ffffff;font-size:1.7rem;">报名统计</strong></td>
+	    	</tr>
+        </table>
+        <div class="input-group" style="margin-top:1.6rem;">
+        	 <input type="text" class="form-control" placeholder="请输入开始时间" id="start_time" onClick="WdatePicker()">
+	         <input type="text" class="form-control" placeholder="请输入结束时间" id="end_time" onClick="WdatePicker()">
+	         <span class="input-group-addon btn-success" onclick="searchStatData()">提交</span>
+        </div>
+        <div id="stat_data" style="margin-top:1.6rem;">
+        	<!--<h4 style="margin-left:1.6rem;">2015年合计99999人次</h4><h4 style="margin-left:1.6rem;">12月份合计1000人次</h4>-->
+        </div>
+        <div class="list-group" style="margin-top:1.6rem;" id="school_list">
+        </div>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+		   aria-labelledby="myModalLabel" aria-hidden="true">
+		   <div class="modal-dialog">
+		      <div class="modal-content">
+		         <div class="modal-body">
+		           努力加载中,请稍后...
+		         </div>
+		    </div>
+		   </div>
+		 </div>
+		<script type="text/javascript">
+            $(function(){
+			  //createSchoolData();
+  			  //loadBmData("/ZgGwork/studentStatistic");
+    			  initDate();
+			}); 
+			function goDetail(index){
+			  window.location.href="basedatastat.html?index="+index; 
+			}
+			/*function createSchoolData(){
+				//alert("创建驾校数据");
+				var htmlStr = "";
+				for(var i=1;i<10;i++){
+					htmlStr+='<a class="list-group-item row"><font class="col-xs-11"><h4 class="list-group-item-heading">自贡驾校'+i+'</h4><p class="list-group-item-text"><font style="margin-left:0.2rem;">报名共计：9999人次</font></p></font><span class="col-xs-1">></span></a>';
+				}
+				$("#school_list").append(htmlStr);
+			}*/
+			function loadBmData(url,sdate,edate){
+				 $('#myModal').modal('show');
+	  			  $.ajax({
+					url:url,
+					type:'post',
+					data:{'ssdq':localStorage["ssdq"],'ssxs':localStorage["ssxs"],'begin':sdate,'end':edate},
+					success:function(result){
+					$('#myModal').modal('hide');
+	  				if(result!=null){
+				        var dataObj = result;
+			        	if(dataObj!=null){
+			        		var dataList = dataObj.datas;
+			        		if(dataList==null){
+			        		  alert("没有获取到相关数据!");	
+	  			        	  return;
+	  			        	}
+			        		var dataListObj = eval("("+dataList+")");
+			        		if(dataListObj==null){
+			        		  alert("没有获取到相关数据!");	
+			        		  return;
+	  	  			        }
+	  	  			        var tempData = null;
+	  	  				    var htmlStr = "";
+			        		for(var i=0;i<dataListObj.length;i++){
+			        			tempData = dataListObj[i];
+			        			if(tempData!=null){
+			        				htmlStr+='<a class="list-group-item row" onclick=\'javascript:goDetail('+JSON.stringify(tempData)+');\'><font class="col-xs-11"><h4 class="list-group-item-heading">'+tempData.zname+'</h4><p class="list-group-item-text"><font style="margin-left:0.2rem;font-size:1.5rem;">报名人数共计：'+tempData.rs+'人</font></p></font></a>';
+			    				}
+			        		}
+			        		$("#school_list").html("");
+			    				$("#school_list").append(htmlStr);
+				       }
+			         }else{
+			        	 alert("未能获取到相关数据!");
+				         }
+				},error:function (XMLHttpRequest, textStatus, errorThrown) {
+					$('#myModal').modal('hide');
+					alert("未能获取到相关数据!");
+					}
+				});
+	  		}
+			function searchStatData(){
+				//根据时间查询统计数据
+				//这里为模拟数据
+				var stime = $("#start_time").val();
+				var etime = $("#end_time").val();
+				//alert(content);
+				//$("#result").html(content);
+				if(stime==null || stime=="" || stime.length<1){
+					alert("开始时间不能为空!");
+					return;
+				}
+				if(etime==null || etime=="" || etime.length<1){
+					alert("结束时间不能为空!");
+					return;
+				}
+				//var htmlStr = "";
+				//htmlStr += '<h4 style="margin-left:1.6rem;">2015年合计99999人次</h4><h4 style="margin-left:1.6rem;">12月份合计1000人次</h4>';
+				//$("#stat_data").append(htmlStr);
+				loadBmData("/ZgGwork/studentStatistic",stime,etime);
+			}
+
+			function initDate(){
+				var myDate = new Date();
+				var beginDate = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+"-1";
+				//var currentDate = myDate.toLocaleDateString();
+				var currentDate = myDate.getFullYear()+"-"+(myDate.getMonth()+1)+"-"+myDate.getDate();
+				//loadCoachesData("/ZgGwork/AbnormalBookServlet",beginDate,currentDate);
+				$("#start_time").val(beginDate);
+				$("#end_time").val(currentDate);
+				loadBmData("/ZgGwork/studentStatistic",beginDate,currentDate);
+			}
+			function goDetail(data){
+				window.location.href="enrollstatdetail.html?data="+JSON.stringify(data); 
+			}
+			
+			function reback(){
+			  window.history.back(-1);
+			}
+		</script>
+		
+	</body>
+</html>

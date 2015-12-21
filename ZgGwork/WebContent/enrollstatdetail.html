@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		  <title>驾驶员培训行管平台</title>
+		  <meta charset="utf-8">
+		  <meta name="viewport" content="width=device-width, 
+		                                     initial-scale=1.0, 
+		                                     maximum-scale=1.0, 
+		                                     user-scalable=no">
+		  <link rel="stylesheet" href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.min.css">  
+		  <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+		  <script src="http://apps.bdimg.com/libs/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+		  <link rel="stylesheet" href="css/foot.css" type="text/css" />
+	</head>
+	<body>
+		
+	<table style="width:100%;height:4rem;">
+    	<tr class="row" style="height:100%;width:100%;background:#2BB464;">
+    		<td class="col-xs-1 btn-primary" style="height:100%;text-align:center;background:#2BB464;" onclick="reback()"><img style="width:1rem;height:1.4rem;" src='img/ic_reback.png'/></td>
+    		<td class="col-xs-11" style="height:100%;text-align:left;"><strong id="title_txt" style="color:#ffffff;font-size:1.7rem;">驾校名称</strong></td>
+    	</tr>
+    </table>
+    <div class="input-group" style="margin-top:1.6rem;">
+        	 <input type="text" class="form-control" placeholder="请输入学员名称" id="input_content">
+	         <span class="input-group-addon btn-success" onclick="onclickSearch()">点击查询</span>
+    </div>
+    <table border="0" id="enrolls_data_list" style="margin-top:1.6rem;">
+	</table>
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+		   aria-labelledby="myModalLabel" aria-hidden="true">
+		   <div class="modal-dialog">
+		      <div class="modal-content">
+		         <div class="modal-body">
+		           努力加载中,请稍后...
+		         </div>
+		    </div>
+		   </div>
+		 </div>
+    <script type="text/javascript">
+            $(function(){
+            	//loadStudentesData("/ZgGwork/order");
+            	GetArgsFromHref(location.href,"data");
+			}); 
+			
+			function loadStudentesData(url,scode){
+				  $('#myModal').modal('show');
+	  			  $.ajax({
+					url:url,
+					type:'post',
+					data:{'pageindex':1,'pagesize':50,'drivecode':scode},
+					success:function(result){
+					$('#myModal').modal('hide');
+	  				if(result!=null){
+  				        var dataObj = result;
+  			        	if(dataObj!=null){
+  			        		var dataList = dataObj.datas;
+  			        		if(dataList==null){
+  	  			        	  alert("数据解析异常!");	
+  	  			        	  return;
+  	  			        	}
+  			        		var dataListObj = eval("("+dataList+")");
+  			        		if(dataListObj==null){
+  			        		  alert("数据解析异常!");	
+  			        		  return;
+  	  	  			        }
+  	  	  			        var tempData = null;
+  	  	  				    var htmlHeader = '<tr class="row" style="height:4rem;"><td class="col-xs-3" style="font-size:1.5rem;">姓名</td><td class="col-xs-2" style="font-size:1.5rem;">性别</td><td class="col-xs-3" style="font-size:1.5rem;">所学车型</td><td class="col-xs-4" style="font-size:1.5rem;">报名时间</td></tr>';
+  	  	  				    var htmlStr = "";
+  			        		for(var i=0;i<dataListObj.length;i++){
+  			        			tempData = dataListObj[i];
+  			        			if(tempData!=null){
+  			        				htmlStr+='<tr class="row" style="height:4rem;"><td class="col-xs-3" style="font-size:1.5rem;">'+tempData.xm+'</td><td class="col-xs-2" style="font-size:1.5rem;">'+tempData.xb+'</td><td class="col-xs-3" style="font-size:1.5rem;">'+tempData.sqcx+'</td><td class="col-xs-4" style="font-size:1.5rem;">'+tempData.bmrq+'</td></tr>';
+		                        }
+  			        	    }
+  			        	    $("#enrolls_data_list").append(htmlHeader+htmlStr).show();
+			        	}
+  			         }
+				},error:function (XMLHttpRequest, textStatus, errorThrown) {$('#myModal').modal('hide');}
+				});
+	  		}
+			function loadStudentData(url,scode,name){
+				  $('#myModal').modal('show');
+	  			  $.ajax({
+					url:url,
+					type:'post',
+					data:{'pageindex':1,'pagesize':50,'drivecode':scode,'mc':name},
+					success:function(result){
+					$('#myModal').modal('hide');
+	  				if(result!=null){
+				        var dataObj = result;
+			        	if(dataObj!=null){
+			        		var dataList = dataObj.datas;
+			        		if(dataList==null){
+	  			        	  alert("数据解析异常!");	
+	  			        	  return;
+	  			        	}
+			        		var dataListObj = eval("("+dataList+")");
+			        		if(dataListObj==null){
+			        		  alert("数据解析异常!");	
+			        		  return;
+	  	  			        }
+	  	  			        var tempData = null;
+	  	  				    var htmlHeader = '<tr class="row" style="height:4rem;"><td class="col-xs-3" style="font-size:1.5rem;">姓名</td><td class="col-xs-2" style="font-size:1.5rem;">性别</td><td class="col-xs-3" style="font-size:1.5rem;">所学车型</td><td class="col-xs-4" style="font-size:1.5rem;">报名时间</td></tr>';
+	  	  				    var htmlStr = "";
+			        		for(var i=0;i<dataListObj.length;i++){
+			        			tempData = dataListObj[i];
+			        			if(tempData!=null){
+			        				htmlStr+='<tr class="row" style="height:4rem;"><td class="col-xs-3" style="font-size:1.5rem;">'+tempData.xm+'</td><td class="col-xs-2" style="font-size:1.5rem;">'+tempData.xb+'</td><td class="col-xs-3" style="font-size:1.5rem;">'+tempData.sqcx+'</td><td class="col-xs-4" style="font-size:1.5rem;">'+tempData.bmrq+'</td></tr>';
+		                        }
+			        	    }
+			        		$("#enrolls_data_list").html("");
+			        		$("#enrolls_data_list").append(htmlHeader+htmlStr).show();
+			        	}
+			         }
+				},error:function (XMLHttpRequest, textStatus, errorThrown) {$('#myModal').modal('hide');}
+				});
+	  		}
+	  		function onclickSearch(){
+	  			var content = $("#input_content").val();
+		  			if(content==null || content=="" || content.length<1){
+						alert("输入内容不能为空!");
+						return;
+					}
+		  			loadStudentData("/ZgGwork/stuInfoBySch",schoolId,content);
+		  		}
+	  		var schoolId = null;
+			function GetArgsFromHref(sHref, sArgName) {
+			    var args = sHref.split("?");
+			    var retval = "";
+			    if (args[0] == sHref) /*参数为空*/ {
+			        return retval; /*无需做任何处理*/
+			    }
+			    var str = args[1];
+			    args = str.split("&");
+			    for (var i = 0; i < args.length; i++) {
+			        str = args[i];
+			        var arg = str.split("=");
+			        if (arg.length <= 1) continue;
+			        if (arg[0] == sArgName) retval = arg[1];
+			    }
+			    var data = decodeURI(retval);
+			    data = eval("("+data+")");
+			    schoolId = data.drivecode;
+			    $("#title_txt").html(data.zname);
+			    loadStudentesData("/ZgGwork/stuInfoBySch",schoolId);
+			}
+			
+			function reback()
+			{
+			  window.history.back(-1);
+			}
+		</script>
+	</body>
+</html>
