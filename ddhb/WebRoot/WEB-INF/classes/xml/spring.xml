@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+				http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd 
+				http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.0.xsd 
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+				http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+				http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd"
+														   
+	default-lazy-init="true" default-autowire="byName">
+
+	<description>Spring Config</description>
+
+	<context:property-placeholder location="classpath*:properties/*.properties" />
+
+	<context:annotation-config />
+
+	<context:component-scan base-package="com.cht">
+		<context:include-filter type="regex" expression=".*.service.*" />
+	</context:component-scan>
+
+	<!-- 数据源配置,支持JTA -->
+	<bean id="ddhbDataSource" class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init" destroy-method="close">
+		<!-- uniqueResourceName保证唯一性就行 -->
+		<property name="uniqueResourceName" value="mysql/ddhb" />
+		<property name="xaDataSourceClassName" value="${jdbc.xa.mysql}" />
+		<property name="xaProperties">
+			<props>
+				<prop key="URL">${jdbc.url}</prop>
+				<prop key="user">${jdbc.username}</prop>
+				<prop key="password">${jdbc.password}</prop>
+			</props>
+		</property>
+		<property name="minPoolSize"><value>${jdbc.atomikos.minPoolSize}</value></property>
+		<property name="maxPoolSize"><value>${jdbc.atomikos.maxPoolSize}</value></property>
+		<property name="maxLifetime"><value>${jdbc.atomikos.maxLifetime}</value></property>
+	</bean>
+	
+	<!-- <bean id="gpsDataSource" class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init" destroy-method="close">
+		uniqueResourceName保证唯一性就行
+		<property name="uniqueResourceName" value="sqlserver/gps"/> 
+		<property name="xaDataSourceClassName" value="${jdbc.xa.sqlserver}" />
+        <property name="xaProperties">  
+            <props>  
+                <prop key="URL">${jdbc.gps.url}</prop>  
+                <prop key="user">${jdbc.gps.username}</prop>  
+                <prop key="password">${jdbc.gps.password}</prop>  
+            </props>  
+        </property>  
+		<property name="minPoolSize"><value>${jdbc.atomikos.minPoolSize}</value></property>
+		<property name="maxPoolSize"><value>${jdbc.atomikos.maxPoolSize}</value></property>
+		<property name="maxLifetime"><value>${jdbc.atomikos.maxLifetime}</value></property>
+	</bean> -->
+
+	<!-- JTA事务管理器 -->
+	<bean id="atomikosTransactionManager" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init" destroy-method="close">
+		<property name="forceShutdown" value="true" />
+	</bean>
+
+	<bean id="atomikosUserTransaction" class="com.atomikos.icatch.jta.UserTransactionImp">
+		<!-- 事务超时时间设置，单位：秒 -->
+		<property name="transactionTimeout" value="300" />
+	</bean>
+
+	<bean id="jtaTransactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
+		<property name="transactionManager" ref="atomikosTransactionManager" />
+		<property name="userTransaction" ref="atomikosUserTransaction" />
+		<!-- 	
+		<property name="allowCustomIsolationLevels" value="true"/> 
+		-->
+	</bean>
+
+	<aop:config proxy-target-class="true">
+		<aop:advisor advice-ref="txAdvice" pointcut="execution(* com.cht..service..*.*(..))" />
+		<aop:advisor advice-ref="serviceAdvice"	pointcut="execution(* com.cht..service..*.*(..))" />
+	</aop:config>
+
+	<tx:advice id="txAdvice" transaction-manager="jtaTransactionManager">
+		<tx:attributes>
+			<tx:method name="do*" read-only="false" rollback-for="java.lang.Exception" />
+			<tx:method name="query*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+	<tx:annotation-driven transaction-manager="jtaTransactionManager" proxy-target-class="true" />
+
+	<bean id="serviceAdvice" class="com.cht.framework.core.spring.interceptor.ServiceInterceptor">
+		<property name="slowExecutionTime" value="3000" />
+		<property name="logExceptionDetail" value="true" />
+	</bean>
+
+	<!-- mybatis Config -->
+	<bean id="ddhbSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="ddhbDataSource" />
+		<property name="configLocation" value="classpath:xml/mybatis.xml" />
+		<property name="typeAliasesPackage" value="com.cht.ddhb.domain" />
+		<!-- <property name="mapperLocations" value="classpath:/com/cht/ddhb/dao/*.xml"/> -->
+	</bean>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"	lazy-init="false">
+		<property name="basePackage" value="com.cht.ddhb.*.*.dao,com.cht.ddhb.*.*.*.dao" />
+		<property name="sqlSessionFactoryBeanName" value="ddhbSqlSessionFactory" />
+	</bean>
+
+	<!-- <bean id="gpsSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="gpsDataSource" />
+		<property name="configLocation" value="classpath:xml/mybatis.xml" />
+		<property name="typeAliasesPackage" value="com.cht.gps.domain" />
+	</bean>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"	lazy-init="false">
+		<property name="basePackage" value="com.cht.gps.*.*.dao,com.cht.gps.*.*.*.dao" />
+		<property name="sqlSessionFactoryBeanName" value="gpsSqlSessionFactory" />
+	</bean> -->
+</beans>

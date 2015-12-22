@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cht.ddhb.module.cm.dao.CmOrderAuditDAO" >
+
+  <resultMap id="CmOrderAuditResultMap" type="com.cht.ddhb.domain.CmOrderAudit" >
+    <id column="order_audit_id" property="orderAuditId" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="projectorder_id" property="projectorderId" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="DATE" />
+    <result column="oper_id" property="operId" jdbcType="VARCHAR" />
+    <result column="oper_time" property="operTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="CmOrderAudit_Column_List" >
+    order_audit_id, content, projectorder_id, user_id, createtime, oper_id, oper_time
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="CmOrderAuditResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="CmOrderAudit_Column_List" />
+    from t_cm_order_audit
+    where order_audit_id = #{orderAuditId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_cm_order_audit
+    where order_audit_id = #{orderAuditId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.cht.ddhb.domain.CmOrderAudit" >
+    insert into t_cm_order_audit (order_audit_id, content, projectorder_id, 
+      user_id, createtime, oper_id, 
+      oper_time)
+    values (uuid(), #{content,jdbcType=VARCHAR}, #{projectorderId,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=VARCHAR}, #{createtime,jdbcType=DATE}, #{operId,jdbcType=VARCHAR}, 
+      now())
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.cht.ddhb.domain.CmOrderAudit" >
+    update t_cm_order_audit
+    <set >
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="projectorderId != null" >
+        PROJECTORDER_ID = #{projectorderId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=DATE},
+      </if>
+      <if test="operId != null" >
+        OPER_ID = #{operId,jdbcType=VARCHAR},
+      </if>
+      <if test="operTime != null" >
+        OPER_TIME = now(),
+      </if>
+    </set>
+    where order_audit_id = #{orderAuditId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.cht.ddhb.domain.CmOrderAudit" >
+    update t_cm_order_audit
+    set CONTENT = #{content,jdbcType=VARCHAR},
+      PROJECTORDER_ID = #{projectorderId,jdbcType=VARCHAR},
+      USER_ID = #{userId,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=DATE},
+      OPER_ID = #{operId,jdbcType=VARCHAR},
+      OPER_TIME = now()
+    where order_audit_id = #{orderAuditId,jdbcType=VARCHAR}
+  </update>
+
+  <sql id="Where_Condition" >
+    <where >
+      <if test="content != null and content != ''" >
+        CONTENT = #{content,jdbcType=VARCHAR}
+      </if>
+      <if test="projectorderId != null and projectorderId != ''" >
+        AND PROJECTORDER_ID = #{projectorderId,jdbcType=VARCHAR}
+      </if>
+      <if test="userId != null and userId != ''" >
+        AND USER_ID = #{userId,jdbcType=VARCHAR}
+      </if>
+      <if test="createtime != null" >
+        AND CREATETIME = #{createtime,jdbcType=DATE}
+      </if>
+    </where>
+  </sql>
+
+  <sql id="Where_Fuzzy_Condition" >
+    <where >
+      <if test="content != null and content != ''" >
+        content = #{content,jdbcType=VARCHAR}
+      </if>
+      <if test="projectorderId != null and projectorderId != ''" >
+        AND projectorder_id = #{projectorderId,jdbcType=VARCHAR}
+      </if>
+      <if test="userId != null and userId != ''" >
+        AND user_id = #{userId,jdbcType=VARCHAR}
+      </if>
+      <if test="createtime != null" >
+        AND createtime = #{createtime,jdbcType=DATE}
+      </if>
+      <if test="operId != null and operId != ''" >
+        AND oper_id = #{operId,jdbcType=VARCHAR}
+      </if>
+      <if test="operTime != null" >
+        AND oper_time = #{operTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </sql>
+
+  <select id="queryCount" parameterType="com.cht.ddhb.domain.CmOrderAudit" resultType="java.lang.Integer" >
+    select count(0) from t_cm_order_audit
+    <if test="isFuzzyQuery == false" >
+      <include refid="Where_Condition" />
+    </if>
+    <if test="isFuzzyQuery == true" >
+      <include refid="Where_Fuzzy_Condition" />
+    </if>
+  </select>
+
+  <select id="queryPagedList" parameterType="com.cht.ddhb.domain.CmOrderAudit" resultMap="CmOrderAuditResultMap" >
+    select 
+    <include refid="CmOrderAudit_Column_List" />
+    from t_cm_order_audit
+    <if test="isFuzzyQuery == false" >
+      <include refid="Where_Condition" />
+    </if>
+    <if test="isFuzzyQuery == true" >
+      <include refid="Where_Fuzzy_Condition" />
+    </if>
+    <if test="sort != null" >
+      ORDER BY ${sort} ${order}
+    </if>
+    <if test="sort == null" >
+      ORDER BY OPER_TIME DESC
+    </if>
+  </select>
+</mapper>

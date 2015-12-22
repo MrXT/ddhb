@@ -1,0 +1,28 @@
+﻿修改者:吴界鲲
+版本:20150811
+
+一、mybatis-ehcache-1.0.0-modify.jar
+修改ehcache.xml读取的默认路径
+
+二、mybatis-generator-core-1.3.2.jar 源码修改
+1、修改生成文件的注释内容
+2、修改生成文件的后缀名(将生成的Mapper改成DAO)
+3、<table>生成规则变更:insert时不进行选择性插入，所有示例示例代码不允许生成
+4、1.3.0版生成xml时命名以“_SqlMap.xml”结尾；1.3.1版生成xml时命名以“DAO.xml”结尾；
+5、xml中单主键,oper_time、validity在插入时自动设置为不设置主键,now(),${VALID}
+6、添加Where_Condition、Where_Fuzzy_Condition、queryCount、queryPagedList的自动生成，根据isFuzzyQuery判断是否进行模糊查询
+7、xml中原以Base开头的变量修改为实体对象名，出oper_time属性外，其他日期属性生成的类型由TIMESTAMP修改为DATE
+8、生成实体对象的单主键属性追加@IdKey注解，日期类型属性的get方法追加注解@JsonSerialize(using = CustomDateSerializer.class)
+9、domain class 添加类注释，属性注释， XML文件中各节点之间添加空行分隔;
+10、自动生成Domain的SerialVersionUID
+
+三、mybatis.xml
+在mybatis配置文件中的plugins里添加两个自定义拦截器如下，实现需要mybatis物理分页功能，目前仅支持oracle和mysql两种数据库
+<plugins>
+	<plugin interceptor="com.ceair.framework.core.jdbc.interceptor.MySQLStatementHandlerInterceptor"/>
+	<plugin interceptor="com.ceair.framework.core.jdbc.interceptor.ResultSetHandlerInterceptor"/>
+</plugins>
+
+生成的xml有两处需要修改：
+1、Where_Fuzzy_Condition哪些字段需要做模糊查询  
+2、queryPagedList排序字段${@needModify}需根据实际业务进行更改

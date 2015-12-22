@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cht.ddhb.module.cm.dao.CmShopDAO" >
+
+  <resultMap id="CmShopResultMap" type="com.cht.ddhb.domain.CmShop" >
+    <id column="shop_id" property="shopId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="area_id" property="areaId" jdbcType="VARCHAR" />
+    <result column="validity" property="validity" jdbcType="BIT" />
+    <result column="oper_id" property="operId" jdbcType="VARCHAR" />
+    <result column="oper_time" property="operTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="CmShop_Column_List" >
+    shop_id, name, address, user_id, area_id, validity, oper_id, oper_time
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="CmShopResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="CmShop_Column_List" />
+    from t_cm_shop
+    where shop_id = #{shopId,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_cm_shop
+    where shop_id = #{shopId,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.cht.ddhb.domain.CmShop" >
+    insert into t_cm_shop (shop_id, name, address, user_id, 
+      area_id, validity, oper_id, oper_time)
+    values (uuid(), #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{areaId,jdbcType=VARCHAR}, ${VALID}, #{operId,jdbcType=VARCHAR}, now())
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.cht.ddhb.domain.CmShop" >
+    update t_cm_shop
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null" >
+        AREA_ID = #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="validity != null" >
+        VALIDITY = #{validity,jdbcType=BIT},
+      </if>
+      <if test="operId != null" >
+        OPER_ID = #{operId,jdbcType=VARCHAR},
+      </if>
+      <if test="operTime != null" >
+        OPER_TIME = now(),
+      </if>
+    </set>
+    where shop_id = #{shopId,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.cht.ddhb.domain.CmShop" >
+    update t_cm_shop
+    set NAME = #{name,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      USER_ID = #{userId,jdbcType=VARCHAR},
+      AREA_ID = #{areaId,jdbcType=VARCHAR},
+      VALIDITY = #{validity,jdbcType=BIT},
+      OPER_ID = #{operId,jdbcType=VARCHAR},
+      OPER_TIME = now()
+    where shop_id = #{shopId,jdbcType=VARCHAR}
+  </update>
+
+  <sql id="Where_Condition" >
+    <where >
+      <if test="name != null and name != ''" >
+        NAME = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="address != null and address != ''" >
+        AND ADDRESS = #{address,jdbcType=VARCHAR}
+      </if>
+      <if test="userId != null and userId != ''" >
+        AND USER_ID = #{userId,jdbcType=VARCHAR}
+      </if>
+      <if test="areaId != null and areaId != ''" >
+        AND AREA_ID = #{areaId,jdbcType=VARCHAR}
+      </if>
+      <if test="validity != null" >
+        AND VALIDITY = #{validity,jdbcType=BIT}
+      </if>
+    </where>
+  </sql>
+
+  <sql id="Where_Fuzzy_Condition" >
+    <where >
+      <if test="name != null and name != ''" >
+        name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="address != null and address != ''" >
+        AND address = #{address,jdbcType=VARCHAR}
+      </if>
+      <if test="userId != null and userId != ''" >
+        AND user_id = #{userId,jdbcType=VARCHAR}
+      </if>
+      <if test="areaId != null and areaId != ''" >
+        AND area_id = #{areaId,jdbcType=VARCHAR}
+      </if>
+      <if test="validity != null" >
+        AND validity = #{validity,jdbcType=BIT}
+      </if>
+      <if test="operId != null and operId != ''" >
+        AND oper_id = #{operId,jdbcType=VARCHAR}
+      </if>
+      <if test="operTime != null" >
+        AND oper_time = #{operTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </sql>
+
+  <select id="queryCount" parameterType="com.cht.ddhb.domain.CmShop" resultType="java.lang.Integer" >
+    select count(0) from t_cm_shop
+    <if test="isFuzzyQuery == false" >
+      <include refid="Where_Condition" />
+    </if>
+    <if test="isFuzzyQuery == true" >
+      <include refid="Where_Fuzzy_Condition" />
+    </if>
+  </select>
+
+  <select id="queryPagedList" parameterType="com.cht.ddhb.domain.CmShop" resultMap="CmShopResultMap" >
+    select 
+    <include refid="CmShop_Column_List" />
+    from t_cm_shop
+    <if test="isFuzzyQuery == false" >
+      <include refid="Where_Condition" />
+    </if>
+    <if test="isFuzzyQuery == true" >
+      <include refid="Where_Fuzzy_Condition" />
+    </if>
+    <if test="sort != null" >
+      ORDER BY ${sort} ${order}
+    </if>
+    <if test="sort == null" >
+      ORDER BY OPER_TIME DESC
+    </if>
+  </select>
+</mapper>
