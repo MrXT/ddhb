@@ -185,4 +185,9 @@
       ORDER BY OPER_TIME DESC
     </if>
   </select>
+  <select id="queryUserByUsername"  resultMap="SmUserResultMap" >
+    select 
+    <include refid="SmUser_Column_List" />
+    from t_sm_user where username = #{username,jdbcType=VARCHAR}
+  </select>
 </mapper>

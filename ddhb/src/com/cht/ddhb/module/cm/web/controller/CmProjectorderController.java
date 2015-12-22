@@ -41,8 +41,8 @@ public class CmProjectorderController {
      */
 	@RequestMapping(value = "/pageList", method = RequestMethod.POST)
 	@ResponseBody
-	public Object queryCmProjectorderList(@RequestBody CmProjectorder condition, int page, int rows) {
-		return cmProjectorderService.queryPaginationVO(condition, page, rows);
+	public Object queryCmProjectorderPageList(@RequestBody CmProjectorder condition) {
+		return cmProjectorderService.queryPaginationVO(condition);
 	}
 
 	@RequestMapping(value="/save",method=RequestMethod.POST)

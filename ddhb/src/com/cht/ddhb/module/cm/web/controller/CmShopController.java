@@ -41,8 +41,8 @@ public class CmShopController {
      */
 	@RequestMapping(value = "/pageList", method = RequestMethod.POST)
 	@ResponseBody
-	public Object queryCmShopList(@RequestBody CmShop condition, int page, int rows) {
-		return cmShopService.queryPaginationVO(condition, page, rows);
+	public Object queryCmShopPageList(@RequestBody CmShop condition) {
+		return cmShopService.queryPaginationVO(condition);
 	}
 
 	@RequestMapping(value="/save",method=RequestMethod.POST)

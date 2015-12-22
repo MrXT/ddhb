@@ -41,8 +41,8 @@ public class SmUserController {
      */
 	@RequestMapping(value = "/pageList", method = RequestMethod.POST)
 	@ResponseBody
-	public Object querySmUserList(@RequestBody SmUser condition, int page, int rows) {
-		return smUserService.queryPaginationVO(condition, page, rows);
+	public Object querySmUserPageList(@RequestBody SmUser condition) {
+		return smUserService.queryPaginationVO(condition);
 	}
 
 	@RequestMapping(value="/save",method=RequestMethod.POST)

@@ -41,8 +41,8 @@ public class SmRoleController {
      */
 	@RequestMapping(value = "/pageList", method = RequestMethod.POST)
 	@ResponseBody
-	public Object querySmRoleList(@RequestBody SmRole condition, int page, int rows) {
-		return smRoleService.queryPaginationVO(condition, page, rows);
+	public Object querySmRolePageList(@RequestBody SmRole condition) {
+		return smRoleService.queryPaginationVO(condition);
 	}
 
 	@RequestMapping(value="/save",method=RequestMethod.POST)

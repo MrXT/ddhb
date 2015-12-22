@@ -41,8 +41,8 @@ public class SmRegionController {
      */
 	@RequestMapping(value = "/pageList", method = RequestMethod.POST)
 	@ResponseBody
-	public Object querySmRegionList(@RequestBody SmRegion condition, int page, int rows) {
-		return smRegionService.queryPaginationVO(condition, page, rows);
+	public Object querySmRegionPageList(@RequestBody SmRegion condition) {
+		return smRegionService.queryPaginationVO(condition);
 	}
 
 	@RequestMapping(value="/save",method=RequestMethod.POST)

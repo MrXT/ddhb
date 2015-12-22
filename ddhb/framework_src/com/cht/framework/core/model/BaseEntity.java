@@ -28,6 +28,10 @@ public class BaseEntity implements Serializable {
     protected String order;// 排序方式：asc、desc
     @JsonIgnore
     protected Boolean isFuzzyQuery = false;// 是否进行模糊查询
+    @JsonIgnore
+    protected int page;
+    @JsonIgnore
+    protected int rows;
     
     public void setId(String id){
         ReflectUtils.setFieldByAnnatation(this,id,IdKey.class);
@@ -113,7 +117,23 @@ public class BaseEntity implements Serializable {
         this.isFuzzyQuery = isFuzzyQuery;
     }
 
-    public void setDefaultValue() {
+    public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+
+	public int getRows() {
+		return rows;
+	}
+
+	public void setRows(int rows) {
+		this.rows = rows;
+	}
+
+	public void setDefaultValue() {
         operTime = new Date();
     }
 }

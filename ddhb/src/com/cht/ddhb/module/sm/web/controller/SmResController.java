@@ -11,7 +11,7 @@ import com.cht.ddhb.domain.SmRes;
 import com.cht.ddhb.module.sm.service.SmResService;
 
 /**
- * 功能：TODO
+ * 功能：权限管理
  * @author XT
  * @version:2015-12-22
  */
@@ -41,8 +41,8 @@ public class SmResController {
      */
 	@RequestMapping(value = "/pageList", method = RequestMethod.POST)
 	@ResponseBody
-	public Object querySmResList(@RequestBody SmRes condition, int page, int rows) {
-		return smResService.queryPaginationVO(condition, page, rows);
+	public Object querySmResPageList(@RequestBody SmRes condition) {
+		return smResService.queryPaginationVO(condition);
 	}
 
 	@RequestMapping(value="/save",method=RequestMethod.POST)

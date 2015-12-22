@@ -41,8 +41,8 @@ public class CmOrderAuditController {
      */
 	@RequestMapping(value = "/pageList", method = RequestMethod.POST)
 	@ResponseBody
-	public Object queryCmOrderAuditList(@RequestBody CmOrderAudit condition, int page, int rows) {
-		return cmOrderAuditService.queryPaginationVO(condition, page, rows);
+	public Object queryCmOrderAuditPageList(@RequestBody CmOrderAudit condition) {
+		return cmOrderAuditService.queryPaginationVO(condition);
 	}
 
 	@RequestMapping(value="/save",method=RequestMethod.POST)

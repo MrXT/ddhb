@@ -28,11 +28,11 @@
 				<script>
 				function sub(){
 				$.ajax({
-					url:"/ddhb/login",
+					url:"/ddhb/login/valid",
 					type:"POST",
 					contentType:"application/json;charset=utf-8",
 					dataType:"json",
-		data:"{\"username\":\"username\",\"password\":\"password\"}",
+		data:"{\"username\":\"admin\",\"password\":\"c4ca4238a0b923820dcc509a6f75849b\",\"vcode\":\""+$("#vcode").val()+"\"}",
 		success:function(result){
 			alert(result)
 		}
@@ -44,9 +44,10 @@
 
         <div class="page-container">
             <h1>滴滴环保后台系统</h1>
-            <form action="login" method="post">
+            <form id="loginForm">
                 <input type="text" name="username" class="username" placeholder="用户名">
                 <input type="password" name="password" class="password" placeholder="密码">
+                <input type="text" id="vcode" name="vcode" /><img src="/ddhb/vcode">
                 <button type="button" onclick="sub();" id="loginBtn">登录</button>
                 <div class="error"><span>+</span></div>
             </form>

@@ -1,4 +1,4 @@
-package com.cht.ddhb.module.sm.web.controller;
+package com.cht.ddhb.module.cm.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +12,6 @@ import com.cht.ddhb.domain.CmArea;
 import com.cht.ddhb.module.cm.service.CmAreaService;
 
 /**
- * 功能：TODO
  * @author XT
  * @version:2015-12-22
  */
@@ -42,8 +41,8 @@ public class CmAreaController {
      */
 	@RequestMapping(value = "/pageList", method = RequestMethod.POST)
 	@ResponseBody
-	public Object queryCmAreaList(@RequestBody CmArea condition, int page, int rows) {
-		return cmAreaService.queryPaginationVO(condition, page, rows);
+	public Object queryCmAreaPageList(@RequestBody CmArea condition) {
+		return cmAreaService.queryPaginationVO(condition);
 	}
 
 	@RequestMapping(value="/save",method=RequestMethod.POST)

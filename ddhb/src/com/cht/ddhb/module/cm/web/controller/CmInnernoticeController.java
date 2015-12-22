@@ -41,8 +41,8 @@ public class CmInnernoticeController {
      */
 	@RequestMapping(value = "/pageList", method = RequestMethod.POST)
 	@ResponseBody
-	public Object queryCmInnernoticeList(@RequestBody CmInnernotice condition, int page, int rows) {
-		return cmInnernoticeService.queryPaginationVO(condition, page, rows);
+	public Object queryCmInnernoticePageList(@RequestBody CmInnernotice condition) {
+		return cmInnernoticeService.queryPaginationVO(condition);
 	}
 
 	@RequestMapping(value="/save",method=RequestMethod.POST)

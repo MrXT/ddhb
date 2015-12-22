@@ -19,7 +19,7 @@ import com.cht.framework.core.util.LogUtil;
 /**
  * Controller层AOP<br>
  * 主要是对返回结果直接写入HTTP response body中（@ResponseBody注解）的Controller层方法进行封装处理
- * @author WJK
+ * @author XT
  * @version 2014-09
  */
 public class ControllerInterceptor implements MethodInterceptor {

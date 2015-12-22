@@ -26,5 +26,5 @@ public interface PaginationService<T> extends BaseService<T>{
      * @param pageSize  指定一页显示的记录数
      * @return
      */
-    PaginationVO <T> queryPaginationVO(T condition, int pageIndex, int pageSize);
+    PaginationVO <T> queryPaginationVO(T condition);
 }

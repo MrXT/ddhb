@@ -12,7 +12,7 @@
   </resultMap>
 
   <sql id="SmRes_Column_List" >
-    res_id, name, describle, validity, oper_id, oper_time
+    res.res_id, res.name, res.describle, res.validity, res.oper_id, res.oper_time
   </sql>
 
   <select id="selectByPrimaryKey" resultMap="SmResResultMap" parameterType="java.lang.String" >
@@ -113,7 +113,7 @@
   <select id="queryPagedList" parameterType="com.cht.ddhb.domain.SmRes" resultMap="SmResResultMap" >
     select 
     <include refid="SmRes_Column_List" />
-    from t_sm_res
+    from t_sm_res res
     <if test="isFuzzyQuery == false" >
       <include refid="Where_Condition" />
     </if>
@@ -126,5 +126,12 @@
     <if test="sort == null" >
       ORDER BY OPER_TIME DESC
     </if>
+  </select>
+  <select id="queryResByRoleId" resultMap="SmResResultMap" >
+    select 
+    <include refid="SmRes_Column_List" />
+    from t_sm_res res,t_sm_role_res rr
+    where res.res_id = rr.res_id
+    and rr.role_id = #{roleId,jdbcType=VARCHAR}
   </select>
 </mapper>

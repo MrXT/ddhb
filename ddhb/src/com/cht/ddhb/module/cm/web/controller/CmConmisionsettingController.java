@@ -41,8 +41,8 @@ public class CmConmisionsettingController {
      */
 	@RequestMapping(value = "/pageList", method = RequestMethod.POST)
 	@ResponseBody
-	public Object queryCmConmisionsettingList(@RequestBody CmConmisionsetting condition, int page, int rows) {
-		return cmConmisionsettingService.queryPaginationVO(condition, page, rows);
+	public Object queryCmConmisionsettingPageList(@RequestBody CmConmisionsetting condition) {
+		return cmConmisionsettingService.queryPaginationVO(condition);
 	}
 
 	@RequestMapping(value="/save",method=RequestMethod.POST)

@@ -31,16 +31,16 @@ public abstract class PaginationServiceImpl<T extends BaseEntity> extends BaseSe
 	};
 
 	@Override
-	public PaginationVO<T> queryPaginationVO(T condition, int pageIndex, int pageSize) {
+	public PaginationVO<T> queryPaginationVO(T condition) {
 //	    if(condition.getCompanyId() == null){
 //	        condition.setCompanyId(SessionHolder.getCompanyId());
 //	    }
 	    if(condition.getValidity() == null){
 	    	condition.setValidity(StatusEnum.VALID.getBooleanValue());
 	    }
-        List <T> list = this.getPaginationDAO().queryPagedList(condition, new MybatisRowBounds(pageIndex, pageSize));
+        List <T> list = this.getPaginationDAO().queryPagedList(condition, new MybatisRowBounds(condition.getPage(), condition.getRows()));
         int recordCount = this.getPaginationDAO().queryCount(condition);
-        return new PaginationVO <T>(list, recordCount, pageIndex, pageSize);
+        return new PaginationVO <T>(list, recordCount, condition.getPage(), condition.getRows());
 	}
 	
 	
