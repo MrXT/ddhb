@@ -10,6 +10,9 @@
 package com.cht.framework.core.service;
 
 import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,8 +30,8 @@ import com.cht.framework.core.util.ReflectUtils;
  * @version 2015-08
  */
 public class BaseServiceImpl<T extends BaseEntity> implements BaseService<T>{
-   /* @Resource
-    protected Map<String, String> errorMap;*/
+    @Resource
+    protected Map<String, String> errorMap;
     @Autowired
     private BaseDAO<T> baseDAO;//spring4.0 泛型注入
     

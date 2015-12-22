@@ -24,9 +24,7 @@
 
     <form id="form1" action= "/ddhb/aplipay/deposit" method="post" target="_blank">  
 
-                <table cellpadding="10">  
-
-                    <tr>  
+                <table>      <tr>  
 
                         <td>充值测试</td>  
 

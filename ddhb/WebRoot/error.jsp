@@ -37,12 +37,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					PrintWriter pw=new PrintWriter(sw);
 					exception.printStackTrace(pw);
 					out.print(sw);
-				}else{
+				}else{%>404错误，找不到该页面<%}
 			%>
-				    404错误，找不到该页面
-			<%
-				}
-			%>
+			
 		</div>
 	</body>
 </html>
