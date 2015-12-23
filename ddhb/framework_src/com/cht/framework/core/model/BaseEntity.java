@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.cht.framework.core.annotation.IdKey;
+import com.cht.framework.core.common.SessionHolder;
 import com.cht.framework.core.util.ReflectUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -28,9 +29,7 @@ public class BaseEntity implements Serializable {
     protected String order;// 排序方式：asc、desc
     @JsonIgnore
     protected Boolean isFuzzyQuery = false;// 是否进行模糊查询
-    @JsonIgnore
     protected Integer page;
-    @JsonIgnore
     protected Integer rows;
     
     public void setId(String id){
@@ -135,5 +134,6 @@ public class BaseEntity implements Serializable {
 
 	public void setDefaultValue() {
         operTime = new Date();
+        operId = (SessionHolder.getCurrentUser().getUserId() != null?SessionHolder.getCurrentUser().getUserId():null);
     }
 }

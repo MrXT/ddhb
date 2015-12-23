@@ -127,10 +127,10 @@ public class BaseServiceImpl<T extends BaseEntity> implements BaseService<T>{
     @Override
     public Boolean queryUniquenessBycondition(T condition) {
         List<T> list = queryByCondition(condition);
-        if(list.size() == 0){
-            return true;
-        }else{
+        if(list.size() != 0){
             return false;
+        }else{
+            return true;
         }
     }
 }

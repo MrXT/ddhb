@@ -8,23 +8,29 @@ import com.cht.framework.core.annotation.IdKey;
 import com.cht.framework.core.model.BaseEntity;
 
 public class SmRes extends BaseEntity {
+
     private static final long serialVersionUID = 1L;
 
     /**
-     *  资源id
+     * 资源id
      */
     @IdKey
     private String resId;
 
     /**
-     *  资源名
+     * 资源名
      */
     private String name;
 
     /**
-     *  资源描述
+     * 资源描述
      */
     private String describle;
+
+    /**
+     * 资源路径
+     */
+    private String url;
 
     public String getResId() {
         return resId;
@@ -49,4 +55,13 @@ public class SmRes extends BaseEntity {
     public void setDescrible(String describle) {
         this.describle = describle == null ? null : describle.trim();
     }
+    
+    public String getUrl() {
+        return url;
+    }
+    
+    public void setUrl(String url) {
+        this.url = url;
+    }
+    
 }

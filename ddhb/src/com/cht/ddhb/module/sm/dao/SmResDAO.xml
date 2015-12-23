@@ -12,7 +12,7 @@
   </resultMap>
 
   <sql id="SmRes_Column_List" >
-    res.res_id, res.name, res.describle, res.validity, res.oper_id, res.oper_time
+    res.res_id, res.name, res.describle,res.url, res.validity, res.oper_id, res.oper_time
   </sql>
 
   <select id="selectByPrimaryKey" resultMap="SmResResultMap" parameterType="java.lang.String" >
@@ -28,9 +28,9 @@
   </delete>
 
   <insert id="insert" parameterType="com.cht.ddhb.domain.SmRes" >
-    insert into t_sm_res (res_id, name, describle, validity, 
+    insert into t_sm_res (res_id, name, describle, url, validity, 
       oper_id, oper_time)
-    values (uuid(), #{name,jdbcType=VARCHAR}, #{describle,jdbcType=VARCHAR}, ${VALID}, 
+    values (uuid(), #{name,jdbcType=VARCHAR}, #{describle,jdbcType=VARCHAR},#{url,jdbcType=VARCHAR}, ${VALID}, 
       #{operId,jdbcType=VARCHAR}, now())
   </insert>
 
@@ -42,6 +42,9 @@
       </if>
       <if test="describle != null" >
         DESCRIBLE = #{describle,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        URL = #{url,jdbcType=VARCHAR},
       </if>
       <if test="validity != null" >
         VALIDITY = #{validity,jdbcType=BIT},
@@ -60,6 +63,7 @@
     update t_sm_res
     set NAME = #{name,jdbcType=VARCHAR},
       DESCRIBLE = #{describle,jdbcType=VARCHAR},
+      URL = #{url,jdbcType=VARCHAR},
       VALIDITY = #{validity,jdbcType=BIT},
       OPER_ID = #{operId,jdbcType=VARCHAR},
       OPER_TIME = now()
@@ -74,6 +78,9 @@
       <if test="describle != null and describle != ''" >
         AND DESCRIBLE = #{describle,jdbcType=VARCHAR}
       </if>
+      <if test="url != null and url != ''" >
+        AND URL = #{url,jdbcType=VARCHAR}
+      </if>
       <if test="validity != null" >
         AND VALIDITY = #{validity,jdbcType=BIT}
       </if>
@@ -87,6 +94,9 @@
       </if>
       <if test="describle != null and describle != ''" >
         AND describle = #{describle,jdbcType=VARCHAR}
+      </if>
+      <if test="url != null and url != ''" >
+        AND url = #{url,jdbcType=VARCHAR}
       </if>
       <if test="validity != null" >
         AND validity = #{validity,jdbcType=BIT}

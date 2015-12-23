@@ -18,6 +18,7 @@ import com.cht.ddhb.common.enums.constant.StatusEnum;
 import com.cht.ddhb.common.web.vo.SmUserVo;
 import com.cht.ddhb.module.sm.service.SmUserService;
 import com.cht.framework.core.common.Constants;
+import com.cht.framework.core.exception.BusinessException;
 import com.cht.framework.core.model.ResponseJson;
 import com.cht.framework.core.util.ValidateCodeUtil;
 
@@ -43,6 +44,17 @@ public class LoginController {
     public String onNoSession(Model model) {
         model.addAttribute("msg", "登录超时，请重新登录");
         return "common/login";
+    }
+    /**
+     * 功能:没有权限
+     *
+     * @author XT
+     * @return
+     */
+    @RequestMapping(value = "/nores")
+    @ResponseBody
+    public Object onNores() {
+        throw new BusinessException("沒有足够的权限!");
     }
 
     /** 功能：进入主页面 */
@@ -79,7 +91,7 @@ public class LoginController {
                 SmUserVo user = userService.queryUserVoByUsername(userVo.getUsername());
                 if (user == null) {
                     json.setMsg("用户不存在!");
-                } else if (!user.getPassword().equals(userVo.getPassword().toUpperCase())) {
+                } else if (!user.getPassword().equals(userVo.getPassword())) {
                     /**
                      * TODO 登录失败次数的计算
                      */
