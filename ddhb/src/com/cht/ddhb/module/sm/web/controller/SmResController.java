@@ -56,6 +56,7 @@ public class SmResController {
     public Object doSaveSmRes(@RequestBody SmRes smRes) {
         SmRes res = new SmRes();
         res.setName(smRes.getName());
+        res.setId(smRes.getResId());
         if(!smResService.queryUniquenessBycondition(res)){
             throw new BusinessException("资源名唯一性检验失败!");
         }

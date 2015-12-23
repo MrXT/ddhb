@@ -126,12 +126,32 @@ public class BaseServiceImpl<T extends BaseEntity> implements BaseService<T>{
 
     @Override
     public Boolean queryUniquenessBycondition(T condition) {
-        List<T> list = queryByCondition(condition);
-        if(list.size() != 0){
-            return false;
-        }else{
-            return true;
-        }
+    	String id = condition.getId();
+    	if(id == null){
+    		List<T> list = queryByCondition(condition);
+            if(list.size() != 0){
+                return false;
+            }else{
+                return true;
+            }
+    	}else{
+    		condition.setId(null);
+    		List<T> list = queryByCondition(condition);
+            if(list.size() == 0){
+                return true;
+            }else if(list.size() == 1){
+            	System.out.println(list.get(0).getId());
+            	System.out.println(id);
+            	if(id.equals(list.get(0).getId())){
+            		return true;
+            	}else{
+            		return false;
+            	}
+            }else{
+            	return false;
+            }
+    	}
+        
     }
 }
 

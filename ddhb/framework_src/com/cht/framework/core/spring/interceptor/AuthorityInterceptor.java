@@ -16,7 +16,7 @@ import com.cht.framework.core.util.StringUtils;
 
 /**
  * 实现访问权限的控制
- * @author WJK
+ * @author XT
  * @version:1.0 2014-12
  */
 public class AuthorityInterceptor extends HandlerInterceptorAdapter {

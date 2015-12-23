@@ -18,7 +18,7 @@
   <select id="selectByPrimaryKey" resultMap="SmResResultMap" parameterType="java.lang.String" >
     select 
     <include refid="SmRes_Column_List" />
-    from t_sm_res
+    from t_sm_res res
     where res_id = #{resId,jdbcType=VARCHAR}
   </select>
 
@@ -111,7 +111,7 @@
   </sql>
 
   <select id="queryCount" parameterType="com.cht.ddhb.domain.SmRes" resultType="java.lang.Integer" >
-    select count(0) from t_sm_res
+    select count(0) from t_sm_res res
     <if test="isFuzzyQuery == false" >
       <include refid="Where_Condition" />
     </if>

@@ -7,11 +7,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.cht.ddhb.domain.SmRole;
 import com.cht.ddhb.module.sm.service.SmRoleService;
+import com.cht.framework.core.exception.BusinessException;
 
 /**
- * 功能：TODO
+ * 功能：角色管理
  * @author XT
  * @version:2015-12-22
  */
@@ -42,12 +44,21 @@ public class SmRoleController {
 	@RequestMapping(value = "/pageList", method = RequestMethod.POST)
 	@ResponseBody
 	public Object querySmRolePageList(@RequestBody SmRole condition) {
+		if(condition.getPage() == null || condition.getRows() == null){
+            throw new BusinessException("参数传递错误!");
+        }
 		return smRoleService.queryPaginationVO(condition);
 	}
 
 	@RequestMapping(value="/save",method=RequestMethod.POST)
 	@ResponseBody
 	public Object doSaveSmRole(@RequestBody SmRole smRole){
+		SmRole role = new SmRole();
+		role.setId(smRole.getRoleId());
+		role.setName(smRole.getName());
+        if(!smRoleService.queryUniquenessBycondition(role)){
+            throw new BusinessException("资源名唯一性检验失败!");
+        }
 		return smRoleService.doSave(smRole);
 	}
 	/**

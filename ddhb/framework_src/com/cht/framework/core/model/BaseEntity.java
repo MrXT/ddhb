@@ -115,19 +115,16 @@ public class BaseEntity implements Serializable {
     public void setIsFuzzyQuery(Boolean isFuzzyQuery) {
         this.isFuzzyQuery = isFuzzyQuery;
     }
-
+    
     public Integer getPage() {
 		return page;
 	}
-
 	public void setPage(Integer page) {
 		this.page = page;
 	}
-
 	public Integer getRows() {
 		return rows;
 	}
-
 	public void setRows(Integer rows) {
 		this.rows = rows;
 	}
