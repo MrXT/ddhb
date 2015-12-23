@@ -34,7 +34,11 @@
 					dataType:"json",
 		data:"{\"username\":\"admin\",\"password\":\"c4ca4238a0b923820dcc509a6f75849b\",\"vcode\":\""+$("#vcode").val()+"\"}",
 		success:function(result){
-			alert(result)
+			if(result.success){
+				alert(" 登录成功!");
+			}else{
+				document.getElementById("img").src="/ddhb/vcode?"+Math.random()*500;
+			}
 		}
 		});
 				}
@@ -47,7 +51,7 @@
             <form id="loginForm">
                 <input type="text" name="username" class="username" placeholder="用户名">
                 <input type="password" name="password" class="password" placeholder="密码">
-                <input type="text" id="vcode" name="vcode" /><img src="/ddhb/vcode">
+                <input type="text" id="vcode" name="vcode" /><img id="img" src="/ddhb/vcode">
                 <button type="button" onclick="sub();" id="loginBtn">登录</button>
                 <div class="error"><span>+</span></div>
             </form>

@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * 基础实体对象
- * @author WJK
+ * @author XT
  * @version 2015-08
  */
 public class BaseEntity implements Serializable {
@@ -29,9 +29,9 @@ public class BaseEntity implements Serializable {
     @JsonIgnore
     protected Boolean isFuzzyQuery = false;// 是否进行模糊查询
     @JsonIgnore
-    protected int page;
+    protected Integer page;
     @JsonIgnore
-    protected int rows;
+    protected Integer rows;
     
     public void setId(String id){
         ReflectUtils.setFieldByAnnatation(this,id,IdKey.class);
@@ -117,19 +117,19 @@ public class BaseEntity implements Serializable {
         this.isFuzzyQuery = isFuzzyQuery;
     }
 
-    public int getPage() {
+    public Integer getPage() {
 		return page;
 	}
 
-	public void setPage(int page) {
+	public void setPage(Integer page) {
 		this.page = page;
 	}
 
-	public int getRows() {
+	public Integer getRows() {
 		return rows;
 	}
 
-	public void setRows(int rows) {
+	public void setRows(Integer rows) {
 		this.rows = rows;
 	}
 

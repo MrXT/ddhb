@@ -26,7 +26,7 @@ import com.cht.framework.core.util.ReflectUtils;
  * ClassName: BaseService <br/>
  * Function: Service实现类基类. <br/>
  *
- * @author WJK
+ * @author XT
  * @version 2015-08
  */
 public class BaseServiceImpl<T extends BaseEntity> implements BaseService<T>{
@@ -122,6 +122,16 @@ public class BaseServiceImpl<T extends BaseEntity> implements BaseService<T>{
             throw new SystemException(e);
         }
         return isConflict;
+    }
+
+    @Override
+    public Boolean queryUniquenessBycondition(T condition) {
+        List<T> list = queryByCondition(condition);
+        if(list.size() == 0){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
 
