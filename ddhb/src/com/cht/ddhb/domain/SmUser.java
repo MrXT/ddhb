@@ -40,6 +40,11 @@ public class SmUser extends BaseEntity {
      *  地址
      */
     private String address;
+    
+    /**
+     * 淘宝帐号
+     */
+    private String alipayEmail;
 
     /**
      *  头像
@@ -114,4 +119,16 @@ public class SmUser extends BaseEntity {
     public void setRoleId(String roleId) {
         this.roleId = roleId == null ? null : roleId.trim();
     }
+
+    
+    public String getAlipayEmail() {
+        return alipayEmail;
+    }
+
+    
+    public void setAlipayEmail(String alipayEmail) {
+        this.alipayEmail = alipayEmail;
+    }
+    
+    
 }

@@ -4,6 +4,7 @@
  */
 package com.cht.ddhb.module.sm.dao;
 
+import com.cht.ddhb.common.web.vo.SmUserVo;
 import com.cht.ddhb.domain.SmUser;
 import com.cht.framework.core.model.PaginationDAO;
 
@@ -14,5 +15,5 @@ public interface SmUserDAO extends PaginationDAO<SmUser> {
 	 * @param username
 	 * @return
 	 */
-	SmUser queryUserByUsername(String username);
+	SmUserVo queryUserByUsername(String username);
 }

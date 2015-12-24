@@ -16,7 +16,7 @@ import com.cht.ddhb.module.cm.service.CmAreaService;
  * @version:2015-12-22
  */
 @Controller
-@RequestMapping("/sm/cmArea")
+@RequestMapping("/cm/area")
 public class CmAreaController {
 
 	@Autowired

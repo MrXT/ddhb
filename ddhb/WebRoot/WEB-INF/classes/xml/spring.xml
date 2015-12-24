@@ -23,10 +23,61 @@
 	<context:component-scan base-package="com.cht">
 		<context:include-filter type="regex" expression=".*.service.*" />
 	</context:component-scan>
+	<!-- 数据源配置c3p0,不支持jta -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">  
+        <property name="driverClass" value="${jdbc.driverClassName}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="minPoolSize" value="${jdbc.c3p0.minPoolSize}"/>
+        <property name="maxPoolSize" value="${jdbc.c3p0.maxPoolSize}"/> 
+        <property name="initialPoolSize" value="${jdbc.c3p0.initialPoolSize}"/>
+        <property name="maxIdleTime" value="${jdbc.c3p0.maxIdleTime}"/>
+        <property name="acquireIncrement" value="${jdbc.c3p0.acquireIncrement}"/>
+        <property name="maxStatements" value="${jdbc.c3p0.maxStatements}"/>
+        <property name="maxStatementsPerConnection" value="${jdbc.c3p0.maxStatementsPerConnection}"/>
+        <property name="idleConnectionTestPeriod" value="${jdbc.c3p0.idleConnectionTestPeriod}"/>
+        <property name="breakAfterAcquireFailure" value="${jdbc.c3p0.breakAfterAcquireFailure}"/>
+        <property name="testConnectionOnCheckout" value="${jdbc.c3p0.testConnectionOnCheckout}"/>
+    </bean>
+  <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+	<aop:config proxy-target-class="true">
+		<aop:advisor advice-ref="txAdvice" pointcut="execution(* com.cht..service..*.*(..))" />
+		<aop:advisor advice-ref="serviceAdvice"	pointcut="execution(* com.cht..service..*.*(..))" />
+	</aop:config>
 
-	<!-- 数据源配置,支持JTA -->
-	<bean id="ddhbDataSource" class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init" destroy-method="close">
-		<!-- uniqueResourceName保证唯一性就行 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="do*" read-only="false" rollback-for="java.lang.Exception" />
+			<tx:method name="query*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
+
+	<bean id="serviceAdvice" class="com.cht.framework.core.spring.interceptor.ServiceInterceptor">
+		<property name="slowExecutionTime" value="3000" />
+		<property name="logExceptionDetail" value="true" />
+	</bean>
+
+	<!-- mybatis Config -->
+	<bean id="ddhbSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:xml/mybatis.xml" />
+		<property name="typeAliasesPackage" value="com.cht.ddhb.domain" />
+		<!-- <property name="mapperLocations" value="classpath:/com/cht/ddhb/dao/*.xml"/> -->
+	</bean>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"	lazy-init="false">
+		<property name="basePackage" value="com.cht.ddhb.*.*.dao,com.cht.ddhb.*.*.*.dao" />
+		<property name="sqlSessionFactoryBeanName" value="ddhbSqlSessionFactory" />
+	</bean>
+	<!-- atomikos数据源配置,支持JTA -->
+	<!-- <bean id="ddhbDataSource" class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init" destroy-method="close">
+		uniqueResourceName保证唯一性就行
 		<property name="uniqueResourceName" value="mysql/ddhb" />
 		<property name="xaDataSourceClassName" value="${jdbc.xa.mysql}" />
 		<property name="xaProperties">
@@ -39,7 +90,7 @@
 		<property name="minPoolSize"><value>${jdbc.atomikos.minPoolSize}</value></property>
 		<property name="maxPoolSize"><value>${jdbc.atomikos.maxPoolSize}</value></property>
 		<property name="maxLifetime"><value>${jdbc.atomikos.maxLifetime}</value></property>
-	</bean>
+	</bean> -->
 	
 	<!-- <bean id="gpsDataSource" class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init" destroy-method="close">
 		uniqueResourceName保证唯一性就行
@@ -58,21 +109,21 @@
 	</bean> -->
 
 	<!-- JTA事务管理器 -->
-	<bean id="atomikosTransactionManager" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init" destroy-method="close">
+	<!-- <bean id="atomikosTransactionManager" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init" destroy-method="close">
 		<property name="forceShutdown" value="true" />
 	</bean>
 
 	<bean id="atomikosUserTransaction" class="com.atomikos.icatch.jta.UserTransactionImp">
-		<!-- 事务超时时间设置，单位：秒 -->
+		事务超时时间设置，单位：秒
 		<property name="transactionTimeout" value="300" />
 	</bean>
 
 	<bean id="jtaTransactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
 		<property name="transactionManager" ref="atomikosTransactionManager" />
 		<property name="userTransaction" ref="atomikosUserTransaction" />
-		<!-- 	
+			
 		<property name="allowCustomIsolationLevels" value="true"/> 
-		-->
+		
 	</bean>
 
 	<aop:config proxy-target-class="true">
@@ -93,18 +144,18 @@
 		<property name="logExceptionDetail" value="true" />
 	</bean>
 
-	<!-- mybatis Config -->
+	mybatis Config
 	<bean id="ddhbSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="ddhbDataSource" />
 		<property name="configLocation" value="classpath:xml/mybatis.xml" />
 		<property name="typeAliasesPackage" value="com.cht.ddhb.domain" />
-		<!-- <property name="mapperLocations" value="classpath:/com/cht/ddhb/dao/*.xml"/> -->
+		<property name="mapperLocations" value="classpath:/com/cht/ddhb/dao/*.xml"/>
 	</bean>
 
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"	lazy-init="false">
 		<property name="basePackage" value="com.cht.ddhb.*.*.dao,com.cht.ddhb.*.*.*.dao" />
 		<property name="sqlSessionFactoryBeanName" value="ddhbSqlSessionFactory" />
-	</bean>
+	</bean> -->
 	<util:map id="errorMap" map-class="java.util.HashMap">  
 	    <entry key="00000" value="未知异常" />
 	    <entry key="10000" value="请求参数错误"/>

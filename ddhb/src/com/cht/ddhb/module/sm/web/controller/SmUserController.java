@@ -19,19 +19,20 @@ import com.cht.ddhb.module.sm.service.SmUserService;
 @RequestMapping("/sm/user")
 public class SmUserController {
 
-	@Autowired
-	private SmUserService smUserService;
+    @Autowired
+    private SmUserService smUserService;
 
     /**
      * 功能:查询
      * @param condition
      * @return
      */
-	@RequestMapping(value = "/list", method = RequestMethod.POST)
-	@ResponseBody
-	public Object querySmUserList(@RequestBody SmUser condition) {
-		return smUserService.queryByCondition(condition);
-	}	
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    @ResponseBody
+    public Object querySmUserList(@RequestBody SmUser condition) {
+        return smUserService.queryByCondition(condition);
+    }
+
     /**
      * 功能:分页查询
      * @param condition
@@ -39,37 +40,38 @@ public class SmUserController {
      * @param rows
      * @return
      */
-	@RequestMapping(value = "/pageList", method = RequestMethod.POST)
-	@ResponseBody
-	public Object querySmUserPageList(@RequestBody SmUser condition) {
-		return smUserService.queryPaginationVO(condition);
-	}
+    @RequestMapping(value = "/pageList", method = RequestMethod.POST)
+    @ResponseBody
+    public Object querySmUserPageList(@RequestBody SmUser condition) {
+        return smUserService.queryPaginationVO(condition);
+    }
 
-	@RequestMapping(value="/save",method=RequestMethod.POST)
-	@ResponseBody
-	public Object doSaveSmUser(@RequestBody SmUser smUser){
-		return smUserService.doSave(smUser);
-	}
-	/**
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @ResponseBody
+    public Object doSaveSmUser(@RequestBody SmUser smUser) {
+        return smUserService.doSave(smUser);
+    }
+
+    /**
      * 功能:无效
      * @param id
      * @return
      */
-	@RequestMapping(value="/invalidate/{id}",method=RequestMethod.POST)
-	@ResponseBody
-	public Object doInvalidateSmUser(@PathVariable String id){
-		return smUserService.doInvalidate(id);
-	}
-	/**
+    @RequestMapping(value = "/invalidate/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public Object doInvalidateSmUser(@PathVariable String id) {
+        return smUserService.doInvalidate(id);
+    }
+
+    /**
      * 功能:有效
      * @param id
      * @return
      */
-	@RequestMapping(value="/revalidate/{id}",method=RequestMethod.POST)
-	@ResponseBody
-	public Object doRevalidateSmUser(@PathVariable String id){
-		return smUserService.doRevalidate(id);
-	}
-
+    @RequestMapping(value = "/revalidate/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public Object doRevalidateSmUser(@PathVariable String id) {
+        return smUserService.doRevalidate(id);
+    }
 
 }

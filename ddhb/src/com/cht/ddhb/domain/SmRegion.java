@@ -20,6 +20,10 @@ public class SmRegion extends BaseEntity {
      *  所在地区
      */
     private String name;
+    /**
+     *  父级id
+     */
+    private String parentId;
 
     public String getRegionId() {
         return regionId;
@@ -36,4 +40,16 @@ public class SmRegion extends BaseEntity {
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
     }
+
+    
+    public String getParentId() {
+        return parentId;
+    }
+
+    
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+    
+    
 }

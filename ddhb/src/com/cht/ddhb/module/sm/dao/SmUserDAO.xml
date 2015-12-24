@@ -2,22 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cht.ddhb.module.sm.dao.SmUserDAO" >
 
-  <resultMap id="SmUserResultMap" type="com.cht.ddhb.domain.SmUser" >
+  <resultMap id="SmUserResultMap" type="com.cht.ddhb.common.web.vo.SmUserVo" >
     <id column="user_id" property="userId" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="username" property="username" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="telephone" property="telephone" jdbcType="VARCHAR" />
     <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="alipay_email" property="alipayEmail" jdbcType="VARCHAR" />
     <result column="photo" property="photo" jdbcType="VARCHAR" />
     <result column="validity" property="validity" jdbcType="BIT" />
     <result column="oper_id" property="operId" jdbcType="VARCHAR" />
     <result column="oper_time" property="operTime" jdbcType="TIMESTAMP" />
     <result column="role_id" property="roleId" jdbcType="VARCHAR" />
+    <association property="role" javaType="SmRole">
+	    	<id column="role_id" property="roleId" jdbcType="VARCHAR" />
+	    <result column="role_name" property="name" jdbcType="VARCHAR" />
+	    <result column="describle" property="describle" jdbcType="VARCHAR" />
+	    <result column="validity" property="validity" jdbcType="BIT" />
+	    <result column="oper_id" property="operId" jdbcType="VARCHAR" />
+	    <result column="oper_time" property="operTime" jdbcType="TIMESTAMP" />
+    </association>
+	<!--  一对一的级联查询实现或者一对多-->
+<!-- 	<association property="role" resultMap="com.cht.ddhb.module.sm.dao.SmRoleDAO.SmRoleResultMap"></association> -->
   </resultMap>
 
   <sql id="SmUser_Column_List" >
-    user_id, password, username, name, telephone, address, photo, validity, oper_id, 
+    user_id, password, username, name, telephone, address,alipay_email, photo, validity, oper_id, 
     oper_time, role_id
   </sql>
 
@@ -35,10 +46,10 @@
 
   <insert id="insert" parameterType="com.cht.ddhb.domain.SmUser" >
     insert into t_sm_user (user_id, password, username, name, 
-      telephone, address, photo, 
+      telephone, address,alipay_email photo, 
       validity, oper_id, oper_time, role_id)
     values (uuid(), #{password,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{telephone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, 
+      #{telephone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},#{alipayEmail,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, 
       ${VALID}, #{operId,jdbcType=VARCHAR}, now(), #{roleId,jdbcType=VARCHAR})
   </insert>
 
@@ -59,6 +70,9 @@
       </if>
       <if test="address != null" >
         ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="alipayEmail != null" >
+        ALIPAY_EMAIL = #{alipayEmail,jdbcType=VARCHAR},
       </if>
       <if test="photo != null" >
         PHOTO = #{photo,jdbcType=VARCHAR},
@@ -86,6 +100,7 @@
       NAME = #{name,jdbcType=VARCHAR},
       TELEPHONE = #{telephone,jdbcType=VARCHAR},
       ADDRESS = #{address,jdbcType=VARCHAR},
+      ALIPAY_EMAIL = #{alipayEmail,jdbcType=VARCHAR},
       PHOTO = #{photo,jdbcType=VARCHAR},
       VALIDITY = #{validity,jdbcType=BIT},
       OPER_ID = #{operId,jdbcType=VARCHAR},
@@ -110,6 +125,9 @@
       </if>
       <if test="address != null and address != ''" >
         AND ADDRESS = #{address,jdbcType=VARCHAR}
+      </if>
+      <if test="alipayEmail != null and alipayEmail != ''" >
+        ALIPAY_EMAIL = #{alipayEmail,jdbcType=VARCHAR},
       </if>
       <if test="photo != null and photo != ''" >
         AND PHOTO = #{photo,jdbcType=VARCHAR}
@@ -139,6 +157,9 @@
       </if>
       <if test="address != null and address != ''" >
         AND address = #{address,jdbcType=VARCHAR}
+      </if>
+       <if test="alipayEmail != null and alipayEmail != ''" >
+        alipay_email = #{alipayEmail,jdbcType=VARCHAR},
       </if>
       <if test="photo != null and photo != ''" >
         AND photo = #{photo,jdbcType=VARCHAR}
@@ -187,7 +208,8 @@
   </select>
   <select id="queryUserByUsername"  resultMap="SmUserResultMap" >
     select 
-    <include refid="SmUser_Column_List" />
-    from t_sm_user where username = #{username,jdbcType=VARCHAR}
+    u.user_id, u.password, u. username, u. name, u. telephone, u. address, u.alipay_email, u. photo, u. validity, u. oper_id, u. 
+    oper_time, u. role_id,r.role_id, r.name role_name, r.describle, r.validity, r.oper_id, r.oper_time
+    from t_sm_user u,t_sm_role r where u.role_id=r.role_id and u.username = #{username,jdbcType=VARCHAR}
   </select>
 </mapper>

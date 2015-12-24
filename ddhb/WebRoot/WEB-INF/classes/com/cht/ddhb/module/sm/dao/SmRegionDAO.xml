@@ -5,12 +5,13 @@
   <resultMap id="SmRegionResultMap" type="com.cht.ddhb.domain.SmRegion" >
     <id column="region_id" property="regionId" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="VARCHAR" />
     <result column="oper_id" property="operId" jdbcType="VARCHAR" />
     <result column="oper_time" property="operTime" jdbcType="TIMESTAMP" />
   </resultMap>
 
   <sql id="SmRegion_Column_List" >
-    region_id, name, oper_id, oper_time
+    region_id, name,parent_id, oper_id, oper_time
   </sql>
 
   <select id="selectByPrimaryKey" resultMap="SmRegionResultMap" parameterType="java.lang.String" >
@@ -26,8 +27,8 @@
   </delete>
 
   <insert id="insert" parameterType="com.cht.ddhb.domain.SmRegion" >
-    insert into t_sm_region (region_id, name, oper_id, oper_time)
-    values (uuid(), #{name,jdbcType=VARCHAR}, #{operId,jdbcType=VARCHAR}, now())
+    insert into t_sm_region (region_id, name,parent_id, oper_id, oper_time)
+    values (uuid(), #{name,jdbcType=VARCHAR},#{parentId,jdbcType=VARCHAR}, #{operId,jdbcType=VARCHAR}, now())
   </insert>
 
   <update id="updateByPrimaryKeySelective" parameterType="com.cht.ddhb.domain.SmRegion" >
@@ -35,6 +36,9 @@
     <set >
       <if test="name != null" >
         NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        PARENT_ID = #{parentId,jdbcType=VARCHAR},
       </if>
       <if test="operId != null" >
         OPER_ID = #{operId,jdbcType=VARCHAR},
@@ -49,6 +53,7 @@
   <update id="updateByPrimaryKey" parameterType="com.cht.ddhb.domain.SmRegion" >
     update t_sm_region
     set NAME = #{name,jdbcType=VARCHAR},
+    		PARENT_ID = #{parentId,jdbcType=VARCHAR},
       OPER_ID = #{operId,jdbcType=VARCHAR},
       OPER_TIME = now()
     where region_id = #{regionId,jdbcType=VARCHAR}
@@ -59,6 +64,9 @@
       <if test="name != null and name != ''" >
         NAME = #{name,jdbcType=VARCHAR}
       </if>
+      <if test="parentId != null and parentId != ''" >
+        AND PARENT_ID = #{parentId,jdbcType=VARCHAR}
+      </if>
     </where>
   </sql>
 
@@ -66,6 +74,9 @@
     <where >
       <if test="name != null and name != ''" >
         name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="parentId != null and parentId != ''" >
+        AND parent_id = #{parentId,jdbcType=VARCHAR}
       </if>
       <if test="operId != null and operId != ''" >
         AND oper_id = #{operId,jdbcType=VARCHAR}

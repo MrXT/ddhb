@@ -6,7 +6,7 @@ import java.util.List;
  * ClassName: BasePaginationService <br/>
  * Function: DAO实现类基类. <br/>
  *
- * @author WJK
+ * @author XT
  * @version 2015-01
  */
 public interface BaseDAO<T> {
