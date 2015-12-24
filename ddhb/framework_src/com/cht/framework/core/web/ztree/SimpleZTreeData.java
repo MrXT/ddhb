@@ -6,15 +6,15 @@ package com.cht.framework.core.web.ztree;
  * @version 2014-09
  */
 public class SimpleZTreeData {
-    private Integer id;
-    private Integer pId;
+    private String id;
+    private String pId;
     private String name;
     private boolean checked = false;
     private boolean isParent = false;
 
     public SimpleZTreeData() {}
     
-    public SimpleZTreeData(Integer id,Integer pId,String name) {
+    public SimpleZTreeData(String id,String pId,String name) {
         this.id = id;
         this.pId = pId;
         this.name = name;
@@ -23,19 +23,19 @@ public class SimpleZTreeData {
         }
     }
     
-    public Integer getId() {
+    public String getId() {
         return id;
     }
     
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
     
-    public Integer getpId() {
+    public String getpId() {
         return pId;
     }
     
-    public void setpId(Integer pId) {
+    public void setpId(String pId) {
         this.pId = pId;
     }
     

@@ -36,6 +36,10 @@ public class SmRes extends BaseEntity {
      * 父级资源id
      */
     private String parentId;
+    /**
+     * 资源排序
+     */
+    private Integer resSort;
     
     public String getResId() {
         return resId;
@@ -77,6 +81,16 @@ public class SmRes extends BaseEntity {
     
     public void setParentId(String parentId) {
         this.parentId = parentId;
+    }
+
+    
+    public Integer getResSort() {
+        return resSort;
+    }
+
+    
+    public void setResSort(Integer resSort) {
+        this.resSort = resSort;
     }
     
     

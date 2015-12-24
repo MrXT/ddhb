@@ -1,5 +1,6 @@
 package com.cht.ddhb.module.sm.web.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cht.ddhb.common.web.vo.SmUserVo;
 import com.cht.ddhb.domain.SmRes;
 import com.cht.ddhb.module.sm.service.SmResService;
 import com.cht.framework.core.exception.BusinessException;
@@ -60,7 +62,7 @@ public class SmResController {
         if (!smResService.queryUniquenessBycondition(res)) {
             throw new BusinessException("资源名唯一性检验失败!");
         }
-        return smResService.doSave(smRes);
+        return smResService.doSaveRes(smRes);
     }
 
     /**
@@ -83,6 +85,26 @@ public class SmResController {
     @ResponseBody
     public Object doRevalidateSmRes(@PathVariable String id) {
         return smResService.doRevalidate(id);
+    }
+    
+    /**
+     * 功能：查询可分配给角色的资源树
+     * @param id
+     */
+    @RequestMapping(value = "/tree", method = RequestMethod.POST)
+    @ResponseBody
+    public Object queryResTree() {
+        return smResService.doBuildResZTreeNodes();
+    }
+    
+    /**
+     * 功能：批量分配角色资源
+     * @param id
+     */
+    @RequestMapping(value = "/batchRoleRes", method = RequestMethod.POST)
+    @ResponseBody
+    public Object doBatchRoleRes(@RequestBody SmUserVo user) {
+        return smResService.doBatchRoleRes(user.getRoleId(),user.getReses());
     }
 
 }

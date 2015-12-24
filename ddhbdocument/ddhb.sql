@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : local
-Source Server Version : 50546
-Source Host           : localhost:3306
+Source Server         : db4free
+Source Server Version : 50710
+Source Host           : db4free.net:3306
 Source Database       : ddhb
 
 Target Server Type    : MYSQL
-Target Server Version : 50546
+Target Server Version : 50710
 File Encoding         : 65001
 
-Date: 2015-12-22 16:59:56
+Date: 2015-12-24 19:49:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -269,6 +269,7 @@ DROP TABLE IF EXISTS `t_sm_region`;
 CREATE TABLE `t_sm_region` (
   `region_id` varchar(36) NOT NULL COMMENT '行政编码',
   `name` varchar(20) NOT NULL COMMENT '所在地区',
+  `parent_id` varchar(36) DEFAULT NULL COMMENT '父级id',
   `oper_id` varchar(36) DEFAULT NULL,
   `oper_time` datetime DEFAULT NULL,
   PRIMARY KEY (`region_id`)
@@ -281,7 +282,9 @@ DROP TABLE IF EXISTS `t_sm_res`;
 CREATE TABLE `t_sm_res` (
   `res_id` varchar(36) NOT NULL COMMENT '资源id',
   `name` varchar(20) NOT NULL COMMENT '资源名',
+  `url` varchar(50) DEFAULT NULL COMMENT '資源地址',
   `describle` varchar(50) NOT NULL COMMENT '资源描述',
+  `parent_id` varchar(36) DEFAULT NULL COMMENT '父级id',
   `validity` tinyint(1) NOT NULL DEFAULT '1' COMMENT '有效性',
   `oper_id` varchar(255) DEFAULT NULL,
   `oper_time` datetime DEFAULT NULL,
@@ -326,6 +329,7 @@ CREATE TABLE `t_sm_user` (
   `name` varchar(10) NOT NULL COMMENT '姓名',
   `telephone` varchar(11) NOT NULL COMMENT '手机号码',
   `address` varchar(100) DEFAULT NULL COMMENT '地址',
+  `alipay_email` varchar(50) NOT NULL COMMENT '支付宝帐号',
   `photo` varchar(50) DEFAULT NULL COMMENT '头像',
   `validity` tinyint(1) NOT NULL DEFAULT '1' COMMENT '有效性(0无效,1有效)',
   `oper_id` varchar(36) DEFAULT NULL,
