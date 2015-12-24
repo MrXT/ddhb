@@ -14,7 +14,7 @@
   </resultMap>
 
   <sql id="SmRes_Column_List" >
-    res.res_id, res.name, res.describle,res.url,res.parent_id res.validity, res.oper_id, res.oper_time
+    res.res_id, res.name, res.describle,res.url,res.parent_id, res.validity, res.oper_id, res.oper_time
   </sql>
 
   <select id="selectByPrimaryKey" resultMap="SmResResultMap" parameterType="java.lang.String" >
