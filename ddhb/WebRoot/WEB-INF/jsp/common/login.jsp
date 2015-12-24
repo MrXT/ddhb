@@ -28,7 +28,7 @@
 				<script>
 				function sub(){
 				$.ajax({
-					url:"/ddhb/sm/res/list",
+					url:"/ddhb/login/valid",
 					type:"POST",
 					contentType:"application/json;charset=utf-8",
 					dataType:"json",
