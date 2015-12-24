@@ -45,9 +45,9 @@ public class LoginController {
         model.addAttribute("msg", "登录超时，请重新登录");
         return "common/login";
     }
+
     /**
      * 功能:没有权限
-     *
      * @author XT
      * @return
      */
@@ -101,12 +101,12 @@ public class LoginController {
                 } else {
                     json.setSuccess(true);
                     session.setAttribute(Constants.DEFAULT_SESSION_USER, user);
-                                          }
+                }
             } else {
                 json.setMsg("验证码错误!");
-                                }
+            }
             session.removeAttribute("vcode");
-                    }
+        }
         return json;
     }
 

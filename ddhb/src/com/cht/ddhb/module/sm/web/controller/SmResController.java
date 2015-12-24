@@ -45,7 +45,7 @@ public class SmResController {
     @RequestMapping(value = "/pageList", method = RequestMethod.POST)
     @ResponseBody
     public Object querySmResPageList(@RequestBody SmRes condition) {
-        if(condition.getPage() == null || condition.getRows() == null){
+        if (condition.getPage() == null || condition.getRows() == null) {
             throw new BusinessException("参数传递错误!");
         }
         return smResService.queryPaginationVO(condition);
@@ -57,7 +57,7 @@ public class SmResController {
         SmRes res = new SmRes();
         res.setName(smRes.getName());
         res.setId(smRes.getResId());
-        if(!smResService.queryUniquenessBycondition(res)){
+        if (!smResService.queryUniquenessBycondition(res)) {
             throw new BusinessException("资源名唯一性检验失败!");
         }
         return smResService.doSave(smRes);
