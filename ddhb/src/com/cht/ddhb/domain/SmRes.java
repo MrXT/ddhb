@@ -31,7 +31,12 @@ public class SmRes extends BaseEntity {
      * 资源路径
      */
     private String url;
-
+    
+    /**
+     * 父级资源id
+     */
+    private String parentId;
+    
     public String getResId() {
         return resId;
     }
@@ -63,5 +68,17 @@ public class SmRes extends BaseEntity {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    
+    public String getParentId() {
+        return parentId;
+    }
+
+    
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+    
+    
     
 }

@@ -6,13 +6,15 @@
     <id column="res_id" property="resId" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="describle" property="describle" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="VARCHAR" />
     <result column="validity" property="validity" jdbcType="BIT" />
     <result column="oper_id" property="operId" jdbcType="VARCHAR" />
     <result column="oper_time" property="operTime" jdbcType="TIMESTAMP" />
   </resultMap>
 
   <sql id="SmRes_Column_List" >
-    res.res_id, res.name, res.describle,res.url, res.validity, res.oper_id, res.oper_time
+    res.res_id, res.name, res.describle,res.url,res.parent_id res.validity, res.oper_id, res.oper_time
   </sql>
 
   <select id="selectByPrimaryKey" resultMap="SmResResultMap" parameterType="java.lang.String" >
@@ -28,9 +30,9 @@
   </delete>
 
   <insert id="insert" parameterType="com.cht.ddhb.domain.SmRes" >
-    insert into t_sm_res (res_id, name, describle, url, validity, 
+    insert into t_sm_res (res_id, name, describle, url,parent_id, validity, 
       oper_id, oper_time)
-    values (uuid(), #{name,jdbcType=VARCHAR}, #{describle,jdbcType=VARCHAR},#{url,jdbcType=VARCHAR}, ${VALID}, 
+    values (uuid(), #{name,jdbcType=VARCHAR}, #{describle,jdbcType=VARCHAR},#{url,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR},${VALID}, 
       #{operId,jdbcType=VARCHAR}, now())
   </insert>
 
@@ -45,6 +47,9 @@
       </if>
       <if test="url != null" >
         URL = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        PARENT_ID = #{parentId,jdbcType=VARCHAR},
       </if>
       <if test="validity != null" >
         VALIDITY = #{validity,jdbcType=BIT},
@@ -64,6 +69,7 @@
     set NAME = #{name,jdbcType=VARCHAR},
       DESCRIBLE = #{describle,jdbcType=VARCHAR},
       URL = #{url,jdbcType=VARCHAR},
+      PARENT_ID = #{parentId,jdbcType=VARCHAR},
       VALIDITY = #{validity,jdbcType=BIT},
       OPER_ID = #{operId,jdbcType=VARCHAR},
       OPER_TIME = now()
@@ -81,6 +87,9 @@
       <if test="url != null and url != ''" >
         AND URL = #{url,jdbcType=VARCHAR}
       </if>
+      <if test="parentId != null and parentId != ''" >
+        AND PARENT_ID = #{parentId,jdbcType=VARCHAR}
+      </if>
       <if test="validity != null" >
         AND VALIDITY = #{validity,jdbcType=BIT}
       </if>
@@ -97,6 +106,9 @@
       </if>
       <if test="url != null and url != ''" >
         AND url = #{url,jdbcType=VARCHAR}
+      </if>
+       <if test="parentId != null and parentId != ''" >
+        AND parent_id = #{parentId,jdbcType=VARCHAR}
       </if>
       <if test="validity != null" >
         AND validity = #{validity,jdbcType=BIT}
