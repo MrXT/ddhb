@@ -99,12 +99,13 @@ public class ValidateUtils {
 	
 	/**   
 	 * 判断输入字符串是否满足手机号格式<br>
-	 * 手机号格式为：13开头的11位纯数字
-	 * @return 满足返回true反之false 
+	 * 手机号格式为：13,,14,15,18开头的11位纯数字
+	 * @return 满足返回false反之true 
 	 */ 
 	public static boolean isMobileNo(String str){   
-		return isMatch(str,"^(13[0-9]|15[0|3|6|7|8|9]|18[8|9])\\d{8}$");
+		return isMatch(str,"^(13[0-9]|14[0-9]|15[0-9]|18[0-9])\\d{8}$");
 	}
+	
 	
     /**
      * 电话号码验证

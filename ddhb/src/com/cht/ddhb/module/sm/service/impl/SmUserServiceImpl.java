@@ -95,11 +95,19 @@ public class SmUserServiceImpl extends PaginationServiceImpl<SmUser> implements 
         if (record.getUserId() == null) {
             // 验证姓名,登录名,手机,支付宝邮箱帐号
             if (ValidateUtils.isBlank(record.getUsername()) || ValidateUtils.isBlank(record.getName())
-                || ValidateUtils.isMobileNo(record.getTelephone()) || !ValidateUtils.isEmailFormat(record.getAlipayEmail())||ValidateUtils.isBlank(record.getRoleId())) {
+                || !ValidateUtils.isMobileNo(record.getTelephone()) || !ValidateUtils.isEmailFormat(record.getAlipayEmail())||ValidateUtils.isBlank(record.getRoleId())) {
                 throw new BusinessException("参数传递错误!");
             }
             String password = MD5.getStr2Digest(CommonUtils.readResource("default.user.password"));
             record.setPassword(password);
+        }else{
+            //驗證傳入的手機號碼正確
+            if(record.getTelephone() != null && !ValidateUtils.isMobileNo(record.getTelephone())){
+                throw new BusinessException("手机号码错误!");
+                }
+            if(record.getAlipayEmail() != null && !ValidateUtils.isEmailFormat(record.getAlipayEmail())){
+                throw new BusinessException("邮箱格式错误!");
+                }
         }
         if (!queryUniquessByCondition(record)) {
             throw new BusinessException("字段唯一性检验失败!");

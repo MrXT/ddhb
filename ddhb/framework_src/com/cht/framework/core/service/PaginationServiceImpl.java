@@ -12,6 +12,7 @@ package com.cht.framework.core.service;
 import java.util.List;
 
 import com.cht.ddhb.common.enums.constant.StatusEnum;
+import com.cht.framework.core.exception.BusinessException;
 import com.cht.framework.core.model.BaseEntity;
 import com.cht.framework.core.model.PaginationDAO;
 import com.cht.framework.core.model.PaginationVO;
@@ -35,6 +36,9 @@ public abstract class PaginationServiceImpl<T extends BaseEntity> extends BaseSe
 //	    if(condition.getCompanyId() == null){
 //	        condition.setCompanyId(SessionHolder.getCompanyId());
 //	    }
+	    if(condition.getPage() == null || condition.getRows()==null){
+	        throw new BusinessException("参数传递错误!");
+	    }
 	    if(condition.getValidity() == null){
 	    	condition.setValidity(StatusEnum.VALID.getBooleanValue());
 	    }
