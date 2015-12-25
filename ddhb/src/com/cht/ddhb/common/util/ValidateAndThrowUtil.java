@@ -19,6 +19,7 @@ public class ValidateAndThrowUtil {
      * 判断输入list是否为空（包括list.size()=0）
      * @return 为空true反之throw异常
      */  
+    
     public static final boolean isNullList(List<?> list) {
         if(list == null || list.size() == 0){
             throw new BusinessException("请求参数错误！");
