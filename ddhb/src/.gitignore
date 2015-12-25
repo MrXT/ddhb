@@ -1,2 +1,3 @@
 ddhb/WebRoot/WEB-INF/classes/
+.gitignore
 *.class
