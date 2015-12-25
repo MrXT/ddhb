@@ -1,3 +1,6 @@
 ddhb/WebRoot/WEB-INF/classes/
-.gitignore
 *.class
+*.xml
+*.properties
+*.ftl
+*.vm
