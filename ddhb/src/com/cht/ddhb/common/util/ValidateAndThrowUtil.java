@@ -24,7 +24,6 @@ public class ValidateAndThrowUtil {
         if(list == null || list.size() == 0){
             throw new BusinessException("请求参数错误！");
         }else{
-            
             return false;
         }
     }
