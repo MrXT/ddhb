@@ -27,7 +27,6 @@ public class ValidateAndThrowUtil {
             return false;
         }
     }
-    
     /**   
      * 判断输入字符串是否为空字符串（包括空格）
      * @return 为空true反之throw异常
