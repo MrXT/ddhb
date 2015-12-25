@@ -53,7 +53,7 @@ public class SmRoleController {
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
-    public Object doSaveSmRole(@RequestBody SmRole smRole) {
+    public Object doSaveSmRole(@RequestBody SmRole smRole) {            
         SmRole role = new SmRole();
         role.setId(smRole.getRoleId());
         role.setName(smRole.getName());
@@ -84,5 +84,4 @@ public class SmRoleController {
     public Object doRevalidateSmRole(@PathVariable String id) {
         return smRoleService.doRevalidate(id);
     }
-
 }

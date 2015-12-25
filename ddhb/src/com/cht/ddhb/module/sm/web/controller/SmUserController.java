@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.cht.ddhb.domain.SmUser;
 import com.cht.ddhb.module.sm.service.SmUserService;
 
@@ -49,7 +50,7 @@ public class SmUserController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ResponseBody
     public Object doSaveSmUser(@RequestBody SmUser smUser) {
-        return smUserService.doSave(smUser);
+        return smUserService.doSaveUser(smUser);
     }
 
     /**
@@ -73,5 +74,4 @@ public class SmUserController {
     public Object doRevalidateSmUser(@PathVariable String id) {
         return smUserService.doRevalidate(id);
     }
-
 }
