@@ -41,9 +41,9 @@ public class LoginController {
 
     /** 功能：未登录时访问系统受限页面则会强制退出系统 */
     @RequestMapping(value = "/nosession")
-    public String onNoSession(Model model) {
-        model.addAttribute("msg", "登录超时，请重新登录");
-        return "common/login";
+    @ResponseBody
+    public String onNoSession() {
+        throw new BusinessException("SESSION失效，请重新登录！");
     }
     /**
      * 功能: 系统异常
@@ -73,7 +73,7 @@ public class LoginController {
     @RequestMapping(value="/errorRequestMethod")
     @ResponseBody
     public Object errorRequestMethod(){
-        throw new BusinessException("请求方法出错!");
+        throw new BusinessException("请求方法METHOD出错!");
     }
     /**
      * 功能: 400bad request
@@ -83,7 +83,7 @@ public class LoginController {
     @RequestMapping(value="/badRequest")
     @ResponseBody
     public Object badRequest(){
-        throw new BusinessException("请求参数出错!");
+        throw new BusinessException("JSON请求格式出错!");
     }
     /**
      * 功能: 415notSupposeMediaType
@@ -93,7 +93,7 @@ public class LoginController {
     @RequestMapping(value="/notSupposeMediaType")
     @ResponseBody
     public Object notSupposeMediaType(){
-        throw new BusinessException("请求contentType出错!");
+        throw new BusinessException("请求CONTENTTYPE出错!");
     }
 
     /**
@@ -141,7 +141,7 @@ public class LoginController {
                 SmUserVo user = userService.queryUserVoByUsername(userVo.getUsername());
                 if (user == null) {
                     json.setMsg("用户不存在!");
-                } else if (!user.getPassword().equals(userVo.getPassword())) {
+                } else if (!user.getPassword().equals(userVo.getPassword().toUpperCase())) {
                     /**
                      * TODO 登录失败次数的计算
                      */

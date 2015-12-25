@@ -37,7 +37,7 @@ public abstract class PaginationServiceImpl<T extends BaseEntity> extends BaseSe
 //	        condition.setCompanyId(SessionHolder.getCompanyId());
 //	    }
 	    if(condition.getPage() == null || condition.getRows()==null){
-	        throw new BusinessException("参数传递错误!");
+	        throw new BusinessException("请求参数错误!");
 	    }
 	    if(condition.getValidity() == null){
 	    	condition.setValidity(StatusEnum.VALID.getBooleanValue());

@@ -7,12 +7,11 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.cht.ddhb.common.util.ValidateAndThrowUtil;
 import com.cht.ddhb.domain.SmRes;
 import com.cht.ddhb.module.sm.dao.SmResDAO;
 import com.cht.ddhb.module.sm.service.SmResService;
-import com.cht.framework.core.exception.BusinessException;
 import com.cht.framework.core.service.PaginationServiceImpl;
-import com.cht.framework.core.util.ValidateUtils;
 import com.cht.framework.core.web.ztree.SimpleZTreeData;
 /**
  * @author XT
@@ -53,16 +52,14 @@ public class SmResServiceImpl extends PaginationServiceImpl<SmRes> implements Sm
 
     @Override
     public Integer doBatchRoleRes(String roleId, List<SmRes> reses) {
-        if(!ValidateUtils.isBlank(roleId) && reses != null && reses.size() != 0){
-            Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<String, Object>();
+        if(!ValidateAndThrowUtil.isBlank(roleId) && !ValidateAndThrowUtil.isNullList(reses)){
             map.put("roleId", roleId);
             map.put("reses", reses);
-            //先批量删除
-            dao.deleteBatchResByRoleId(roleId);
-            //在批量增加
-            return dao.insertBatchRoleRes(map);
-        }else{
-            throw new BusinessException("参数传递异常！");
         }
+      //先批量删除
+        dao.deleteBatchResByRoleId(roleId);
+        //在批量增加
+        return dao.insertBatchRoleRes(map);
     }
 }

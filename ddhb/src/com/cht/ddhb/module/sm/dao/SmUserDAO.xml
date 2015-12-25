@@ -1,253 +1,262 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.cht.ddhb.module.sm.dao.SmUserDAO" >
+<mapper namespace="com.cht.ddhb.module.sm.dao.SmUserDAO">
 
-  <resultMap id="SmUserResultVoMap" type="com.cht.ddhb.common.web.vo.SmUserVo" >
-    <id column="user_id" property="userId" jdbcType="VARCHAR" />
-    <result column="password" property="password" jdbcType="VARCHAR" />
-    <result column="username" property="username" jdbcType="VARCHAR" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="telephone" property="telephone" jdbcType="VARCHAR" />
-    <result column="address" property="address" jdbcType="VARCHAR" />
-    <result column="alipay_email" property="alipayEmail" jdbcType="VARCHAR" />
-    <result column="photo" property="photo" jdbcType="VARCHAR" />
-    <result column="validity" property="validity" jdbcType="BIT" />
-    <result column="oper_id" property="operId" jdbcType="VARCHAR" />
-    <result column="oper_time" property="operTime" jdbcType="TIMESTAMP" />
-    <result column="role_id" property="roleId" jdbcType="VARCHAR" />
-    <association property="role" javaType="SmRole">
-	    	<id column="role_id" property="roleId" jdbcType="VARCHAR" />
-	    <result column="role_name" property="name" jdbcType="VARCHAR" />
-	    <result column="describle" property="describle" jdbcType="VARCHAR" />
-	    <result column="validity" property="validity" jdbcType="BIT" />
-	    <result column="oper_id" property="operId" jdbcType="VARCHAR" />
-	    <result column="oper_time" property="operTime" jdbcType="TIMESTAMP" />
-    </association>
-	<!--  一对一的级联查询实现或者一对多-->
-<!-- 	<association property="role" resultMap="com.cht.ddhb.module.sm.dao.SmRoleDAO.SmRoleResultMap"></association> -->
-  </resultMap>
-  <resultMap id="SmUserResultMap" type="com.cht.ddhb.domain.SmUser" >
-    <id column="user_id" property="userId" jdbcType="VARCHAR" />
-    <result column="username" property="username" jdbcType="VARCHAR" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="telephone" property="telephone" jdbcType="VARCHAR" />
-    <result column="address" property="address" jdbcType="VARCHAR" />
-    <result column="alipay_email" property="alipayEmail" jdbcType="VARCHAR" />
-    <result column="photo" property="photo" jdbcType="VARCHAR" />
-    <result column="validity" property="validity" jdbcType="BIT" />
-    <result column="oper_id" property="operId" jdbcType="VARCHAR" />
-    <result column="oper_time" property="operTime" jdbcType="TIMESTAMP" />
-    <result column="role_id" property="roleId" jdbcType="VARCHAR" />
-	<!--  一对一的级联查询实现或者一对多-->
-<!-- 	<association property="role" resultMap="com.cht.ddhb.module.sm.dao.SmRoleDAO.SmRoleResultMap"></association> -->
-  </resultMap>
+	<resultMap id="SmUserResultVoMap" type="com.cht.ddhb.common.web.vo.SmUserVo">
+		<id column="user_id" property="userId" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="telephone" property="telephone" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="alipay_email" property="alipayEmail" jdbcType="VARCHAR" />
+		<result column="photo" property="photo" jdbcType="VARCHAR" />
+		<result column="validity" property="validity" jdbcType="BIT" />
+		<result column="oper_id" property="operId" jdbcType="VARCHAR" />
+		<result column="oper_time" property="operTime" jdbcType="TIMESTAMP" />
+		<result column="role_id" property="roleId" jdbcType="VARCHAR" />
+		<association property="role" javaType="SmRole">
+			<id column="role_id" property="roleId" jdbcType="VARCHAR" />
+			<result column="role_name" property="name" jdbcType="VARCHAR" />
+			<result column="describle" property="describle" jdbcType="VARCHAR" />
+			<result column="validity" property="validity" jdbcType="BIT" />
+			<result column="oper_id" property="operId" jdbcType="VARCHAR" />
+			<result column="oper_time" property="operTime" jdbcType="TIMESTAMP" />
+		</association>
+		<!-- 一对一的级联查询实现或者一对多 -->
+		<!-- <association property="role" resultMap="com.cht.ddhb.module.sm.dao.SmRoleDAO.SmRoleResultMap"></association> -->
+	</resultMap>
+	<resultMap id="SmUserResultMap" type="com.cht.ddhb.domain.SmUser">
+		<id column="user_id" property="userId" jdbcType="VARCHAR" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="telephone" property="telephone" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="alipay_email" property="alipayEmail" jdbcType="VARCHAR" />
+		<result column="photo" property="photo" jdbcType="VARCHAR" />
+		<result column="validity" property="validity" jdbcType="BIT" />
+		<result column="oper_id" property="operId" jdbcType="VARCHAR" />
+		<result column="oper_time" property="operTime" jdbcType="TIMESTAMP" />
+		<result column="role_id" property="roleId" jdbcType="VARCHAR" />
+		<!-- 一对一的级联查询实现或者一对多 -->
+		<!-- <association property="role" resultMap="com.cht.ddhb.module.sm.dao.SmRoleDAO.SmRoleResultMap"></association> -->
+	</resultMap>
 
-  <sql id="SmUser_Column_List" >
-    user_id, password, username, name, telephone, address,alipay_email, photo, validity, oper_id, 
-    oper_time, role_id
-  </sql>
+	<sql id="SmUser_Column_List">
+		user_id, password, username, name, telephone, address,alipay_email, photo,
+		validity, oper_id,
+		oper_time, role_id
+	</sql>
 
-  <select id="selectByPrimaryKey" resultMap="SmUserResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="SmUser_Column_List" />
-    from t_sm_user
-    where user_id = #{userId,jdbcType=VARCHAR}
-  </select>
+	<select id="selectByPrimaryKey" resultMap="SmUserResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="SmUser_Column_List" />
+		from t_sm_user
+		where user_id = #{userId,jdbcType=VARCHAR}
+	</select>
 
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from t_sm_user
-    where user_id = #{userId,jdbcType=VARCHAR}
-  </delete>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from t_sm_user
+		where user_id = #{userId,jdbcType=VARCHAR}
+	</delete>
 
-  <insert id="insert" parameterType="com.cht.ddhb.domain.SmUser" >
-    insert into t_sm_user (user_id, password, username, name, 
-      telephone, address,alipay_email, photo, 
-      validity, oper_id, oper_time, role_id)
-    values (uuid(), #{password,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{telephone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},#{alipayEmail,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, 
-      ${VALID}, #{operId,jdbcType=VARCHAR}, now(), #{roleId,jdbcType=VARCHAR})
-  </insert>
+	<insert id="insert" parameterType="com.cht.ddhb.domain.SmUser">
+		insert into t_sm_user (user_id, password, username, name,
+		telephone, address,alipay_email, photo,
+		validity, oper_id, oper_time, role_id)
+		values (uuid(), #{password,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR},
+		#{telephone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},#{alipayEmail,jdbcType=VARCHAR},
+		#{photo,jdbcType=VARCHAR},
+		${VALID}, #{operId,jdbcType=VARCHAR}, now(), #{roleId,jdbcType=VARCHAR})
+	</insert>
 
-  <update id="updateByPrimaryKeySelective" parameterType="com.cht.ddhb.domain.SmUser" >
-    update t_sm_user
-    <set >
-      <if test="password != null" >
-        PASSWORD = #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="username != null" >
-        USERNAME = #{username,jdbcType=VARCHAR},
-      </if>
-      <if test="name != null" >
-        NAME = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="telephone != null" >
-        TELEPHONE = #{telephone,jdbcType=VARCHAR},
-      </if>
-      <if test="address != null" >
-        ADDRESS = #{address,jdbcType=VARCHAR},
-      </if>
-      <if test="alipayEmail != null" >
-        ALIPAY_EMAIL = #{alipayEmail,jdbcType=VARCHAR},
-      </if>
-      <if test="photo != null" >
-        PHOTO = #{photo,jdbcType=VARCHAR},
-      </if>
-      <if test="validity != null" >
-        VALIDITY = #{validity,jdbcType=BIT},
-      </if>
-      <if test="operId != null" >
-        OPER_ID = #{operId,jdbcType=VARCHAR},
-      </if>
-      <if test="operTime != null" >
-        OPER_TIME = now(),
-      </if>
-      <if test="roleId != null" >
-        ROLE_ID = #{roleId,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where user_id = #{userId,jdbcType=VARCHAR}
-  </update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.cht.ddhb.domain.SmUser">
+		update t_sm_user
+		<set>
+			<if test="password != null">
+				PASSWORD = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="username != null">
+				USERNAME = #{username,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="telephone != null">
+				TELEPHONE = #{telephone,jdbcType=VARCHAR},
+			</if>
+			<if test="address != null">
+				ADDRESS = #{address,jdbcType=VARCHAR},
+			</if>
+			<if test="alipayEmail != null">
+				ALIPAY_EMAIL = #{alipayEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="photo != null">
+				PHOTO = #{photo,jdbcType=VARCHAR},
+			</if>
+			<if test="validity != null">
+				VALIDITY = #{validity,jdbcType=BIT},
+			</if>
+			<if test="operId != null">
+				OPER_ID = #{operId,jdbcType=VARCHAR},
+			</if>
+			<if test="operTime != null">
+				OPER_TIME = now(),
+			</if>
+			<if test="roleId != null">
+				ROLE_ID = #{roleId,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where user_id = #{userId,jdbcType=VARCHAR}
+	</update>
 
-  <update id="updateByPrimaryKey" parameterType="com.cht.ddhb.domain.SmUser" >
-    update t_sm_user
-    set PASSWORD = #{password,jdbcType=VARCHAR},
-      USERNAME = #{username,jdbcType=VARCHAR},
-      NAME = #{name,jdbcType=VARCHAR},
-      TELEPHONE = #{telephone,jdbcType=VARCHAR},
-      ADDRESS = #{address,jdbcType=VARCHAR},
-      ALIPAY_EMAIL = #{alipayEmail,jdbcType=VARCHAR},
-      PHOTO = #{photo,jdbcType=VARCHAR},
-      VALIDITY = #{validity,jdbcType=BIT},
-      OPER_ID = #{operId,jdbcType=VARCHAR},
-      OPER_TIME = now(),
-      ROLE_ID = #{roleId,jdbcType=VARCHAR}
-    where user_id = #{userId,jdbcType=VARCHAR}
-  </update>
+	<update id="updateByPrimaryKey" parameterType="com.cht.ddhb.domain.SmUser">
+		update t_sm_user
+		set PASSWORD = #{password,jdbcType=VARCHAR},
+		USERNAME = #{username,jdbcType=VARCHAR},
+		NAME = #{name,jdbcType=VARCHAR},
+		TELEPHONE = #{telephone,jdbcType=VARCHAR},
+		ADDRESS = #{address,jdbcType=VARCHAR},
+		ALIPAY_EMAIL = #{alipayEmail,jdbcType=VARCHAR},
+		PHOTO = #{photo,jdbcType=VARCHAR},
+		VALIDITY = #{validity,jdbcType=BIT},
+		OPER_ID = #{operId,jdbcType=VARCHAR},
+		OPER_TIME = now(),
+		ROLE_ID = #{roleId,jdbcType=VARCHAR}
+		where user_id = #{userId,jdbcType=VARCHAR}
+	</update>
 
-  <sql id="Where_Condition" >
-    <where >
-    		ROLE_ID != ${SUPERADMINROLEID}
-      <if test="password != null and password != ''" >
-        AND  PASSWORD = #{password,jdbcType=VARCHAR}
-      </if>
-      <if test="username != null and username != ''" >
-        AND USERNAME = #{username,jdbcType=VARCHAR}
-      </if>
-      <if test="name != null and name != ''" >
-        AND NAME = #{name,jdbcType=VARCHAR}
-      </if>
-      <if test="telephone != null and telephone != ''" >
-        AND TELEPHONE = #{telephone,jdbcType=VARCHAR}
-      </if>
-      <if test="address != null and address != ''" >
-        AND ADDRESS = #{address,jdbcType=VARCHAR}
-      </if>
-      <if test="alipayEmail != null and alipayEmail != ''" >
-        AND ALIPAY_EMAIL = #{alipayEmail,jdbcType=VARCHAR}
-      </if>
-      <if test="photo != null and photo != ''" >
-        AND PHOTO = #{photo,jdbcType=VARCHAR}
-      </if>
-      <if test="validity != null" >
-        AND VALIDITY = #{validity,jdbcType=BIT}
-      </if>
-      <if test="roleId != null and roleId != ''" >
-        AND ROLE_ID = #{roleId,jdbcType=VARCHAR}
-      </if>
-    </where>
-  </sql>
-  <sql id="Where_OR_Condition" >
-    <where >
-      <if test="username != null and username != ''" >
-        USERNAME = #{username,jdbcType=VARCHAR}
-      </if>
-      <if test="name != null and name != ''" >
-        OR NAME = #{name,jdbcType=VARCHAR}
-      </if>
-      <if test="telephone != null and telephone != ''" >
-        OR TELEPHONE = #{telephone,jdbcType=VARCHAR}
-      </if>
-      <if test="alipayEmail != null and alipayEmail != ''" >
-        OR ALIPAY_EMAIL = #{alipayEmail,jdbcType=VARCHAR}
-      </if>
-    </where>
-  </sql>
+	<sql id="Where_Condition">
+		<where>
+			ROLE_ID != ${SUPERADMINROLEID}
+			<if test="password != null and password != ''">
+				AND PASSWORD = #{password,jdbcType=VARCHAR}
+			</if>
+			<if test="username != null and username != ''">
+				AND USERNAME = #{username,jdbcType=VARCHAR}
+			</if>
+			<if test="name != null and name != ''">
+				AND NAME = #{name,jdbcType=VARCHAR}
+			</if>
+			<if test="telephone != null and telephone != ''">
+				AND TELEPHONE = #{telephone,jdbcType=VARCHAR}
+			</if>
+			<if test="address != null and address != ''">
+				AND ADDRESS = #{address,jdbcType=VARCHAR}
+			</if>
+			<if test="alipayEmail != null and alipayEmail != ''">
+				AND ALIPAY_EMAIL = #{alipayEmail,jdbcType=VARCHAR}
+			</if>
+			<if test="photo != null and photo != ''">
+				AND PHOTO = #{photo,jdbcType=VARCHAR}
+			</if>
+			<if test="validity != null">
+				AND VALIDITY = #{validity,jdbcType=BIT}
+			</if>
+			<if test="roleId != null and roleId != ''">
+				AND ROLE_ID = #{roleId,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</sql>
+	<sql id="Where_OR_Condition">
+		<where>
+			<if test="username != null and username != ''">
+				USERNAME = #{username,jdbcType=VARCHAR}
+			</if>
+			<if test="name != null and name != ''">
+				OR NAME = #{name,jdbcType=VARCHAR}
+			</if>
+			<if test="telephone != null and telephone != ''">
+				OR TELEPHONE = #{telephone,jdbcType=VARCHAR}
+			</if>
+			<if test="alipayEmail != null and alipayEmail != ''">
+				OR ALIPAY_EMAIL = #{alipayEmail,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</sql>
 
-  <sql id="Where_Fuzzy_Condition" >
-    <where >
-      <if test="password != null and password != ''" >
-        password = #{password,jdbcType=VARCHAR}
-      </if>
-      <if test="username != null and username != ''" >
-        AND username = #{username,jdbcType=VARCHAR}
-      </if>
-      <if test="name != null and name != ''" >
-        AND name = #{name,jdbcType=VARCHAR}
-      </if>
-      <if test="telephone != null and telephone != ''" >
-        AND telephone = #{telephone,jdbcType=VARCHAR}
-      </if>
-      <if test="address != null and address != ''" >
-        AND address = #{address,jdbcType=VARCHAR}
-      </if>
-       <if test="alipayEmail != null and alipayEmail != ''" >
-        AND alipay_email = #{alipayEmail,jdbcType=VARCHAR}
-      </if>
-      <if test="photo != null and photo != ''" >
-        AND photo = #{photo,jdbcType=VARCHAR}
-      </if>
-      <if test="validity != null" >
-        AND validity = #{validity,jdbcType=BIT}
-      </if>
-      <if test="operId != null and operId != ''" >
-        AND oper_id = #{operId,jdbcType=VARCHAR}
-      </if>
-      <if test="operTime != null" >
-        AND oper_time = #{operTime,jdbcType=TIMESTAMP}
-      </if>
-      <if test="roleId != null and roleId != ''" >
-        AND role_id = #{roleId,jdbcType=VARCHAR}
-      </if>
-    </where>
-  </sql>
+	<sql id="Where_Fuzzy_Condition">
+		<where>
+			<if test="password != null and password != ''">
+				password = #{password,jdbcType=VARCHAR}
+			</if>
+			<if test="username != null and username != ''">
+				AND username = #{username,jdbcType=VARCHAR}
+			</if>
+			<if test="name != null and name != ''">
+				AND name = #{name,jdbcType=VARCHAR}
+			</if>
+			<if test="telephone != null and telephone != ''">
+				AND telephone = #{telephone,jdbcType=VARCHAR}
+			</if>
+			<if test="address != null and address != ''">
+				AND address = #{address,jdbcType=VARCHAR}
+			</if>
+			<if test="alipayEmail != null and alipayEmail != ''">
+				AND alipay_email = #{alipayEmail,jdbcType=VARCHAR}
+			</if>
+			<if test="photo != null and photo != ''">
+				AND photo = #{photo,jdbcType=VARCHAR}
+			</if>
+			<if test="validity != null">
+				AND validity = #{validity,jdbcType=BIT}
+			</if>
+			<if test="operId != null and operId != ''">
+				AND oper_id = #{operId,jdbcType=VARCHAR}
+			</if>
+			<if test="operTime != null">
+				AND oper_time = #{operTime,jdbcType=TIMESTAMP}
+			</if>
+			<if test="roleId != null and roleId != ''">
+				AND role_id = #{roleId,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</sql>
 
-  <select id="queryCount" parameterType="com.cht.ddhb.domain.SmUser" resultType="java.lang.Integer" >
-    select count(0) from t_sm_user
-    <if test="isFuzzyQuery == false" >
-      <include refid="Where_Condition" />
-    </if>
-    <if test="isFuzzyQuery == true" >
-      <include refid="Where_Fuzzy_Condition" />
-    </if>
-  </select>
+	<select id="queryCount" parameterType="com.cht.ddhb.domain.SmUser"
+		resultType="java.lang.Integer">
+		select count(0) from t_sm_user
+		<if test="isFuzzyQuery == false">
+			<include refid="Where_Condition" />
+		</if>
+		<if test="isFuzzyQuery == true">
+			<include refid="Where_Fuzzy_Condition" />
+		</if>
+	</select>
 
-  <select id="queryPagedList" parameterType="com.cht.ddhb.domain.SmUser" resultMap="SmUserResultMap" >
-    select 
-    <include refid="SmUser_Column_List" />
-    from t_sm_user
-    <if test="isFuzzyQuery == false" >
-      <include refid="Where_Condition" />
-    </if>
-    <if test="isFuzzyQuery == true" >
-      <include refid="Where_Fuzzy_Condition" />
-    </if>
-    <if test="sort != null" >
-      ORDER BY ${sort} ${order}
-    </if>
-    <if test="sort == null" >
-      ORDER BY OPER_TIME DESC
-    </if>
-  </select>
-  <select id="queryUserByUsername"  resultMap="SmUserResultVoMap" >
-    select 
-    u.user_id, u.password, u. username, u. name, u. telephone, u. address, u.alipay_email, u. photo, u. validity, u. oper_id, u. 
-    oper_time, u. role_id,r.role_id, r.name role_name, r.describle, r.validity, r.oper_id, r.oper_time
-    from t_sm_user u,t_sm_role r where u.role_id=r.role_id and u.username = #{username,jdbcType=VARCHAR}
-  </select>
-  <select id="queryUniquessByCondition"  resultMap="SmUserResultMap" >
-    select 
-    <include refid="SmUser_Column_List" />
-    from t_sm_user
-    <include refid="Where_OR_Condition" />
-  </select>
+	<select id="queryPagedList" parameterType="com.cht.ddhb.domain.SmUser"
+		resultMap="SmUserResultMap">
+		select
+		<include refid="SmUser_Column_List" />
+		from t_sm_user
+		<if test="isFuzzyQuery == false">
+			<include refid="Where_Condition" />
+		</if>
+		<if test="isFuzzyQuery == true">
+			<include refid="Where_Fuzzy_Condition" />
+		</if>
+		<if test="sort != null">
+			ORDER BY ${sort} ${order}
+		</if>
+		<if test="sort == null">
+			ORDER BY OPER_TIME DESC
+		</if>
+	</select>
+	<select id="queryUserByUsername" resultMap="SmUserResultVoMap">
+		select
+		u.user_id, u.password, u. username, u. name, u. telephone, u. address,
+		u.alipay_email, u. photo, u. validity, u. oper_id, u.
+		oper_time, u. role_id,r.role_id, r.name role_name, r.describle, r.validity,
+		r.oper_id, r.oper_time
+		from t_sm_user u,t_sm_role r where u.role_id=r.role_id and u.username =
+		#{username,jdbcType=VARCHAR}
+	</select>
+	<select id="queryUniquessByCondition" resultMap="SmUserResultMap">
+		select
+		<include refid="SmUser_Column_List" />
+		from t_sm_user
+		<include refid="Where_OR_Condition" />
+	</select>
 </mapper>

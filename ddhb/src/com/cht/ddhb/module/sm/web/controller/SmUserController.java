@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cht.ddhb.domain.SmUser;
 import com.cht.ddhb.module.sm.service.SmUserService;
+import com.cht.framework.core.exception.BusinessException;
 
 /**
  * 功能：TODO
@@ -73,5 +74,20 @@ public class SmUserController {
     @ResponseBody
     public Object doRevalidateSmUser(@PathVariable String id) {
         return smUserService.doRevalidate(id);
+    }
+    
+    /**
+     * 功能:唯一性检验
+     * @param user
+     * @return
+     */
+    @RequestMapping(value = "/uniquee", method = RequestMethod.POST)
+    @ResponseBody
+    public Object doRevalidateSmUser(@RequestBody SmUser user) {
+        if(smUserService.queryUniquessByCondition(user)){
+            return true;
+        }else{
+            throw new BusinessException("唯一性检验失败！");
+        }
     }
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.cht.ddhb.common.util.ValidateAndThrowUtil;
 import com.cht.ddhb.common.web.vo.SmUserVo;
 import com.cht.ddhb.domain.CmArea;
 import com.cht.ddhb.domain.CmShop;
@@ -18,7 +19,6 @@ import com.cht.framework.core.exception.BusinessException;
 import com.cht.framework.core.service.PaginationServiceImpl;
 import com.cht.framework.core.util.CommonUtils;
 import com.cht.framework.core.util.MD5;
-import com.cht.framework.core.util.ValidateUtils;
 
 /**
  * @author XT
@@ -40,14 +40,12 @@ public class SmUserServiceImpl extends PaginationServiceImpl<SmUser> implements 
 
     @Override
     public SmUserVo queryUserVoByUsername(String username) {
-        if (username == null) {
-            throw new BusinessException("用户账号不能为空");
-        }
+        ValidateAndThrowUtil.isBlank(username);
         SmUserVo userVo = dao.queryUserByUsername(username);
         if (userVo != null) {
             List<SmRes> reses = null;
-            // 规则判定用户是不是超级管理员，就是看他的role_id是不是0
-            if (userVo.getRoleId().equals("0")) {
+            // 规则判定用户是不是超级管理员，就是看他的role_id是不是defalut.superadmin.roleId
+            if (userVo.getRoleId().equals(CommonUtils.readResource("defalut.superadmin.roleId"))) {
                 reses = resDAO.queryPagedList(new SmRes());
             } else {
                 reses = resDAO.queryResByRoleId(userVo.getRoleId());
@@ -89,30 +87,27 @@ public class SmUserServiceImpl extends PaginationServiceImpl<SmUser> implements 
             }
         }
     }
-
     @Override
     public Integer doSaveUser(SmUser record) {
         if (record.getUserId() == null) {
             // 验证姓名,登录名,手机,支付宝邮箱帐号
-            if (ValidateUtils.isBlank(record.getUsername()) || ValidateUtils.isBlank(record.getName())
-                || !ValidateUtils.isMobileNo(record.getTelephone()) || !ValidateUtils.isEmailFormat(record.getAlipayEmail())||ValidateUtils.isBlank(record.getRoleId())) {
-                throw new BusinessException("参数传递错误!");
+            if (!ValidateAndThrowUtil.isBlank(record.getUsername(), record.getName(), record.getRoleId())
+                && ValidateAndThrowUtil.isMobileNo(record.getTelephone()) && ValidateAndThrowUtil.isEmailFormat(record.getAlipayEmail())) {
+                String password = MD5.getStr2Digest(CommonUtils.readResource("default.user.password"));
+                record.setPassword(password);
             }
-            String password = MD5.getStr2Digest(CommonUtils.readResource("default.user.password"));
-            record.setPassword(password);
-        }else{
-            //驗證傳入的手機號碼正確
-            if(record.getTelephone() != null && !ValidateUtils.isMobileNo(record.getTelephone())){
-                throw new BusinessException("手机号码错误!");
-                }
-            if(record.getAlipayEmail() != null && !ValidateUtils.isEmailFormat(record.getAlipayEmail())){
-                throw new BusinessException("邮箱格式错误!");
-                }
+        } else {
+            // 驗證傳入的手機號碼或者邮箱格式是否正確
+            if (record.getTelephone() != null) {
+                ValidateAndThrowUtil.isMobileNo(record.getTelephone());
+            }
+            if (record.getAlipayEmail() != null) {
+                ValidateAndThrowUtil.isEmailFormat(record.getAlipayEmail());
+            }
         }
         if (!queryUniquessByCondition(record)) {
             throw new BusinessException("字段唯一性检验失败!");
         }
         return super.doSave(record);
     }
-
 }

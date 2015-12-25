@@ -47,9 +47,6 @@ public class SmResController {
     @RequestMapping(value = "/pageList", method = RequestMethod.POST)
     @ResponseBody
     public Object querySmResPageList(@RequestBody SmRes condition) {
-        if (condition.getPage() == null || condition.getRows() == null) {
-            throw new BusinessException("参数传递错误!");
-        }
         return smResService.queryPaginationVO(condition);
     }
 

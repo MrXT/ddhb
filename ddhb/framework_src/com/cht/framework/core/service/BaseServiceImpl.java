@@ -126,6 +126,8 @@ public class BaseServiceImpl<T extends BaseEntity> implements BaseService<T>{
 
     @Override
     public Boolean queryUniquenessBycondition(T condition) {
+        //有效与无效不作为查询条件
+        condition.setValidity(null);
     	String id = condition.getId();
     	if(id == null){
     		List<T> list = queryByCondition(condition);

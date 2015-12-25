@@ -45,9 +45,6 @@ public class SmRoleController {
     @RequestMapping(value = "/pageList", method = RequestMethod.POST)
     @ResponseBody
     public Object querySmRolePageList(@RequestBody SmRole condition) {
-        if (condition.getPage() == null || condition.getRows() == null) {
-            throw new BusinessException("参数传递错误!");
-        }
         return smRoleService.queryPaginationVO(condition);
     }
 

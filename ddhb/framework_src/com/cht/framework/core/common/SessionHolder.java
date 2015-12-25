@@ -1,6 +1,7 @@
 package com.cht.framework.core.common;
 
 import com.cht.ddhb.common.web.vo.SmUserVo;
+import com.cht.framework.core.util.CommonUtils;
 
 /**
  * 用来存取当前Session的线程级变量
@@ -58,7 +59,7 @@ public class SessionHolder {
 	 * @return
 	 */
 	public static boolean isAdmin() {
-		return getCurrentUser().getRoleId().equals("0");
+		return getCurrentUser().getRoleId().equals(CommonUtils.readResource("defalut.superadmin.roleId"));
 	}
 	
 }

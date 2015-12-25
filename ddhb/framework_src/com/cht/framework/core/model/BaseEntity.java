@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -2403825263026437472L;
+    @JsonIgnore
     protected Short companyId;
     @JsonIgnore
     protected String operId;
