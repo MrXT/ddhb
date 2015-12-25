@@ -45,6 +45,56 @@ public class LoginController {
         model.addAttribute("msg", "登录超时，请重新登录");
         return "common/login";
     }
+    /**
+     * 功能: 系统异常
+     * @author XT
+     * @return
+     */
+    @RequestMapping(value="/throwAble")
+    @ResponseBody
+    public Object throwAble(){
+        throw new BusinessException("系统出现了异常,请重新登录,如果问题重复出现,请联系系统管理员!");
+    }
+    /**
+     * 功能: 404内容未找到
+     * @author XT
+     * @return
+     */
+    @RequestMapping(value="/noFind")
+    @ResponseBody
+    public Object noFind(){
+        throw new BusinessException("请求地址未找到!");
+    }
+    /**
+     * 功能: 405请求方式出错
+     * @author XT
+     * @return
+     */
+    @RequestMapping(value="/errorRequestMethod")
+    @ResponseBody
+    public Object errorRequestMethod(){
+        throw new BusinessException("请求方法出错!");
+    }
+    /**
+     * 功能: 400bad request
+     * @author XT
+     * @return
+     */
+    @RequestMapping(value="/badRequest")
+    @ResponseBody
+    public Object badRequest(){
+        throw new BusinessException("请求参数出错!");
+    }
+    /**
+     * 功能: 415notSupposeMediaType
+     * @author XT
+     * @return
+     */
+    @RequestMapping(value="/notSupposeMediaType")
+    @ResponseBody
+    public Object notSupposeMediaType(){
+        throw new BusinessException("请求contentType出错!");
+    }
 
     /**
      * 功能:没有权限
