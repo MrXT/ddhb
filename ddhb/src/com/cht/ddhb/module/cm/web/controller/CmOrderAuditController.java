@@ -11,9 +11,9 @@ import com.cht.ddhb.domain.CmOrderAudit;
 import com.cht.ddhb.module.cm.service.CmOrderAuditService;
 
 /**
- * 功能：TODO
+ * 功能：訂單審釘
  * @author XT
- * @version:2015-12-22
+ * @version:2015-12-28
  */
 @Controller
 @RequestMapping("/cm/orderAudit")
@@ -41,7 +41,7 @@ public class CmOrderAuditController {
      */
 	@RequestMapping(value = "/pageList", method = RequestMethod.POST)
 	@ResponseBody
-	public Object queryCmOrderAuditPageList(@RequestBody CmOrderAudit condition) {
+	public Object queryCmOrderAuditVoList(@RequestBody CmOrderAudit condition) {
 		return cmOrderAuditService.queryPaginationVO(condition);
 	}
 

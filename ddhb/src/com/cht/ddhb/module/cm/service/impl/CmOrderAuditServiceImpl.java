@@ -8,7 +8,7 @@ import com.cht.ddhb.module.cm.service.CmOrderAuditService;
 import com.cht.framework.core.service.PaginationServiceImpl;
 /**
  * @author root
- * @version:2015-12-22
+ * @version:2015-12-28
  */
 public class CmOrderAuditServiceImpl extends PaginationServiceImpl<CmOrderAudit> implements CmOrderAuditService{
 	@Autowired
