@@ -15,5 +15,6 @@ public class Constants {
     public static final String   DEFAULT_BLANK_SELECT    = CommonUtils.readResource("default.blank.select");
     public static final int      DEFAULT_PAGE_SIZE       = Integer.parseInt(CommonUtils.readResource("default.page.size"));
     public static final String[] DEFAULT_PERMITED_URLS   = CommonUtils.readResourceArray("default.permited.urls");
+    public static final String DEFAULT_TOKEN   = "token";
     
 }

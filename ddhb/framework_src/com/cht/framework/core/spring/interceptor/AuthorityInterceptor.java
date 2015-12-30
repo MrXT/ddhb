@@ -12,6 +12,7 @@ import com.cht.ddhb.common.web.vo.SmUserVo;
 import com.cht.ddhb.domain.SmRes;
 import com.cht.framework.core.common.Constants;
 import com.cht.framework.core.common.SessionHolder;
+import com.cht.framework.core.util.CookieUtils;
 import com.cht.framework.core.util.StringUtils;
 
 /**
@@ -41,6 +42,11 @@ public class AuthorityInterceptor extends HandlerInterceptorAdapter {
         // 判断是否登录或session是否过期
         HttpSession session = request.getSession();
         if (session == null || (session.getAttribute(Constants.DEFAULT_SESSION_USER) == null)) {
+            response.sendRedirect(basePath + "nosession");
+            return false;
+        }
+        //加入token验证
+        if(!CookieUtils.getCookie(request, Constants.DEFAULT_TOKEN).equals(request.getSession().getAttribute(Constants.DEFAULT_TOKEN).toString())){
             response.sendRedirect(basePath + "nosession");
             return false;
         }

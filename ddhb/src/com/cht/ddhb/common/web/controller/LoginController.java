@@ -20,6 +20,7 @@ import com.cht.ddhb.module.sm.service.SmUserService;
 import com.cht.framework.core.common.Constants;
 import com.cht.framework.core.exception.BusinessException;
 import com.cht.framework.core.model.ResponseJson;
+import com.cht.framework.core.util.MD5;
 import com.cht.framework.core.util.ValidateCodeUtil;
 
 /**
@@ -42,7 +43,7 @@ public class LoginController {
     /** 功能：未登录时访问系统受限页面则会强制退出系统 */
     @RequestMapping(value = "/nosession")
     @ResponseBody
-    public String onNoSession() {
+    public Object onNoSession() {
         throw new BusinessException("SESSION失效，请重新登录！");
     }
     /**
@@ -131,13 +132,14 @@ public class LoginController {
      */
     @RequestMapping(value = "/login/valid", method = RequestMethod.POST)
     @ResponseBody
-    public Object login(HttpSession session, @RequestBody SmUserVo userVo) {
+    public Object login(HttpSession session, @RequestBody SmUserVo userVo,HttpServletResponse response) {
         ResponseJson json = new ResponseJson();
         String vcode = userVo.getVcode();
         if (session.getAttribute("vcode") == null) {
             json.setMsg("验证码失效!");
         } else {
             if (vcode != null && vcode.toUpperCase().equals(session.getAttribute("vcode"))) {// 验证码
+                session.removeAttribute("vcode");
                 SmUserVo user = userService.queryUserVoByUsername(userVo.getUsername());
                 if (user == null) {
                     json.setMsg("用户不存在!");
@@ -150,12 +152,14 @@ public class LoginController {
                     json.setMsg("账号被封不可用!");
                 } else {
                     json.setSuccess(true);
+                    json.setData(MD5.getStr2Digest(user.getUsername()+user.getPassword()));
+                    session.setAttribute(Constants.DEFAULT_TOKEN, MD5.getStr2Digest(user.getUsername()+user.getPassword()));
                     session.setAttribute(Constants.DEFAULT_SESSION_USER, user);
                 }
             } else {
+                session.removeAttribute("vcode");
                 json.setMsg("验证码错误!");
             }
-            session.removeAttribute("vcode");
         }
         return json;
     }

@@ -35,7 +35,8 @@
 		data:"{\"username\":\"admin\",\"password\":\"c4ca4238a0b923820dcc509a6f75849b\",\"vcode\":\""+$("#vcode").val()+"\"}",
 		success:function(result){
 			if(result.success){
-				alert(" 登录成功!");
+				createCookie("token", "", -1);
+				createCookie("token",result.data,1);
 			}else{
 				document.getElementById("img").src="/ddhb/vcode?"+Math.random()*500;
 			}
