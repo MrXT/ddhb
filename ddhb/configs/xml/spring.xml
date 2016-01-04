@@ -75,6 +75,18 @@
 		<property name="basePackage" value="com.cht.ddhb.*.*.dao,com.cht.ddhb.*.*.*.dao" />
 		<property name="sqlSessionFactoryBeanName" value="ddhbSqlSessionFactory" />
 	</bean>
+	<!-- 加入微信的依赖-->
+	<bean id="mpInMemoryConfigStorage" class="me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage">
+		<property name="appId" value="${weixin_appId}" />
+		<property name="secret" value="${weixin_secret}" />
+		<property name="token" value="${weixin_token}" />
+	</bean>
+	<bean id="wxMpService" class="me.chanjar.weixin.mp.api.WxMpServiceImpl">
+		<property name="wxMpConfigStorage" ref="mpInMemoryConfigStorage" />
+	</bean>
+	<bean id="wxMpMessageRouter " class="me.chanjar.weixin.mp.api.WxMpMessageRouter">
+		<constructor-arg ref="wxMpService"></constructor-arg>
+	</bean>
 	<!-- atomikos数据源配置,支持JTA -->
 	<!-- <bean id="ddhbDataSource" class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init" destroy-method="close">
 		uniqueResourceName保证唯一性就行
